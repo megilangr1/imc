@@ -429,7 +429,7 @@
     </div>
 
     <div class="w-full">
-        {{ $data->links() }}
+        {{ $data->onEachSide(1)->links() }}
     </div>
 
     <livewire:modal.data-skpd />

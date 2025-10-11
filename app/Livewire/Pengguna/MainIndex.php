@@ -324,4 +324,21 @@ class MainIndex extends Component
         $tomSelectData = $this->tomSelectData;
         $this->dispatch('setTomSelect', $tomSelectData);
     }
+
+    // Filter Event
+    #[On('setOrderBy')]
+    public function setOrderBy($field)
+    {
+        if ($this->order_by === $field) {
+            $this->order_type = $this->order_type === 'ASC' ? 'DESC' : 'ASC';
+        } else {
+            $this->order_by = $field;
+            $this->order_type = 'DESC';
+        }
+    }
+
+    public function updatedSearch($value)
+    {
+        $this->resetPage();
+    }
 }

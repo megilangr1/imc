@@ -302,6 +302,7 @@ class MainIndex extends Component
         $this->dispatch('setTomSelect', $tomSelectData);
     }
 
+    // Filter Event
     #[On('setOrderBy')]
     public function setOrderBy($field)
     {
@@ -311,5 +312,10 @@ class MainIndex extends Component
             $this->order_by = $field;
             $this->order_type = 'DESC';
         }
+    }
+
+    public function updatedSearch($value)
+    {
+        $this->resetPage();
     }
 }
