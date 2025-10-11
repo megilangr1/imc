@@ -8,6 +8,8 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    @yield('css')
+    @stack('css')
 </head>
 
 <body class="font-sans antialiased min-h-screen flex flex-col bg-base-100 text-base-content">
@@ -44,7 +46,8 @@
     </footer>
 
     @livewireScripts
-    @stack('scripts')
+    @yield('js')
+    @stack('js')
 </body>
 
 </html>
