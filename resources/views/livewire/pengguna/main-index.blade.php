@@ -1,0 +1,446 @@
+<div class="flex flex-col gap-3">
+    <x-main.page-header title="Data Pengguna Aplikasi">
+        <button type="button" class="btn btn-neutral btn-sm" wire:click="showForm(true)"
+            @if ($form) disabled @endif>Tambah Data</button>
+    </x-main.page-header>
+
+    <div class="card border border-slate-300 bg-base-100 w-full {{ $form ? 'block' : 'hidden' }}">
+        <div class="card-body p-0">
+            <div class="card-title px-5 py-3 border-b border-b-slate-300 text-sm flex items-center justify-between">
+                <div class="flex-auto">
+                    Formulir {{ $editData ? 'Ubah' : 'Tambah' }} Pengguna Aplikasi
+                </div>
+
+                <button type="button" class="btn bg-red-500 text-white btn-xs" wire:click="showForm(false)">
+                    Tutup Formulir
+                </button>
+            </div>
+            <form wire:submit="actionForm">
+                <div class="w-full grid grid-cols-6 px-6 pb-2 gap-3">
+
+                    <div class="col-span-6 md:col-span-3 lg:col-span-2">
+                        <label for="nip"
+                            class="block text-sm font-medium mb-2 {{ $errors->has('state.nip') ? 'text-red-500' : '' }}">
+                            Nomor Induk Pegawai (NIP) :
+                        </label>
+                        <div class="relative">
+                            <input type="text" wire:model="state.nip" id="nip" name="nip"
+                                class="w-full input @error('state.nip') input-error @enderror"
+                                aria-describedby="nip-helper" placeholder="Masukan Nomor Induk Pegawai (NIP)..."
+                                autocomplete="false">
+                            <div
+                                class="absolute inset-y-0 end-0 {{ $errors->has('state.nip') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" x2="12" y1="8" y2="12">
+                                    </line>
+                                    <line x1="12" x2="12.01" y1="16" y2="16">
+                                    </line>
+                                </svg>
+                            </div>
+                        </div>
+                        @error('state.nip')
+                            <p class="text-xs text-red-600 mt-1" id="nip-helper">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div class="col-span-6 md:col-span-3 lg:col-span-4">
+                        <label for="name"
+                            class="block text-sm font-medium mb-2 {{ $errors->has('state.name') ? 'text-red-500' : '' }}">
+                            Nama Lengkap :
+                            <span class="text-red-500 text-xs">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="text" wire:model="state.name" id="name" name="name"
+                                class="w-full input @error('state.name') input-error @enderror"
+                                aria-describedby="name-helper" placeholder="Masukan Nama Lengkap..." required
+                                autocomplete="false">
+                            <div
+                                class="absolute inset-y-0 end-0 {{ $errors->has('state.name') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" x2="12" y1="8" y2="12">
+                                    </line>
+                                    <line x1="12" x2="12.01" y1="16" y2="16">
+                                    </line>
+                                </svg>
+                            </div>
+                        </div>
+                        @error('state.name')
+                            <p class="text-xs text-red-600 mt-1" id="name-helper">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div class="col-span-6 lg:col-span-4">
+                        <div class="flex flex-col sm:flex-row justify-between gap-1 mb-2">
+                            <span
+                                class="flex-auto block text-sm font-medium {{ $errors->has('state.id_skpd') ? 'text-red-500' : '' }}"
+                                wire:click="$dispatchTo('modal.data-skpd', 'open-data-skpd-modal')">
+                                Satuan Kerja Perangkat Daerah (SKPD) :
+                            </span>
+                            <div class="ms-auto">
+                                <div class="flex gap-x-1">
+                                    @if ($state['id_skpd'] != null)
+                                        <span class="badge badge-xs badge-error cursor-pointer text-white"
+                                            wire:click="resetSelectedSkpd">
+                                            <svg class="shrink-0 size-2" xmlns="http://www.w3.org/2000/svg"
+                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" class="lucide lucide-rotate-ccw">
+                                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                                <path d="M3 3v5h5" />
+                                            </svg>
+
+                                            Reset Pilihan
+                                        </span>
+                                    @endif
+                                    <span class="badge badge-xs badge-success cursor-pointer text-white"
+                                        wire:click="$dispatchTo('modal.data-skpd', 'open-data-skpd-modal')">
+                                        <svg class="shrink-0 size-2" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" class="lucide lucide-sheet-icon lucide-sheet">
+                                            <rect width="18" height="18" x="3" y="3" rx="2"
+                                                ry="2" />
+                                            <line x1="3" x2="21" y1="9" y2="9" />
+                                            <line x1="3" x2="21" y1="15" y2="15" />
+                                            <line x1="9" x2="9" y1="9" y2="21" />
+                                            <line x1="15" x2="15" y1="9" y2="21" />
+                                        </svg>
+
+                                        Daftar Data
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div wire:ignore>
+                            <select wire:model="state.id_skpd" id="skpd" name="skpd"
+                                class="w-full @error('state.id_skpd') select-error @enderror"
+                                aria-describedby="skpd-helper">
+                                <option value="">Pilih Kelompok SKPD</option>
+                                @foreach ($staticData['skpd'] as $item)
+                                    <option value="{{ $item->uuid }}">
+                                        {{ $item->kode_skpd }} - {{ $item->nama_skpd }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('state.id_skpd')
+                            <p class="text-xs text-red-600 mt-1" id="skpd-helper">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div class="col-span-6 lg:col-span-2">
+                        <label for="jabatan"
+                            class="block text-sm font-medium mb-2 {{ $errors->has('state.jabatan') ? 'text-red-500' : '' }}">
+                            Jabatan Pengguna :
+                        </label>
+                        <div class="relative">
+                            <input type="text" wire:model="state.jabatan" id="jabatan" name="jabatan"
+                                class="w-full input @error('state.jabatan') input-error @enderror"
+                                aria-describedby="jabatan-helper" placeholder="Masukan Jabatan Pengguna..."
+                                autocomplete="false">
+                            <div
+                                class="absolute inset-y-0 end-0 {{ $errors->has('state.jabatan') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" x2="12" y1="8" y2="12">
+                                    </line>
+                                    <line x1="12" x2="12.01" y1="16" y2="16">
+                                    </line>
+                                </svg>
+                            </div>
+                        </div>
+                        @error('state.jabatan')
+                            <p class="text-xs text-red-600 mt-1" id="jabatan-helper">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div class="col-span-6 lg:col-span-2">
+                        <label for="email"
+                            class="block text-sm font-medium mb-2 {{ $errors->has('state.email') ? 'text-red-500' : '' }}">
+                            Email Pengguna :
+                            <span class="text-red-500 text-xs">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="email" wire:model="state.email" id="email" name="email"
+                                class="w-full input @error('state.email') input-error @enderror"
+                                aria-describedby="email-helper" placeholder="Ex. example@mail.com" required
+                                autocomplete="false">
+                            <div
+                                class="absolute inset-y-0 end-0 {{ $errors->has('state.email') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" x2="12" y1="8" y2="12">
+                                    </line>
+                                    <line x1="12" x2="12.01" y1="16" y2="16">
+                                    </line>
+                                </svg>
+                            </div>
+                        </div>
+                        @error('state.email')
+                            <p class="text-xs text-red-600 mt-1" id="email-helper">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div class="col-span-6 lg:col-span-2">
+                        <label for="password"
+                            class="block text-sm font-medium mb-2 {{ $errors->has('state.password') ? 'text-red-500' : '' }}">
+                            Password Pengguna :
+                            <span class="text-red-500 text-xs">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="password" wire:model="state.password" id="password" name="password"
+                                class="w-full input @error('state.password') input-error @enderror"
+                                aria-describedby="password-helper" placeholder="********"
+                                @if (!isset($editData)) required @endif autocomplete="false">
+                            <div
+                                class="absolute inset-y-0 end-0 {{ $errors->has('state.password') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" x2="12" y1="8" y2="12">
+                                    </line>
+                                    <line x1="12" x2="12.01" y1="16" y2="16">
+                                    </line>
+                                </svg>
+                            </div>
+                        </div>
+                        @error('state.password')
+                            <p class="text-xs text-red-600 mt-1" id="password-helper">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div class="col-span-6 lg:col-span-2">
+                        <label for="password_confirmation"
+                            class="block text-sm font-medium mb-2 {{ $errors->has('state.password_confirmation') ? 'text-red-500' : '' }}">
+                            Konfirmasi Password :
+                            <span class="text-red-500 text-xs">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="password" wire:model="state.password_confirmation"
+                                id="password_confirmation" name="password_confirmation"
+                                class="w-full input @error('state.password_confirmation') input-error @enderror"
+                                aria-describedby="password_confirmation-helper" placeholder="Ex. example@mail.com"
+                                @if (!isset($editData)) required @endif autocomplete="false">
+                            <div
+                                class="absolute inset-y-0 end-0 {{ $errors->has('state.password_confirmation') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" x2="12" y1="8" y2="12">
+                                    </line>
+                                    <line x1="12" x2="12.01" y1="16" y2="16">
+                                    </line>
+                                </svg>
+                            </div>
+                        </div>
+                        @error('state.password_confirmation')
+                            <p class="text-xs text-red-600 mt-1" id="password_confirmation-helper">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div class="col-span-6">
+                        <label for="roles"
+                            class="block text-sm font-medium mb-2 {{ $errors->has('state.name') ? 'text-red-500' : '' }}">
+                            Hak Akses Pengguna:
+                            <span class="text-red-500 text-xs">*</span>
+                        </label>
+                        <div class="relative">
+                            <select wire:model="state.roles" id="roles" name="roles"
+                                class="w-full select @error('state.roles') select-error @enderror"
+                                aria-describedby="roles-helper" placeholder="Masukan Level Pengguna..." required
+                                autocomplete="false">
+                                <option disabled>Pilih Hak Akses</option>
+                                @foreach ($staticData['roles'] as $item)
+                                    <option value="{{ $item['name'] }}">{{ $item['name'] }}</option>
+                                @endforeach
+                            </select>
+                            <div
+                                class="absolute inset-y-0 end-6 {{ $errors->has('state.roles') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" x2="12" y1="8" y2="12">
+                                    </line>
+                                    <line x1="12" x2="12.01" y1="16" y2="16">
+                                    </line>
+                                </svg>
+                            </div>
+                        </div>
+                        @error('state.roles')
+                            <p class="text-xs text-red-600 mt-1" id="roles-helper">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div class="col-span-6">
+                        <hr class="border-t-1 border-t-slate-300">
+                    </div>
+
+                    <div class="col-span-6 md:col-span-2 lg:col-span-1">
+                        <button type="submit" class="btn btn-neutral w-full btn-sm">
+                            {{ isset($editData) ? 'Simpan Data' : 'Buat Data' }}
+                        </button>
+                    </div>
+                    <div class="col-span-6 md:col-span-2 lg:col-span-1">
+                        <button type="{{ $editData ? 'button' : 'reset' }}" class="btn btn-error w-full btn-sm"
+                            @isset($editData) wire:click="showForm(false)" @endisset>
+                            {{ isset($editData) ? 'Batalkan' : 'Reset Input' }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="card-actions text-xs font-semibold text-slate-600 bg-slate-200 rounded-b-lg px-5 py-2">
+                Formulir {{ $editData ? 'Ubah' : 'Tambah' }} Pengguna Aplikasi
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full grid grid-cols-12">
+        <div class="relative w-full col-span-12 md:col-span-8 lg:col-span-4">
+            <label class="sr-only" for="filter-search-data-pengguna">Cari Data :</label>
+            <input type="text" name="filter-search-data-pengguna" id="filter-search-data-pengguna"
+                wire:model.live.debounce.500ms="search"
+                class="py-2 px-3 ps-9 block w-full border border-gray-300 text-sm rounded outline-none"
+                placeholder="Masukan Keyword Untuk Melakukan Pencarian...">
+            <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
+                <svg class="size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto border rounded-lg border-slate-300">
+        <table class="table table-sm table-pin-rows table-pin-cols">
+            <thead>
+                <tr>
+                    <td class="text-center" width="8%">No.</td>
+                    <td class="text-center">SKPD</td>
+                    <td>NIP & Nama Lengkap</td>
+                    <td>Email</td>
+                    <td>Hak Akses</td>
+                    <td>Pembuat</td>
+                    <th class="text-center" width="10%">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($data as $item)
+                    <tr>
+                        <td class="text-center bg-slate-200">{{ $loop->iteration }}.</td>
+                        <td>
+                            <div class="w-full flex flex-col items-center justify-center">
+                                @if ($item->skpd != null)
+                                    <div class="text-[10px] font-bold">
+                                        {{ $item->skpd->kode_skpd }}
+                                    </div>
+                                    <div class="text-xs underline underline-offset-4">
+                                        {{ $item->skpd->nama_skpd }}
+                                    </div>
+                                @else
+                                    -
+                                @endif
+                            </div>
+                        </td>
+                        <td>
+                            <div class="w-full flex flex-col items-start justify-center gap-1">
+                                <div class="text-xs underline underline-offset-4">
+                                    {{ $item->name }}
+                                </div>
+                                <div class="text-[10px] font-bold">
+                                    {{ $item->nip != null ? 'NIP : ' . $item->nip : '' }}
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ $item->email }}</td>
+                        <td>{{ $item->getRoleNames()[0] ?? '-' }}</td>
+                        <td>{{ $item->nama_creator }}</td>
+                        <th class="text-center">
+                            <button type="button" class="btn btn-xs btn-neutral w-full font-normal tracking-wider"
+                                popovertarget="popover-{{ $loop->iteration }}"
+                                style="anchor-name:--anchor-{{ $loop->iteration }}">
+                                Aksi
+                            </button>
+                            <div class="dropdown dropdown-end menu w-auto rounded-box bg-base-100 border border-slate-300 shadow-lg text-xs flex flex-col gap-1 px-4"
+                                popover id="popover-{{ $loop->iteration }}"
+                                style="position-anchor:--anchor-{{ $loop->iteration }}">
+                                <h5 class="text-center">Aksi Data</h5>
+                                <hr class="border-t-1 border-t-slate-300 my-1">
+                                <button type="button"
+                                    class="btn btn-xs btn-outline w-full font-normal tracking-wider"
+                                    popovertarget="popover-{{ $loop->iteration }}"
+                                    wire:click="doEdit('{{ $item->uuid }}')">
+                                    Edit Data
+                                </button>
+                                <button type="button" popovertarget="popover-{{ $loop->iteration }}"
+                                    class="btn btn-xs btn-outline w-full font-normal tracking-wider delete-btn"
+                                    popovertarget="popover-{{ $loop->iteration }}" data-uuid="{{ $item->uuid }}"
+                                    data-target="pengguna.main-index">
+                                    Hapus Data
+                                </button>
+                            </div>
+                        </th>
+                    </tr>
+
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center p-2">Belum Ada Data</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <div class="w-full">
+        {{ $data->links() }}
+    </div>
+
+    <livewire:modal.data-skpd />
+</div>
+
+@push('js')
+    <script>
+        document.addEventListener("livewire:navigated", () => {
+            initTomSelect('#skpd', {
+                maxItems: 1
+            });
+        });
+    </script>
+@endpush
