@@ -3,6 +3,15 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainController;
 use App\Livewire\Dummy;
+use App\Livewire\Pencairan\BarjasKontrak;
+use App\Livewire\Pencairan\BarjasNonKontrak;
+use App\Livewire\Pencairan\DaftarFormulir;
+use App\Livewire\Pencairan\GajiJkkJkmBpjs;
+use App\Livewire\Pencairan\HibahBansos;
+use App\Livewire\Pencairan\MainIndex as PencairanMainIndex;
+use App\Livewire\Pencairan\TambahUang;
+use App\Livewire\Pencairan\TunjanganKinerja;
+use App\Livewire\Pencairan\UpGu;
 use App\Livewire\Pengguna\MainIndex as PenggunaMainIndex;
 use App\Livewire\Skpd\MainIndex as SkpdMainIndex;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +31,21 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('master-data')->middleware(['role:MeGGi|Administrator'])->group(function () {
         Route::get('/data-skpd', SkpdMainIndex::class)->name('skpd.index');
         Route::get('/data-pengguna', PenggunaMainIndex::class)->name('pengguna.index');
+    });
+
+    Route::prefix('pencairan')->middleware(['role:MeGGi|Administrator|Operator'])->name('pencairan.')->group(function () {
+        Route::get('/', PencairanMainIndex::class)->name('index');
+        Route::get('/formulir', DaftarFormulir::class)->name('create');
+
+        Route::prefix('formulir')->group(function () {
+            Route::get('/belanja-barang-dan-jasa-kontrak', BarjasKontrak::class)->name('barjas-kontrak');
+            Route::get('/belanja-barang-dan-jasa-non-kontrak', BarjasNonKontrak::class)->name('barjas-non-kontrak');
+            Route::get('/hibah-dan-bansos', HibahBansos::class)->name('hibah-bansos');
+            Route::get('/tambah-uang', TambahUang::class)->name('tambah-uang');
+            Route::get('/tunjangan-kinerja', TunjanganKinerja::class)->name('tunjangan-kinerja');
+            Route::get('/gaji-jkk-jkm-bpjs', GajiJkkJkmBpjs::class)->name('gaji-jkk-jkm-bpjs');
+            Route::get('/up-gu', UpGu::class)->name('up-gu');
+        });
     });
 });
 

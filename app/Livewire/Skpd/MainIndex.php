@@ -202,7 +202,6 @@ class MainIndex extends Component
         }
     }
 
-
     public function doUpdate()
     {
         $this->validate([
@@ -274,7 +273,6 @@ class MainIndex extends Component
             (new MainHelper)->doAlert($this);
         }
     }
-
 
     // Event
     #[On('selectedSkpd')]

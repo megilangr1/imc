@@ -13,7 +13,7 @@
     <main class="w-full" id="main-content">
         <div class="drawer lg:drawer-open">
             <input id="sidebar" type="checkbox" class="drawer-toggle" />
-            <div class="drawer-content w-full h-screen flex flex-col">
+            <div class="drawer-content w-full h-screen max-h-screen overflow-y-auto flex flex-col">
                 @include('layouts.navbar')
 
                 <div class="w-full flex-1 px-4 py-3">

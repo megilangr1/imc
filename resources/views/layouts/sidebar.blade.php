@@ -47,6 +47,27 @@
                 </details>
             </li>
         @endif
+        @if (auth()->user()->hasAnyRole(['MeGGi', 'Administrator', 'Operator']))
+            <li>
+                <details {{ request()->is(['pencairan', 'pencairan/*']) ? 'open' : '' }}>
+                    <summary class="{{ request()->is(['pencairan', 'pencairan/*']) ? 'bg-neutral text-white' : '' }}">
+                        Pengajuan Pencairan
+                    </summary>
+                    <ul class="mt-1">
+                        <li>
+                            <a href="{{ route('pencairan.index') }}" wire:navigate>
+                                Daftar Pengajuan
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('pencairan.create') }}" wire:navigate>
+                                Formulir Pengajuan
+                            </a>
+                        </li>
+                    </ul>
+                </details>
+            </li>
+        @endif
         {{-- <li>
             <details {{ request()->is('master-data/*') ? 'open' : '' }}>
                 <summary class="{{ request()->is('master-data/*') ? 'bg-neutral text-white' : '' }}">
