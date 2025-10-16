@@ -237,13 +237,17 @@
                                 Sumber Dana :
                             </label>
                             <div class="relative">
-                                <input type="text" wire:model="state.sumber_dana" id="sumber_dana"
-                                    name="sumber_dana"
-                                    class="w-full input @error('state.sumber_dana') input-error @enderror"
-                                    aria-describedby="sumber_dana-helper" placeholder="Masukan Sumber Dana..."
-                                    autocomplete="false">
+                                <select wire:model="state.sumber_dana" id="sumber_dana" name="sumber_dana"
+                                    class="w-full select @error('state.sumber_dana') select-error @enderror"
+                                    aria-describedby="sumber_dana-helper" placeholder="Masukan sumber_dana..."
+                                    required autocomplete="false">
+                                    <option disabled>Pilih Sumber Dana</option>
+                                    @foreach ($staticData['sumber_dana'] as $key => $item)
+                                        <option value="{{ $key }}">{{ $item }}</option>
+                                    @endforeach
+                                </select>
                                 <div
-                                    class="absolute inset-y-0 end-0 {{ $errors->has('state.sumber_dana') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                    class="absolute inset-y-0 end-6 {{ $errors->has('state.bulan') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
                                     <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -595,9 +599,9 @@
                                 Tanggal Mulai Pekerjaan :
                             </label>
                             <div class="relative">
-                                <input type="text" wire:model="state.tanggal_mulai_pekerjaan"
+                                <input type="date" wire:model="state.tanggal_mulai_pekerjaan"
                                     id="tanggal_mulai_pekerjaan" name="tanggal_mulai_pekerjaan"
-                                    class="w-full input @error('state.tanggal_mulai_pekerjaan') input-error @enderror"
+                                    class="w-full input @error('state.tanggal_mulai_pekerjaan') input-error @enderror justify-center"
                                     aria-describedby="tanggal_mulai_pekerjaan-helper"
                                     placeholder="Masukan Tanggal Mulai Pekerjaan..." autocomplete="false">
                                 <div
@@ -627,9 +631,9 @@
                                 Tanggal Selesai Pekerjaan :
                             </label>
                             <div class="relative">
-                                <input type="text" wire:model="state.tanggal_selesai_pekerjaan"
+                                <input type="date" wire:model="state.tanggal_selesai_pekerjaan"
                                     id="tanggal_selesai_pekerjaan" name="tanggal_selesai_pekerjaan"
-                                    class="w-full input @error('state.tanggal_selesai_pekerjaan') input-error @enderror"
+                                    class="w-full input @error('state.tanggal_selesai_pekerjaan') input-error @enderror justify-center"
                                     aria-describedby="tanggal_selesai_pekerjaan-helper"
                                     placeholder="Masukan Tanggal Selesai Pekerjaan..." autocomplete="false">
                                 <div

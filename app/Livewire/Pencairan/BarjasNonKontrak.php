@@ -25,7 +25,7 @@ class BarjasNonKontrak extends Component
         'pekerjaan' => null,
         'kode_rekening_belanja' => null,
         'nama_rekening_belanja' => null,
-        'sumber_dana' => null,
+        'sumber_dana' => 'APBD',
         'nomor_sp_spk' => null,
         'lokasi' => null,
         'nomor_spm' => null,
@@ -54,6 +54,7 @@ class BarjasNonKontrak extends Component
     #[Locked]
     public $staticData = [
         'skpd' => [],
+        'sumber_dana' => [],
     ];
     // End Static Data
 
@@ -80,6 +81,14 @@ class BarjasNonKontrak extends Component
             $getSkpd = Skpd::orderBy('kode_skpd', 'ASC')->get();
 
             $this->staticData['skpd'] = $getSkpd;
+            $this->staticData['sumber_dana'] = [
+                'APBD',
+                'Dana Transfer - DAK FISIK',
+                'Dana Transfer - DAK NON FISIK',
+                'Dana Transfer - DAU SG',
+                'Dana Transfer - DBHCHT',
+                'Dana Transfer - PAJAK ROKOK',
+            ];
         } catch (\Throwable $th) {
             (new MainHelper)->doAlert($this);
         }

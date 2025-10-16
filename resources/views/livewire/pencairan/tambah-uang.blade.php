@@ -142,13 +142,17 @@
                                 Sumber Dana :
                             </label>
                             <div class="relative">
-                                <input type="text" wire:model="state.sumber_dana" id="sumber_dana"
-                                    name="sumber_dana"
-                                    class="w-full input @error('state.sumber_dana') input-error @enderror"
-                                    aria-describedby="sumber_dana-helper" placeholder="Masukan Sumber Dana..."
-                                    autocomplete="false">
+                                <select wire:model="state.sumber_dana" id="sumber_dana" name="sumber_dana"
+                                    class="w-full select @error('state.sumber_dana') select-error @enderror"
+                                    aria-describedby="sumber_dana-helper" placeholder="Masukan sumber_dana..."
+                                    required autocomplete="false">
+                                    <option disabled>Pilih Sumber Dana</option>
+                                    @foreach ($staticData['sumber_dana'] as $key => $item)
+                                        <option value="{{ $key }}">{{ $item }}</option>
+                                    @endforeach
+                                </select>
                                 <div
-                                    class="absolute inset-y-0 end-0 {{ $errors->has('state.sumber_dana') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                    class="absolute inset-y-0 end-6 {{ $errors->has('state.bulan') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
                                     <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"

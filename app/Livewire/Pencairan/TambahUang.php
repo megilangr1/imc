@@ -19,7 +19,7 @@ class TambahUang extends Component
         'id_skpd' => null,
         'kegiatan' => null,
         'sub_kegiatan' =>  null,
-        'sumber_dana' =>  null,
+        'sumber_dana' =>  'APBD',
         'nomor_spm' => null,
         'tanggal_spm' => null,
         'nominal' => null,
@@ -41,6 +41,7 @@ class TambahUang extends Component
     #[Locked]
     public $staticData = [
         'skpd' => [],
+        'sumber_dana' => [],
     ];
     // End Static Data
 
@@ -67,6 +68,14 @@ class TambahUang extends Component
             $getSkpd = Skpd::orderBy('kode_skpd', 'ASC')->get();
 
             $this->staticData['skpd'] = $getSkpd;
+            $this->staticData['sumber_dana'] = [
+                'APBD',
+                'Dana Transfer - DAK FISIK',
+                'Dana Transfer - DAK NON FISIK',
+                'Dana Transfer - DAU SG',
+                'Dana Transfer - DBHCHT',
+                'Dana Transfer - PAJAK ROKOK',
+            ];
         } catch (\Throwable $th) {
             (new MainHelper)->doAlert($this);
         }
