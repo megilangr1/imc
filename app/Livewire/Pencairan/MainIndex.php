@@ -3,7 +3,9 @@
 namespace App\Livewire\Pencairan;
 
 use App\Helpers\MainHelper;
+use App\Models\Pengajuan;
 use App\Models\Skpd;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -38,7 +40,7 @@ class MainIndex extends Component
     public ?string $search = '';
 
     #[Url(except: '')]
-    public $order_by = 'kode_skpd';
+    public $order_by = 'created_at';
 
     #[Url(except: '')]
     public $order_type = 'DESC';
@@ -63,12 +65,12 @@ class MainIndex extends Component
     #[Layout('layouts.master')]
     public function render()
     {
-        $data = new Skpd();
+        $data = new Pengajuan();
 
         if ($this->search != null) {
             $data = $data->where(function ($q) {
-                $q->where('kode_skpd', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('nama_skpd', 'LIKE', '%' . $this->search . '%');
+                $q->where('nama_jenis_pengajuan', 'LIKE', '%' . $this->search . '%')
+                    ->orWhere('nomor_spm', 'LIKE', '%' . $this->search . '%');
             });
         }
 
@@ -123,6 +125,53 @@ class MainIndex extends Component
     {
         $this->resetPage();
     }
+
+    public function actionPath($jenis, $uuid)
+    {
+        $route = false;
+
+        switch ($jenis) {
+            case 'ls-belanja-barang-dan-jasa-kontrak':
+                $route = route('pencairan.barjas-kontrak.edit', ['uuid' => $uuid]);
+                break;
+
+            default:
+                abort(404);
+                break;
+        }
+
+        return $route;
+    }
+
+    // Action
+    public function doEdit($jenis, $uuid)
+    {
+        $this->redirect($this->actionPath($jenis, $uuid), navigate: true);
+    }
+
+    public function doDetail($jenis, $uuid)
+    {
+        $this->redirect($this->actionPath($jenis, $uuid), navigate: true);
+    }
+
+    #[On('doDelete')]
+    public function doDelete(String $uuid)
+    {
+        DB::beginTransaction();
+        try {
+            $data = Pengajuan::where('uuid', '=', $uuid)->firstOrFail();
+
+            $delete = $data->delete();
+            $dokumenDokumen = $data->dokumen()->delete();
+
+            DB::commit();
+            (new MainHelper)->doAlert($this, 'warning', 'Data Berhasil di-Hapus !');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            (new MainHelper)->doAlert($this);
+        }
+    }
+
 
     public function dummy()
     {

@@ -1,0 +1,205 @@
+<?php
+
+namespace App\Livewire\Pencairan;
+
+use App\Helpers\MainHelper;
+use App\Models\Pengajuan;
+use App\Models\PengajuanDokumen;
+use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Locked;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+
+class MainDetail extends Component
+{
+    use WithFileUploads;
+
+    #[Locked]
+    public ?Pengajuan $detailData;
+
+    #[Locked]
+    public $dokumenState = [];
+    // End Form State
+
+    public function mount($uuid = null)
+    {
+        $this->getStaticData();
+
+        if ($uuid != null) {
+            $this->getDetail($uuid);
+
+            if (isset($this->detailData)) {
+                $this->setState();
+            }
+        }
+    }
+
+    public function getStaticData()
+    {
+        try {
+            // 
+        } catch (\Throwable $th) {
+            (new MainHelper)->doAlert($this);
+        }
+    }
+
+    public function getDetail($uuid)
+    {
+        try {
+            $detailData = Pengajuan::with([
+                'skpd',
+                'dokumen'
+            ])->where('uuid', '=', $uuid)->firstOrFail();
+            $this->detailData = $detailData;
+        } catch (\Throwable $th) {
+            abort(404);
+        }
+    }
+
+    public function setState()
+    {
+        try {
+            $dokumenState = (new MainHelper)->dokumenState[$this->detailData->kode_jenis_pengajuan];
+
+            foreach ($this->detailData->dokumen as $key => $value) {
+                if (isset($dokumenState[$value->kode_jenis_dokumen])) {
+                    $dokumenState[$value->kode_jenis_dokumen]['uuid'] = $value->uuid;
+                    $dokumenState[$value->kode_jenis_dokumen]['disk'] = $value->disk;
+                    $dokumenState[$value->kode_jenis_dokumen]['folder'] = $value->folder;
+                    $dokumenState[$value->kode_jenis_dokumen]['filename'] = $value->filename;
+                    $dokumenState[$value->kode_jenis_dokumen]['path'] = $value->path;
+                    $dokumenState[$value->kode_jenis_dokumen]['status'] = $value->status;
+                    $dokumenState[$value->kode_jenis_dokumen]['status_label'] = $value->status_label;
+                    $dokumenState[$value->kode_jenis_dokumen]['catatan_verifikator'] = $value->catatan_verifikator ?? "-";
+                    $dokumenState[$value->kode_jenis_dokumen]['catatan_validator'] = $value->catatan_validator ?? "-";
+                }
+            }
+
+            $this->dokumenState = $dokumenState;
+        } catch (\Throwable $th) {
+            (new MainHelper)->doAlert($this);
+        }
+    }
+
+    #[Layout('layouts.master')]
+    public function render()
+    {
+        return view('livewire.pencairan.main-detail');
+    }
+
+
+    // Upload Action
+    public $modalUpload = false;
+
+    public $activeState = null;
+    public $fileState;
+
+    public function openUploadModal($key)
+    {
+        $this->resetErrorBag('fileState');
+        $this->reset('fileState', 'activeState');
+
+        if (isset($this->dokumenState[$key])) {
+            $this->activeState = $key;
+        } else {
+            (new MainHelper)->doAlert($this);
+        }
+
+        $this->modalUpload = true;
+    }
+
+    public function closeUploadModal()
+    {
+        $this->resetErrorBag('fileState');
+        $this->reset('fileState', 'activeState');
+        $this->modalUpload = false;
+    }
+
+    public function updatedFileState($value)
+    {
+        $rules = $this->dokumenState[$this->activeState]['rules'] ?? 'required|file|mimes:pdf,jpg,jpeg,png|max:5120';
+        $this->validate(['fileState' => $rules], [], [
+            'fileState' => 'File Dokumen'
+        ]);
+    }
+
+    public function uploadFile()
+    {
+        if (!isset($this->dokumenState[$this->activeState])) {
+            (new MainHelper)->doAlert($this);
+            return;
+        }
+
+        $state = $this->dokumenState[$this->activeState];
+        $this->validate(['fileState' => $state['rules']], [], [
+            'fileState' => 'File Dokumen'
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $pengajuan = Pengajuan::where('uuid', '=', $this->detailData->uuid)->firstOrFail();
+            $dokumen = PengajuanDokumen::where('id_pengajuan', '=', $pengajuan->id)->where('kode_jenis_dokumen', '=', $state['type'])->first();
+
+            $mimes = $this->fileState->getClientOriginalExtension();
+            $disk = 'private-path';
+            $folder = $state['type'];
+            $filename = date('mdYHis') . '-' . $state['type'] . '-' . $pengajuan->id . '-' . str()->slug($pengajuan->nomor_spm) . '.' . $mimes;
+            $path = $disk . '/' . $folder . '/' . $filename;
+
+            $data = [
+                'uuid',
+                'id_pengajuan' => $pengajuan->id,
+
+                'kode_jenis_dokumen' => $state['type'],
+                'nama_jenis_dokumen' => $state['title'],
+
+                'disk' => $disk,
+                'folder' => $folder,
+                'filename' => $filename,
+                'path' => $path,
+
+                'status' => 0,
+
+                'tanggal_verifikasi' => null,
+                'id_verifikator' => null,
+                'nama_verifikator' => null,
+                'catatan_verifikator' => null,
+
+                'tanggal_validasi' => null,
+                'id_validator' => null,
+                'nama_validator' => null,
+                'catatan_validator' => null,
+            ];
+
+            if ($dokumen == null) {
+                // Create
+                $create = PengajuanDokumen::create($data);
+            } else {
+                // Update
+                $update = $dokumen->update($data);
+            }
+
+            $uploadFile = $this->fileState->storeAs($folder, $filename, $disk);
+            DB::commit();
+            (new MainHelper)->doAlert($this, 'info', 'Berkas berhasil di-Upload !');
+            $this->getDetail($pengajuan->uuid);
+            $this->setState();
+            $this->closeUploadModal();
+        } catch (\Throwable $th) {
+            DB::rollback();
+            (new MainHelper)->doAlert($this);
+        }
+    }
+
+
+
+
+    // Dummy
+    public function dummy()
+    {
+        // $this->modalUpload = true;
+        // dd($this->detailData->dokumen->toArray());
+        dd($this->dokumenState);
+    }
+}

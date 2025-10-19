@@ -1,7 +1,19 @@
 <div class="flex flex-col gap-3">
-    <x-main.page-header title="Formulir Permohonan Pengajuan Pencairan - LS Barang dan Jasa (Kontrak)">
+    <x-main.page-header
+        title="Formulir Permohonan Pengajuan Pencairan - LS Barang dan Jasa (Kontrak) | {{ isset($editData) ? 'Ubah Data' : 'Tambah Data' }}">
+        <a href="{{ route('pencairan.index') }}" wire:navigate>
+            <button type="button" class="btn btn-warning btn-sm">
+                <x-icons.left />
+
+                Daftar Pengajuan
+            </button>
+        </a>
         <a href="{{ route('pencairan.create') }}" wire:navigate>
-            <button type="button" class="btn btn-error btn-sm">Kembali</button>
+            <button type="button" class="btn btn-error btn-sm">
+                <x-icons.edit />
+
+                Daftar Formulir
+            </button>
         </a>
     </x-main.page-header>
 
@@ -18,6 +30,7 @@
                                     class="flex-auto block text-sm font-medium {{ $errors->has('state.id_skpd') ? 'text-red-500' : '' }}"
                                     wire:click="$dispatchTo('modal.data-skpd', 'open-data-skpd-modal')">
                                     Satuan Kerja Perangkat Daerah (SKPD) :
+                                    <span class="text-red-500 text-xs">*</span>
                                 </span>
                                 <div class="ms-auto">
                                     <div class="flex gap-x-1">
@@ -57,7 +70,7 @@
                             <div wire:ignore>
                                 <select wire:model="state.id_skpd" id="skpd" name="skpd"
                                     class="w-full @error('state.id_skpd') select-error @enderror"
-                                    aria-describedby="skpd-helper">
+                                    aria-describedby="skpd-helper" required>
                                     <option value="">Pilih Kelompok SKPD</option>
                                     @foreach ($staticData['skpd'] as $item)
                                         <option value="{{ $item->uuid }}">
@@ -373,7 +386,7 @@
                                     aria-describedby="tanggal_spm-helper" placeholder="Masukan Tanggal SPM..."
                                     autocomplete="false">
                                 <div
-                                    class="absolute inset-y-0 end-0 {{ $errors->has('state.tanggal_spm') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                    class="absolute inset-y-0 end-6 {{ $errors->has('state.tanggal_spm') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
                                     <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -605,7 +618,7 @@
                                     aria-describedby="tanggal_mulai_pekerjaan-helper"
                                     placeholder="Masukan Tanggal Mulai Pekerjaan..." autocomplete="false">
                                 <div
-                                    class="absolute inset-y-0 end-0 {{ $errors->has('state.tanggal_mulai_pekerjaan') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                    class="absolute inset-y-0 end-6 {{ $errors->has('state.tanggal_mulai_pekerjaan') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
                                     <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -637,7 +650,7 @@
                                     aria-describedby="tanggal_selesai_pekerjaan-helper"
                                     placeholder="Masukan Tanggal Selesai Pekerjaan..." autocomplete="false">
                                 <div
-                                    class="absolute inset-y-0 end-0 {{ $errors->has('state.tanggal_selesai_pekerjaan') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                    class="absolute inset-y-0 end-6 {{ $errors->has('state.tanggal_selesai_pekerjaan') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
                                     <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -901,7 +914,8 @@
 
             </form>
             <div class="card-actions text-xs font-semibold text-slate-600 bg-slate-200 rounded-b-lg px-5 py-2">
-                Formulir Permohonan Pengajuan Pencairan - LS Barang dan Jasa (Kontrak)
+                Formulir Permohonan Pengajuan Pencairan - LS Barang dan Jasa (Kontrak) |
+                {{ isset($editData) ? 'Ubah Data' : 'Tambah Data' }}
             </div>
         </div>
     </div>

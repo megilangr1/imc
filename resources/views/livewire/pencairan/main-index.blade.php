@@ -31,13 +31,14 @@
                         No.
                     </th>
                     <td>
-                        <x-table.th label="Kode SKPD" field="kode_skpd" :orderBy="$order_by" :orderType="$order_type" />
+                        <x-table.th label="Jenis Pengajuan" field="kode_jenis_pengajuan" :orderBy="$order_by"
+                            :orderType="$order_type" />
                     </td>
                     <td>
-                        <x-table.th label="Nama SKPD" field="nama_skpd" :orderBy="$order_by" :orderType="$order_type" />
+                        <x-table.th label="Nomor SPM" field="nomor_spm" :orderBy="$order_by" :orderType="$order_type" />
                     </td>
                     <td>
-                        <x-table.th label="Kelompok" field="nama_kelompok_skpd" :orderBy="$order_by" :orderType="$order_type" />
+                        <x-table.th label="Tanggal SPM" field="tanggal_spm" :orderBy="$order_by" :orderType="$order_type" />
                     </td>
                     <td>
                         <x-table.th label="Pembuat" field="nama_creator" :orderBy="$order_by" :orderType="$order_type" />
@@ -51,9 +52,9 @@
                 @forelse ($data as $item)
                     <tr>
                         <th class="text-center bg-slate-200">{{ $loop->iteration }}.</th>
-                        <td>{{ $item->kode_skpd }}</td>
-                        <td>{{ $item->nama_skpd }}</td>
-                        <td>{{ $item->nama_kelompok_skpd }}</td>
+                        <td>{{ $item->nama_jenis_pengajuan }}</td>
+                        <td>{{ $item->nomor_spm }}</td>
+                        <td>{{ date('d/m/Y', strtotime($item->tanggal_spm)) }}</td>
                         <td>{{ $item->nama_creator }}</td>
                         <th class="text-center">
                             <button type="button" class="btn btn-xs btn-neutral w-full font-normal tracking-wider"
@@ -68,13 +69,18 @@
                                 <hr class="border-t-1 border-t-slate-300 my-1">
                                 <button type="button" class="btn btn-xs btn-outline w-full font-normal tracking-wider"
                                     popovertarget="popover-{{ $loop->iteration }}"
-                                    wire:click="doEdit('{{ $item->uuid }}')">
+                                    wire:click="doDetail('{{ $item->kode_jenis_pengajuan }}', '{{ $item->uuid }}')">
+                                    Detail Data
+                                </button>
+                                <button type="button" class="btn btn-xs btn-outline w-full font-normal tracking-wider"
+                                    popovertarget="popover-{{ $loop->iteration }}"
+                                    wire:click="doEdit('{{ $item->kode_jenis_pengajuan }}', '{{ $item->uuid }}')">
                                     Edit Data
                                 </button>
                                 <button type="button" popovertarget="popover-{{ $loop->iteration }}"
                                     class="btn btn-xs btn-outline w-full font-normal tracking-wider delete-btn"
                                     popovertarget="popover-{{ $loop->iteration }}" data-uuid="{{ $item->uuid }}"
-                                    data-target="skpd.main-index">
+                                    data-target="pencairan.main-index">
                                     Hapus Data
                                 </button>
                             </div>

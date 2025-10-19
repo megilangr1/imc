@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\StreamDocumentController;
 use App\Livewire\Dummy;
 use App\Livewire\Pencairan\BarjasKontrak;
 use App\Livewire\Pencairan\BarjasNonKontrak;
 use App\Livewire\Pencairan\DaftarFormulir;
 use App\Livewire\Pencairan\GajiJkkJkmBpjs;
 use App\Livewire\Pencairan\HibahBansos;
+use App\Livewire\Pencairan\MainDetail;
 use App\Livewire\Pencairan\MainIndex as PencairanMainIndex;
 use App\Livewire\Pencairan\TambahUang;
 use App\Livewire\Pencairan\TunjanganKinerja;
@@ -38,7 +40,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/formulir', DaftarFormulir::class)->name('create');
 
         Route::prefix('formulir')->group(function () {
-            Route::get('/belanja-barang-dan-jasa-kontrak', BarjasKontrak::class)->name('barjas-kontrak');
+            Route::prefix('/belanja-barang-dan-jasa-kontrak')->group(function () {
+                Route::get('/', BarjasKontrak::class)->name('barjas-kontrak');
+                Route::get('/{uuid}/ubah', BarjasKontrak::class)->name('barjas-kontrak.edit');
+                Route::get('/{uuid}/detail', MainDetail::class)->name('barjas-kontrak.detail');
+            });
+
             Route::get('/belanja-barang-dan-jasa-non-kontrak', BarjasNonKontrak::class)->name('barjas-non-kontrak');
             Route::get('/hibah-dan-bansos', HibahBansos::class)->name('hibah-bansos');
             Route::get('/tambah-uang', TambahUang::class)->name('tambah-uang');
@@ -50,3 +57,10 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/dummy', Dummy::class)->name('dummy');
+
+// Public File
+Route::get('/public-file/{folder}/{filename}', [StreamDocumentController::class, 'getPublicFile'])->name('public-file.view');
+Route::post('/public-file/{folder}/{filename}', [StreamDocumentController::class, 'getPublicFile'])->name('public-file.download');
+
+// Private File 
+Route::match(['get', 'post'], '/private-file/{folder}/{filename}', [StreamDocumentController::class, 'getPrivateFile'])->name('private-file')->middleware(['auth', 'role:MeGGi|Administrator|Operator']);
