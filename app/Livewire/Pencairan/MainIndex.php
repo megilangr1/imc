@@ -126,17 +126,35 @@ class MainIndex extends Component
         $this->resetPage();
     }
 
-    public function actionPath($jenis, $uuid)
+    public function actionPath($jenis, $uuid, $action)
     {
         $route = false;
 
         switch ($jenis) {
             case 'ls-belanja-barang-dan-jasa-kontrak':
-                $route = route('pencairan.barjas-kontrak.edit', ['uuid' => $uuid]);
+                $route = route('pencairan.barjas-kontrak.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'ls-belanja-barang-dan-jasa-non-kontrak':
+                $route = route('pencairan.barjas-non-kontrak.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'ls-hibah-dan-bansos':
+                $route = route('pencairan.hibah-bansos.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'tambah-uang':
+                $route = route('pencairan.tambah-uang.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'tunjangan-kinerja':
+                $route = route('pencairan.tunjangan-kinerja.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'gaji-jkk-jkm-bpjs':
+                $route = route('pencairan.gaji-jkk-jkm-bpjs.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'up-gu':
+                $route = route('pencairan.up-gu.' . $action, ['uuid' => $uuid]);
                 break;
 
             default:
-                abort(404);
+                $route = false;
                 break;
         }
 
@@ -146,12 +164,14 @@ class MainIndex extends Component
     // Action
     public function doEdit($jenis, $uuid)
     {
-        $this->redirect($this->actionPath($jenis, $uuid), navigate: true);
+        if (!$route = $this->actionPath($jenis, $uuid, 'edit')) return (new MainHelper)->doAlert($this);
+        $this->redirect($route, navigate: true);
     }
 
     public function doDetail($jenis, $uuid)
     {
-        $this->redirect($this->actionPath($jenis, $uuid), navigate: true);
+        if (!$route = $this->actionPath($jenis, $uuid, 'detail')) return (new MainHelper)->doAlert($this);
+        $this->redirect($route, navigate: true);
     }
 
     #[On('doDelete')]

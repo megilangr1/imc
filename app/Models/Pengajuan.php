@@ -39,7 +39,10 @@ class Pengajuan extends Model
         'bpdp_disk',
         'bpdp_folder',
         'bpdp_path',
-        'bulan',
+
+        'kode_bulan',
+        'nama_bulan',
+
         'jenis_belanja',
         'jenis_pembayaran',
         'keterangan',

@@ -47,6 +47,7 @@ return new class extends Migration
 
             $table->tinyInteger('kode_bulan')->nullable();
             $table->string('nama_bulan')->nullable();
+
             $table->string('jenis_belanja')->nullable();
             $table->string('jenis_pembayaran')->nullable();
             $table->text('keterangan')->nullable();
