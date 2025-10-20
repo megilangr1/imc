@@ -5,6 +5,7 @@ namespace App\Livewire\Pencairan;
 use App\Helpers\MainHelper;
 use App\Models\Pengajuan;
 use App\Models\PengajuanDokumen;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
@@ -20,6 +21,9 @@ class MainDetail extends Component
 
     #[Locked]
     public $dokumenState = [];
+
+    #[Locked]
+    public $cetakResumeUrl;
     // End Form State
 
     public function mount($uuid = null)
@@ -77,6 +81,7 @@ class MainDetail extends Component
             }
 
             $this->dokumenState = $dokumenState;
+            $this->cetakResumeUrl = $this->actionPath($this->detailData->kode_jenis_pengajuan, $this->detailData->uuid, 'cetak-resume');
         } catch (\Throwable $th) {
             (new MainHelper)->doAlert($this);
         }
@@ -88,6 +93,51 @@ class MainDetail extends Component
         return view('livewire.pencairan.main-detail');
     }
 
+    // Event
+    public function actionPath($jenis, $uuid, $action)
+    {
+        $route = false;
+
+        switch ($jenis) {
+            case 'ls-belanja-barang-dan-jasa-kontrak':
+                $route = route('pencairan.barjas-kontrak.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'ls-belanja-barang-dan-jasa-non-kontrak':
+                $route = route('pencairan.barjas-non-kontrak.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'ls-hibah-dan-bansos':
+                $route = route('pencairan.hibah-bansos.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'tambah-uang':
+                $route = route('pencairan.tambah-uang.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'tunjangan-kinerja':
+                $route = route('pencairan.tunjangan-kinerja.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'gaji-jkk-jkm-bpjs':
+                $route = route('pencairan.gaji-jkk-jkm-bpjs.' . $action, ['uuid' => $uuid]);
+                break;
+            case 'up-gu':
+                $route = route('pencairan.up-gu.' . $action, ['uuid' => $uuid]);
+                break;
+
+            default:
+                $route = false;
+                break;
+        }
+
+        return $route;
+    }
+
+    // End Event
+
+    // Action
+    public function doEdit()
+    {
+        if (!$route = $this->actionPath($this->detailData->kode_jenis_pengajuan, $this->detailData->uuid, 'edit')) return (new MainHelper)->doAlert($this);
+        $this->redirect($route, navigate: true);
+    }
+    // End Action
 
     // Upload Action
     public $modalUpload = false;
@@ -191,9 +241,7 @@ class MainDetail extends Component
             (new MainHelper)->doAlert($this);
         }
     }
-
-
-
+    // End Upload Action
 
     // Dummy
     public function dummy()

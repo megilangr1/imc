@@ -838,4 +838,13 @@ class MainHelper
       ],
     ],
   ];
+
+  public function dateFormatIndo($date)
+  {
+    $tanggal = date('d', strtotime($date));
+    $bulan = (int) date('m', strtotime($date));
+    $tahun = date('Y', strtotime($date));
+
+    return $tanggal . ' ' . $this->bulan[$bulan] . ' ' . $tahun;
+  }
 }

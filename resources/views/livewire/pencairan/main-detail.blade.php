@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-3">
-    <x-main.page-header title="Rincian Permohonan Pengajuan Pencairan - LS Barang dan Jasa (Kontrak)">
+    <x-main.page-header title="Rincian Permohonan Pengajuan Pencairan - {{ $detailData->nama_jenis_pengajuan ?? '-' }}">
         <a href="{{ route('pencairan.index') }}" wire:navigate>
             <button type="button" class="btn btn-warning btn-sm">
                 <x-icons.left />
@@ -9,7 +9,6 @@
         </a>
     </x-main.page-header>
 
-
     <div class="card border border-slate-300 bg-base-100 w-full">
         <div class="card-body p-0 gap-0">
             <div
@@ -18,14 +17,13 @@
                     Detail Informasi Kegiatan
                 </div>
 
-                <a href="{{ route('pencairan.barjas-kontrak.edit', ['uuid' => $detailData->uuid]) }}"
-                    class="w-full text-end">
-                    <button type="button" class="btn bg-neutral text-white btn-xs" wire:click="showForm(false)">
+                <div class="w-full text-end">
+                    <button type="button" class="btn bg-neutral text-white btn-xs" wire:click="doEdit">
                         <x-icons.edit />
 
                         Ubah Informasi Kegiatan
                     </button>
-                </a>
+                </div>
             </div>
 
             <div class="grid grid-cols-12 text-sm md:text-sm p-0">
@@ -48,139 +46,248 @@
                         Detail Kegiatan :
                     </h4>
                 </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Kegiatan : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->kegiatan }}
+
+                @if ($detailData->kegiatan != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Kegiatan : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->kegiatan }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Sub Kegiatan : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->sub_kegiatan }}
+                @endif
+
+                @if ($detailData->sub_kegiatan != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Sub Kegiatan : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->sub_kegiatan }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Pekerjaan : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->pekerjaan }}
+                @endif
+
+                @if ($detailData->pekerjaan != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Pekerjaan : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->pekerjaan }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Kode Rekening Belanja : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->kode_rekening_belanja }}
+                @endif
+
+                @if ($detailData->kode_rekening_belanja != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Kode Rekening Belanja : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->kode_rekening_belanja }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Nama Rekening Belanja : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->nama_rekening_belanja }}
+                @endif
+
+                @if ($detailData->nama_rekening_belanja != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Nama Rekening Belanja : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->nama_rekening_belanja }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Sumber Dana : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->sumber_dana }}
+                @endif
+
+                @if ($detailData->sumber_dana != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Sumber Dana : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->sumber_dana }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Nomor SP / SPK : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->nomor_sp_spk }}
+                @endif
+
+                @if ($detailData->nomor_sp_spk != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Nomor SP / SPK : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->nomor_sp_spk }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Lokasi : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->lokasi }}
+                @endif
+
+                @if ($detailData->lokasi != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Lokasi : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->lokasi }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Nomor SPM : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->nomor_spm }}
+                @endif
+
+                @if ($detailData->nomor_spm != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Nomor SPM : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->nomor_spm }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Tanggal SPM : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ date('d/m/Y', strtotime($detailData->tanggal_spm)) }}
+                @endif
+
+                @if ($detailData->tanggal_spm != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Tanggal SPM : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ date('d/m/Y', strtotime($detailData->tanggal_spm)) }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Nominal : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        Rp. {{ number_format($detailData->nominal, 0, ',', '.') }}
+                @endif
+
+                @if ($detailData->nominal != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Nominal : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            Rp. {{ number_format($detailData->nominal, 0, ',', '.') }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Nama Pihak Ketiga : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->nama_pihak_ketiga }}
+                @endif
+
+                @if ($detailData->nama_pihak_ketiga != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Nama Pihak Ketiga : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->nama_pihak_ketiga }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Kualifikasi : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->kualifikasi }}
+                @endif
+
+                @if ($detailData->kualifikasi != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Kualifikasi : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->kualifikasi }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Nomor Rekening : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->nomor_rekening }}
+                @endif
+
+                @if ($detailData->nomor_rekening != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Nomor Rekening : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->nomor_rekening }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Nama Bank : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->nama_bank }}
+                @endif
+
+                @if ($detailData->nama_bank != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Nama Bank : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->nama_bank }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Jangka Kontrak : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->jangka_kontrak }}
+                @endif
+
+                @if ($detailData->jangka_kontrak != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Jangka Kontrak : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->jangka_kontrak }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Tanggal Mulai Pekerjaan : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ date('d/m/Y', strtotime($detailData->tanggal_mulai_pekerjaan)) }}
+                @endif
+
+                @if ($detailData->tanggal_mulai_pekerjaan != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Tanggal Mulai Pekerjaan : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ date('d/m/Y', strtotime($detailData->tanggal_mulai_pekerjaan)) }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-6 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Tanggal Selesai Pekerjaan : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ date('d/m/Y', strtotime($detailData->tanggal_selesai_pekerjaan)) }}
+                @endif
+
+                @if ($detailData->tanggal_selesai_pekerjaan != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Tanggal Selesai Pekerjaan : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ date('d/m/Y', strtotime($detailData->tanggal_selesai_pekerjaan)) }}
+                        </div>
                     </div>
-                </div>
-                <div
-                    class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
-                    <h4 class="font-semibold">Keterangan : </h4>
-                    <div class="w-full flex items-end justify-end">
-                        {{ $detailData->keterangan }}
+                @endif
+
+                {{-- Non Kontrak --}}
+                @if ($detailData->bpdp_filename != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Bukti Pembayaran / Daftar Penerima : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            @if ($detailData->bpdp_filename != null)
+                                <a href="{{ route('private-file', ['folder' => $detailData->bpdp_folder, 'filename' => $detailData->bpdp_filename]) }}"
+                                    target="_blank" class="btn btn-sm btn-neutral w-full sm:w-auto">
+                                    Lihat File
+                                </a>
+                            @else
+                                <button type="button" class="btn btn-sm btn-error">
+                                    Belum Ada File
+                                </button>
+                            @endif
+
+                        </div>
                     </div>
-                </div>
+                @endif
+
+                @if ($detailData->jenis_pembayaran != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Jenis Pembayaran : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->jenis_pembayaran }}
+                        </div>
+                    </div>
+                @endif
+
+                @if ($detailData->jenis_belanja != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Jenis Belanja : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->jenis_belanja }}
+                        </div>
+                    </div>
+                @endif
+
+                @if ($detailData->nama_bulan != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Pembayaran Bulan : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->nama_bulan }}
+                        </div>
+                    </div>
+                @endif
+
+                @if ($detailData->keterangan != null)
+                    <div
+                        class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                        <h4 class="font-semibold">Keterangan : </h4>
+                        <div class="w-full flex items-end justify-end">
+                            {{ $detailData->keterangan }}
+                        </div>
+                    </div>
+                @endif
+
                 <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2 bg-sky-300/60">
                     <h4 class="font-semibold">
                         Informasi Penanggung Jawab Kegiatan :
@@ -228,15 +335,37 @@
                         {{ $detailData->jabatan_ppk }}
                     </div>
                 </div>
+
+                <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-1 bg-sky-300/60"></div>
+
+                <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                    <a href="{{ $cetakResumeUrl }}" target="_blank"
+                        class="btn btn-lg btn-block bg-primary/60 hover:bg-primary hover:text-white gap-3">
+                        <x-icons.print class="size-5" />
+                        Cetak Resume Kegiatan
+                        <x-icons.print class="size-5" />
+                    </a>
+                </div>
+
+            </div>
+
+            <div
+                class="card-actions text-xs font-semibold text-slate-600 bg-slate-200 rounded-b-lg px-5 py-2 border-t border-t-slate-300">
+                Rincian Permohonan Pengajuan Pencairan - {{ $detailData->nama_jenis_pengajuan ?? '-' }}
+            </div>
+        </div>
+    </div>
+
+    <div class="card border border-slate-300 bg-base-100 w-full">
+        <div class="card-body p-0 gap-0">
+            <div
+                class="card-title px-5 py-3 border-b border-b-slate-300 text-sm flex flex-col md:flex-row items-center justify-between gap-1">
+                <div class="flex-auto w-full text-start">
+                    Daftar Dokumen Persyaratan
+                </div>
             </div>
 
             <div class="w-full flex flex-col text-sm md:text-sm p-0">
-                <div class="w-full border border-slate-200 flex flex-col gap-1 px-3 py-2 bg-rose-300/60">
-                    <h4 class="font-semibold">
-                        Daftar Dokumen Persyaratan :
-                    </h4>
-                </div>
-
                 <div class="overflow-x-auto border-b border-b-slate-300">
                     <table class="table table-zebra table-sm table-pin-rows table-pin-cols min-w-4xl md:min-w-full">
                         <thead>
@@ -309,14 +438,10 @@
             </div>
 
             <div class="card-actions text-xs font-semibold text-slate-600 bg-slate-200 rounded-b-lg px-5 py-2">
-                Rincian Permohonan Pengajuan Pencairan - LS Barang dan Jasa (Kontrak)
+                Rincian Permohonan Pengajuan Pencairan - {{ $detailData->nama_jenis_pengajuan ?? '-' }}
             </div>
         </div>
     </div>
-
-    <button type="button" class="btn btn-neutral w-full" wire:click="dummy">
-        Dummy
-    </button>
 
     {{-- Modal Upload --}}
     <div>
