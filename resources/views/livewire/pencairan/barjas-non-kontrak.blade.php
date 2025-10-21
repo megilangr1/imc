@@ -255,7 +255,7 @@
                                     required autocomplete="false">
                                     <option disabled>Pilih Sumber Dana</option>
                                     @foreach ($staticData['sumber_dana'] as $key => $item)
-                                        <option value="{{ $key }}">{{ $item }}</option>
+                                        <option value="{{ $item }}">{{ $item }}</option>
                                     @endforeach
                                 </select>
                                 <div
