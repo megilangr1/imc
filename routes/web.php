@@ -29,7 +29,7 @@ Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard')->middleware(['role:MeGGi|Administrator|Operator|Verifikator|Validator']);
 
     Route::prefix('master-data')->middleware(['role:MeGGi|Administrator'])->group(function () {
         Route::get('/data-skpd', SkpdMainIndex::class)->name('skpd.index');

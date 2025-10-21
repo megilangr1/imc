@@ -86,6 +86,37 @@ class Pengajuan extends Model
         });
     }
 
+    protected $casts = [
+        'status' => 'integer',
+    ];
+
+    // Accessor untuk status
+    public function getStatusLabelAttribute()
+    {
+        return match ($this->status) {
+            0 => 'Draft / Belum di-Ajukan Verifikasi',
+            1 => 'Menunggu Untuk di-Verifikasi',
+            2 => 'Verifikasi di-Tolak',
+            3 => 'Terverfikasi, Menunggu Untuk di-Validasi',
+            4 => 'Validasi di-Tolak',
+            5 => 'Data Terverifikasi dan Tervalidasi',
+            default => 'Status Tidak Dikenal',
+        };
+    }
+
+    public function getStatusClassAttribute()
+    {
+        return match ($this->status) {
+            0 => 'bg-yellow-500 text-neutral',
+            1 => 'bg-cyan-500 text-neutral',
+            2 => 'bg-red-500 text-neutral',
+            3 => 'bg-sky-500 text-neutral',
+            4 => 'bg-rose-500 text-neutral',
+            5 => 'bg-emerald-500 text-neutral',
+            default => 'Status Tidak Dikenal',
+        };
+    }
+
     public function skpd()
     {
         return $this->belongsTo(Skpd::class, 'id_skpd', 'id');

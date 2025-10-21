@@ -9,6 +9,17 @@
         </a>
     </x-main.page-header>
 
+    <div
+        class="rounded-lg border border-slate-200 flex flex-col gap-2 lg:gap-1 px-5 py-2 {{ $detailData->status_class }} animate-pulse">
+        <h4 class="font-semibold">Status Verifikasi / Validasi Pengajuan :</h4>
+        <div class="w-full flex items-end justify-end font-semibold">
+            <button type="button" class="btn w-full border-0 sm:w-auto bg-neutral/90 text-info">
+                {{ $detailData->status_label }}
+            </button>
+        </div>
+    </div>
+
+
     <div class="card border border-slate-300 bg-base-100 w-full">
         <div class="card-body p-0 gap-0">
             <div
@@ -41,6 +52,7 @@
                         {{ $detailData->nama_creator }}
                     </div>
                 </div>
+
                 <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2 bg-sky-300/60">
                     <h4 class="font-semibold">
                         Detail Kegiatan :
@@ -338,15 +350,34 @@
 
                 <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-1 bg-sky-300/60"></div>
 
-                <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                <div class="col-span-12 lg:col-span-4 flex flex-col gap-1 px-3 py-2">
                     <a href="{{ $cetakResumeUrl }}" target="_blank"
-                        class="btn btn-lg btn-block bg-primary/60 hover:bg-primary hover:text-white gap-3">
+                        class="btn btn-lg btn-block bg-success/60 hover:bg-success hover:text-white gap-3 text-sm lg:text-xs">
                         <x-icons.print class="size-5" />
                         Cetak Resume Kegiatan
                         <x-icons.print class="size-5" />
                     </a>
                 </div>
 
+                <div class="col-span-12 lg:col-span-4 flex flex-col gap-1 px-3 py-2">
+                    <a href="{{ route('public-file.download', ['folder' => 'format', 'filename' => 'CONTOH-FORMAT-SURAT-PERNYATAAN-TANGGUNG-JAWAB-MUTLAK.docx']) }}"
+                        target="_blank"
+                        class="btn btn-lg btn-block bg-info/60 hover:bg-info hover:text-white gap-3 text-sm lg:text-xs">
+                        <x-icons.file-pen class="size-5" />
+                        Format Contoh Surat Tanggung Jawab Mutlak
+                        <x-icons.file-pen class="size-5" />
+                    </a>
+                </div>
+
+                <div class="col-span-12 lg:col-span-4 flex flex-col gap-1 px-3 py-2">
+                    <a href="{{ route('public-file.download', ['folder' => 'format', 'filename' => 'CONTOH-FORMAT-SURAT-PERNYATAAN-VERIFIKASI.docx']) }}"
+                        target="_blank"
+                        class="btn btn-lg btn-block bg-warning/60 hover:bg-warning hover:text-white gap-3 text-sm lg:text-xs">
+                        <x-icons.file-pen class="size-5" />
+                        Format Contoh Surat Tanggung Jawab Verifikasi
+                        <x-icons.file-pen class="size-5" />
+                    </a>
+                </div>
             </div>
 
             <div
@@ -438,7 +469,131 @@
             </div>
 
             <div class="card-actions text-xs font-semibold text-slate-600 bg-slate-200 rounded-b-lg px-5 py-2">
-                Rincian Permohonan Pengajuan Pencairan - {{ $detailData->nama_jenis_pengajuan ?? '-' }}
+                Daftar Dokumen Persyaratan Permohonan Pengajuan Pencairan -
+                {{ $detailData->nama_jenis_pengajuan ?? '-' }}
+            </div>
+        </div>
+    </div>
+
+    <div class="card border border-slate-300 bg-base-100 w-full">
+        <div class="card-body p-0 gap-0">
+            <div
+                class="card-title px-5 py-3 border-b border-b-slate-300 text-sm flex flex-col md:flex-row items-center justify-between gap-1">
+                <div class="flex-auto w-full text-start">
+                    Aksi & Keterangan Verifikasi / Validasi
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 text-sm md:text-sm p-0">
+                <div
+                    class="col-span-12 sm:col-span-12 lg:col-span-12 border border-slate-200 flex flex-col gap-2 lg:gap-1 px-5 py-2 {{ $detailData->status_class }}">
+                    <h4 class="font-semibold">Status Verifikasi / Validasi Pengajuan :</h4>
+                    <div class="w-full flex items-end justify-end font-semibold">
+                        <button type="button" class="btn w-full border-0 sm:w-auto bg-neutral/90 text-info">
+                            {{ $detailData->status_label }}
+                        </button>
+                    </div>
+                </div>
+                <div
+                    class="col-span-12 sm:col-span-12 lg:col-span-9 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                    <h4 class="font-semibold">Tanggal Pengajuan Verifikasi :</h4>
+                    <div class="w-full flex items-end justify-end font-semibold">
+                        {{ $detailData->tanggal_pengajuan_verifikasi != null ? date('d/M/Y', strtotime($detailData->tanggal_pengajuan_verifikasi)) : 'Belum Ada Informasi' }}
+                    </div>
+                </div>
+                <div
+                    class="col-span-12 sm:col-span-12 lg:col-span-3 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                    <h4 class="font-semibold">Penginput : </h4>
+                    <div class="w-full flex items-end justify-end">
+                        {{ $detailData->nama_creator }}
+                    </div>
+                </div>
+
+                <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2 bg-red-600/60">
+                    <h4 class="font-semibold">
+                        Keterangan Verifikator :
+                    </h4>
+                </div>
+
+                <div
+                    class="col-span-12 sm:col-span-12 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                    <h4 class="font-semibold">Nama Verifikator : </h4>
+                    <div class="w-full flex items-end justify-end">
+                        {{ $detailData->nama_verifikator ?? 'Belum Ada Informasi' }}
+                    </div>
+                </div>
+
+                <div
+                    class="col-span-12 sm:col-span-12 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                    <h4 class="font-semibold">Tanggal di-Verifikasi : </h4>
+                    <div class="w-full flex items-end justify-end">
+                        {{ $detailData->tanggal_verifikasi != null ? date('d/M/Y', strtotime($detailData->tanggal_verifikasi)) : 'Belum Ada Informasi' }}
+                    </div>
+                </div>
+
+                <div
+                    class="col-span-12 sm:col-span-12 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                    <h4 class="font-semibold">Catatan Verifikator : </h4>
+                    <div class="w-full flex items-end justify-end">
+                        {{ $detailData->catatan_verifikator ?? 'Belum Ada Informasi' }}
+                    </div>
+                </div>
+
+                <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-2 bg-rose-600/60">
+                    <h4 class="font-semibold">
+                        Keterangan Validator :
+                    </h4>
+                </div>
+
+                <div
+                    class="col-span-12 sm:col-span-12 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                    <h4 class="font-semibold">Nama Validator : </h4>
+                    <div class="w-full flex items-end justify-end">
+                        {{ $detailData->nama_validator ?? 'Belum Ada Informasi' }}
+                    </div>
+                </div>
+
+                <div
+                    class="col-span-12 sm:col-span-12 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                    <h4 class="font-semibold">Tanggal di-Validasi : </h4>
+                    <div class="w-full flex items-end justify-end">
+                        {{ $detailData->tanggal_validasi != null ? date('d/M/Y', strtotime($detailData->tanggal_validasi)) : 'Belum Ada Informasi' }}
+                    </div>
+                </div>
+
+                <div
+                    class="col-span-12 sm:col-span-12 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
+                    <h4 class="font-semibold">Catatan Validator : </h4>
+                    <div class="w-full flex items-end justify-end">
+                        {{ $detailData->catatan_validator ?? 'Belum Ada Informasi' }}
+                    </div>
+                </div>
+
+                <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-[2px] bg-neutral/30"></div>
+
+                <div class="col-span-12 lg:col-span-6 flex flex-col gap-1 px-3 py-2">
+                    <a href="{{ $cetakResumeUrl }}" target="_blank"
+                        class="btn btn-lg btn-block bg-blue-800/60 hover:bg-blue-800 hover:text-white gap-3 text-sm lg:text-xs">
+                        <x-icons.square-check class="size-5" />
+                        Ajukan Permohonan Verifikasi
+                        <x-icons.square-check class="size-5" />
+                    </a>
+                </div>
+
+                <div class="col-span-12 lg:col-span-6 flex flex-col gap-1 px-3 py-2">
+                    <button type="button"
+                        class="btn btn-lg btn-block bg-orange-800/60 hover:bg-orange-800 hover:text-white gap-3 text-sm lg:text-xs"
+                        wire:click="doEdit">
+                        <x-icons.edit class="size-5" />
+                        Ubah Informasi Kegiatan
+                        <x-icons.edit class="size-5" />
+                    </button>
+                </div>
+            </div>
+
+            <div
+                class="card-actions text-xs font-semibold text-slate-600 bg-slate-200 rounded-b-lg px-5 py-2 border-t border-t-slate-300">
+                Aksi & Keterangan Verifikasi / Validasi - {{ $detailData->nama_jenis_pengajuan ?? '-' }}
             </div>
         </div>
     </div>
