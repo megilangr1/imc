@@ -9,6 +9,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -188,7 +189,9 @@ class MainDetail extends Component
 
         DB::beginTransaction();
         try {
-            $pengajuan = Pengajuan::where('uuid', '=', $this->detailData->uuid)->firstOrFail();
+            $pengajuan = Pengajuan::where('uuid', '=', $this->detailData->uuid)
+                ->where('status', '=', 0)
+                ->firstOrFail();
             $dokumen = PengajuanDokumen::where('id_pengajuan', '=', $pengajuan->id)->where('kode_jenis_dokumen', '=', $state['type'])->first();
 
             $mimes = $this->fileState->getClientOriginalExtension();
@@ -242,6 +245,50 @@ class MainDetail extends Component
         }
     }
     // End Upload Action
+
+    // Ajukan Verifikasi
+    #[On('doVerify')]
+    public function doVerify()
+    {
+        DB::beginTransaction();
+        try {
+            $data = Pengajuan::where('uuid', '=', $this->detailData->uuid)->where('status', '=', 0)->firstOrFail();
+
+            $update = $data->update([
+                'status' => 1,
+                'tanggal_pengajuan_verifikasi' => now(),
+            ]);
+
+            (new MainHelper)->doAlert($this, 'info', 'Verifikasi di-Ajukan !');
+            $this->getDetail($data->uuid);
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            (new MainHelper)->doAlert($this);
+        }
+    }
+
+    #[On('doCancelVerify')]
+    public function doCancelVerify()
+    {
+        DB::beginTransaction();
+        try {
+            $data = Pengajuan::where('uuid', '=', $this->detailData->uuid)->whereNotIn('status', [0, 5])->firstOrFail();
+
+            $update = $data->update([
+                'status' => 0,
+                'tanggal_pengajuan_verifikasi' => null,
+            ]);
+
+            (new MainHelper)->doAlert($this, 'info', 'Verifikasi di-Ajukan !');
+            $this->getDetail($data->uuid);
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            (new MainHelper)->doAlert($this);
+        }
+    }
+    // End Ajukan Verifikasi
 
     // Dummy
     public function dummy()

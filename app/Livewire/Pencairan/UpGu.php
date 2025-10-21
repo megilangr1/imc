@@ -90,9 +90,12 @@ class UpGu extends Component
     public function getDetail($uuid)
     {
         try {
+
             $editData = Pengajuan::with([
                 'skpd'
-            ])->where('uuid', '=', $uuid)->firstOrFail();
+            ])->where('uuid', '=', $uuid)
+                ->where('status', '=', 0)
+                ->firstOrFail();
             $this->editData = $editData;
         } catch (\Throwable $th) {
             abort(404);

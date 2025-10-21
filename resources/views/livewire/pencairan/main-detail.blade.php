@@ -29,11 +29,13 @@
                 </div>
 
                 <div class="w-full text-end">
-                    <button type="button" class="btn bg-neutral text-white btn-xs" wire:click="doEdit">
-                        <x-icons.edit />
+                    @if ($detailData->status === 0)
+                        <button type="button" class="btn bg-neutral text-white btn-xs" wire:click="doEdit">
+                            <x-icons.edit />
 
-                        Ubah Informasi Kegiatan
-                    </button>
+                            Ubah Informasi Kegiatan
+                        </button>
+                    @endif
                 </div>
             </div>
 
@@ -350,34 +352,36 @@
 
                 <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-1 bg-sky-300/60"></div>
 
-                <div class="col-span-12 lg:col-span-4 flex flex-col gap-1 px-3 py-2">
-                    <a href="{{ $cetakResumeUrl }}" target="_blank"
-                        class="btn btn-lg btn-block bg-success/60 hover:bg-success hover:text-white gap-3 text-sm lg:text-xs">
-                        <x-icons.print class="size-5" />
-                        Cetak Resume Kegiatan
-                        <x-icons.print class="size-5" />
-                    </a>
-                </div>
+                @if ($detailData->status === 0)
+                    <div class="col-span-12 lg:col-span-4 flex flex-col gap-1 px-3 py-2">
+                        <a href="{{ $cetakResumeUrl }}" target="_blank"
+                            class="btn btn-lg btn-block bg-success/60 hover:bg-success hover:text-white gap-3 text-sm lg:text-xs">
+                            <x-icons.print class="size-5" />
+                            Cetak Resume Kegiatan
+                            <x-icons.print class="size-5" />
+                        </a>
+                    </div>
 
-                <div class="col-span-12 lg:col-span-4 flex flex-col gap-1 px-3 py-2">
-                    <a href="{{ route('public-file.download', ['folder' => 'format', 'filename' => 'CONTOH-FORMAT-SURAT-PERNYATAAN-TANGGUNG-JAWAB-MUTLAK.docx']) }}"
-                        target="_blank"
-                        class="btn btn-lg btn-block bg-info/60 hover:bg-info hover:text-white gap-3 text-sm lg:text-xs">
-                        <x-icons.file-pen class="size-5" />
-                        Format Contoh Surat Tanggung Jawab Mutlak
-                        <x-icons.file-pen class="size-5" />
-                    </a>
-                </div>
+                    <div class="col-span-12 lg:col-span-4 flex flex-col gap-1 px-3 py-2">
+                        <a href="{{ route('public-file.download', ['folder' => 'format', 'filename' => 'CONTOH-FORMAT-SURAT-PERNYATAAN-TANGGUNG-JAWAB-MUTLAK.docx']) }}"
+                            target="_blank"
+                            class="btn btn-lg btn-block bg-info/60 hover:bg-info hover:text-white gap-3 text-sm lg:text-xs">
+                            <x-icons.file-pen class="size-5" />
+                            Format Contoh Surat Tanggung Jawab Mutlak
+                            <x-icons.file-pen class="size-5" />
+                        </a>
+                    </div>
 
-                <div class="col-span-12 lg:col-span-4 flex flex-col gap-1 px-3 py-2">
-                    <a href="{{ route('public-file.download', ['folder' => 'format', 'filename' => 'CONTOH-FORMAT-SURAT-PERNYATAAN-VERIFIKASI.docx']) }}"
-                        target="_blank"
-                        class="btn btn-lg btn-block bg-warning/60 hover:bg-warning hover:text-white gap-3 text-sm lg:text-xs">
-                        <x-icons.file-pen class="size-5" />
-                        Format Contoh Surat Tanggung Jawab Verifikasi
-                        <x-icons.file-pen class="size-5" />
-                    </a>
-                </div>
+                    <div class="col-span-12 lg:col-span-4 flex flex-col gap-1 px-3 py-2">
+                        <a href="{{ route('public-file.download', ['folder' => 'format', 'filename' => 'CONTOH-FORMAT-SURAT-PERNYATAAN-VERIFIKASI.docx']) }}"
+                            target="_blank"
+                            class="btn btn-lg btn-block bg-warning/60 hover:bg-warning hover:text-white gap-3 text-sm lg:text-xs">
+                            <x-icons.file-pen class="size-5" />
+                            Format Contoh Surat Tanggung Jawab Verifikasi
+                            <x-icons.file-pen class="size-5" />
+                        </a>
+                    </div>
+                @endif
             </div>
 
             <div
@@ -404,7 +408,9 @@
                                 <th class="text-center" width="5%">No.</th>
                                 <td>Nama Dokumen</td>
                                 <td class="text-center">File</td>
-                                <td class="text-center">Aksi</td>
+                                @if ($detailData->status === 0)
+                                    <td class="text-center">Aksi</td>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -455,12 +461,14 @@
                                             </button>
                                         @endif
                                     </td>
-                                    <td class="text-center">
-                                        <button wire:click="openUploadModal('{{ $key }}')"
-                                            class="btn btn-xs btn-primary w-full">
-                                            Upload
-                                        </button>
-                                    </td>
+                                    @if ($detailData->status === 0)
+                                        <td class="text-center">
+                                            <button wire:click="openUploadModal('{{ $key }}')"
+                                                class="btn btn-xs btn-primary w-full">
+                                                Upload
+                                            </button>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
@@ -569,26 +577,45 @@
                     </div>
                 </div>
 
-                <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-[2px] bg-neutral/30"></div>
+                @if ($detailData->status === 0)
+                    <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-[2px] bg-neutral/30">
+                    </div>
 
-                <div class="col-span-12 lg:col-span-6 flex flex-col gap-1 px-3 py-2">
-                    <a href="{{ $cetakResumeUrl }}" target="_blank"
-                        class="btn btn-lg btn-block bg-blue-800/60 hover:bg-blue-800 hover:text-white gap-3 text-sm lg:text-xs">
-                        <x-icons.square-check class="size-5" />
-                        Ajukan Permohonan Verifikasi
-                        <x-icons.square-check class="size-5" />
-                    </a>
-                </div>
+                    <div class="col-span-12 lg:col-span-6 flex flex-col gap-1 px-3 py-2">
+                        <button type="button"
+                            class="confirm-btn btn btn-lg btn-block bg-blue-800/60 hover:bg-blue-800 hover:text-white gap-3 text-sm lg:text-xs"
+                            data-target="pencairan.main-detail">
+                            <x-icons.square-check class="size-5" />
+                            Ajukan Permohonan Verifikasi
+                            <x-icons.square-check class="size-5" />
+                        </button>
+                    </div>
 
-                <div class="col-span-12 lg:col-span-6 flex flex-col gap-1 px-3 py-2">
-                    <button type="button"
-                        class="btn btn-lg btn-block bg-orange-800/60 hover:bg-orange-800 hover:text-white gap-3 text-sm lg:text-xs"
-                        wire:click="doEdit">
-                        <x-icons.edit class="size-5" />
-                        Ubah Informasi Kegiatan
-                        <x-icons.edit class="size-5" />
-                    </button>
-                </div>
+                    <div class="col-span-12 lg:col-span-6 flex flex-col gap-1 px-3 py-2">
+                        <button type="button"
+                            class="btn btn-lg btn-block bg-orange-800/60 hover:bg-orange-800 hover:text-white gap-3 text-sm lg:text-xs"
+                            wire:click="doEdit">
+                            <x-icons.edit class="size-5" />
+                            Ubah Informasi Kegiatan
+                            <x-icons.edit class="size-5" />
+                        </button>
+                    </div>
+                @endif
+
+                @if ($detailData->status !== 0 && $detailData->status !== 5)
+                    <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-[2px] bg-neutral/30">
+                    </div>
+
+                    <div class="col-span-12 lg:col-span-12 flex flex-col gap-1 px-3 py-2">
+                        <button type="button"
+                            class="cancel-btn btn btn-lg btn-block text-slate-300 bg-red-600/90 hover:bg-red-600 hover:text-white gap-3 text-sm lg:text-sm"
+                            data-target="pencairan.main-detail">
+                            <x-icons.file-x class="size-5" />
+                            Batalkan Pengajuan Verifikasi
+                            <x-icons.file-x class="size-5" />
+                        </button>
+                    </div>
+                @endif
             </div>
 
             <div
@@ -655,5 +682,41 @@
             <label class="modal-backdrop" for="modal_upload">Close</label>
         </div>
     </div>
-
 </div>
+
+@push('js')
+    <script>
+        // Confirm Action
+        waitForLivewireReady(() => {
+            document.addEventListener('click', (e) => {
+                // Delete Btn
+                if (e.target.closest('.confirm-btn')) { // aman walau ada <i> di dalam button
+                    const compTarget = e.target.closest('.confirm-btn').dataset.target;
+
+                    verifySwal(() => {
+                        Livewire.dispatchTo(compTarget, 'doVerify');
+                    });
+                }
+            })
+        });
+
+        // Cancel Action
+        waitForLivewireReady(() => {
+            document.addEventListener('click', (e) => {
+                // Delete Btn
+                if (e.target.closest('.cancel-btn')) { // aman walau ada <i> di dalam button
+                    const compTarget = e.target.closest('.cancel-btn').dataset.target;
+
+                    doSwal(() => {
+                        Livewire.dispatchTo(compTarget, 'doCancelVerify');
+                    }, {
+                        title: "Batalkan Permohonan Pengajuan ?",
+                        text: "Proses Permohonan Akan di-Batalkan !",
+                        icon: "warning",
+                        confirmButtonText: "Ya, Batalkan Permohonan !",
+                    });
+                }
+            })
+        });
+    </script>
+@endpush

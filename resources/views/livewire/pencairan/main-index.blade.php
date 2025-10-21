@@ -72,17 +72,20 @@
                                     wire:click="doDetail('{{ $item->kode_jenis_pengajuan }}', '{{ $item->uuid }}')">
                                     Detail Data
                                 </button>
-                                <button type="button" class="btn btn-xs btn-outline w-full font-normal tracking-wider"
-                                    popovertarget="popover-{{ $loop->iteration }}"
-                                    wire:click="doEdit('{{ $item->kode_jenis_pengajuan }}', '{{ $item->uuid }}')">
-                                    Edit Data
-                                </button>
-                                <button type="button" popovertarget="popover-{{ $loop->iteration }}"
-                                    class="btn btn-xs btn-outline w-full font-normal tracking-wider delete-btn"
-                                    popovertarget="popover-{{ $loop->iteration }}" data-uuid="{{ $item->uuid }}"
-                                    data-target="pencairan.main-index">
-                                    Hapus Data
-                                </button>
+                                @if ($item->status === 0)
+                                    <button type="button"
+                                        class="btn btn-xs btn-outline w-full font-normal tracking-wider"
+                                        popovertarget="popover-{{ $loop->iteration }}"
+                                        wire:click="doEdit('{{ $item->kode_jenis_pengajuan }}', '{{ $item->uuid }}')">
+                                        Edit Data
+                                    </button>
+                                    <button type="button" popovertarget="popover-{{ $loop->iteration }}"
+                                        class="btn btn-xs btn-outline w-full font-normal tracking-wider delete-btn"
+                                        popovertarget="popover-{{ $loop->iteration }}" data-uuid="{{ $item->uuid }}"
+                                        data-target="pencairan.main-index">
+                                        Hapus Data
+                                    </button>
+                                @endif
                             </div>
                         </th>
                     </tr>

@@ -23,6 +23,23 @@
         }
     }
 
+    function doSwal(event, info) {
+        Swal.fire({
+            title: info.title,
+            text: info.text,
+            icon: info.icon ?? "question",
+            showCancelButton: true,
+            confirmButtonColor: "#fcb700",
+            cancelButtonColor: "#666666",
+            confirmButtonText: info.confirmButtonText ?? "Ya !",
+            cancelButtonText: "Batalkan Aksi",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                event && event();
+            }
+        });
+    };
+
     function waitForLivewireReady(callback) {
         if (window.Livewire) return callback();
         document.addEventListener('livewire:init', callback, {
