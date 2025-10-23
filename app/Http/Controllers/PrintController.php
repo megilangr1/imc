@@ -6,6 +6,7 @@ use App\Helpers\MainHelper;
 use App\Models\Pengajuan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PrintController extends Controller
 {
@@ -156,6 +157,115 @@ class PrintController extends Controller
             return $pdf->stream('Resume' . date('mdY_His') . $data->id  . '.pdf');
         } catch (\Throwable $th) {
             abort(500);
+        }
+    }
+
+    public function cetakPkd($uuid)
+    {
+        try {
+            $isAdmin = Auth::user()->is_admin;
+
+            $data = Pengajuan::with([
+                'skpd',
+                'dokumen'
+            ])->where('uuid', '=', $uuid)
+                ->where('status', '=', 5);
+
+            if (!$isAdmin) $data = $data->where('id_creator', '=', Auth::id());
+            $data = $data->firstOrFail();
+
+            $dokumen = [];
+
+            foreach ($data->dokumen as $key => $value) {
+                $dokumen[] = [
+                    'ada' => $value->filename != null ? true : false,
+                    'sesuai' => $value->status_validasi == 1 ? true : false,
+                    'jenis' => $value->nama_jenis_dokumen
+                ];
+            }
+
+            $print = [
+                'skpd' => [
+                    'kode_skpd' => $data->skpd->kode_skpd,
+                    'nama_skpd' => $data->skpd->nama_skpd,
+                ],
+                'data' => [
+                    [
+                        'info' => 'Jenis Pengajuan',
+                        'value' => $data->nama_jenis_pengajuan,
+                        'bold' => false,
+                    ],
+                    [
+                        'info' => 'Kegiatan',
+                        'value' => $data->kegiatan,
+                        'bold' => false,
+                    ],
+                    [
+                        'info' => 'Pekerjaan',
+                        'value' => $data->pekerjaan,
+                        'bold' => false,
+                    ],
+                    [
+                        'info' => 'Sumber Dana',
+                        'value' => $data->sumber_dana,
+                        'bold' => false,
+                    ],
+                    [
+                        'info' => 'Nomor SPM',
+                        'value' => $data->nomor_spm,
+                        'bold' => false,
+                    ],
+                    [
+                        'info' => 'Tanggal SPM',
+                        'value' => $data->tanggal_spm != null ? (new MainHelper)->dateFormatIndo($data->tanggal_spm) : null,
+                        'bold' => false,
+                    ],
+                    [
+                        'info' => 'Nominal',
+                        'value' => 'Rp. ' . number_format($data->nominal, 0, ',', '.'),
+                        'bold' => true,
+                    ],
+                    [
+                        'info' => 'Jenis Belanja',
+                        'value' => $data->jenis_belanja,
+                        'bold' => false,
+                    ],
+                    [
+                        'info' => 'Jenis Pembayaran',
+                        'value' => $data->jenis_pembayaran,
+                        'bold' => false,
+                    ],
+                    [
+                        'info' => 'Pembayaran Bulan',
+                        'value' => $data->nama_bulan,
+                        'bold' => false,
+                    ],
+                    [
+                        'info' => 'Keterangan',
+                        'value' => $data->keterangan,
+                        'bold' => false,
+                    ],
+                ],
+                'dokumen' => $dokumen,
+                'penanda_tangan' => [
+                    'nip_pa_kpa' => $data->nip_pa_kpa,
+                    'nama_pa_kpa' => $data->nama_pa_kpa,
+                    'jabatan_pa_kpa' => $data->jabatan_pa_kpa,
+                    'nip_ppk' => $data->nip_ppk,
+                    'nama_ppk' => $data->nama_ppk,
+                    'jabatan_ppk' => $data->jabatan_ppk,
+                ],
+                'tanggal_cetak' => (new MainHelper)->dateFormatIndo(now()),
+            ];
+
+            $pdf = Pdf::loadView('print.pengajuan.cetak-pkd', $print)
+                ->setPaper('a4')
+                ->setOption('enable-local-file-access', true);
+
+            return $pdf->stream('Penelitian_Kelengkapan_Dokumen' . date('mdY_His') . $data->id  . '.pdf');
+        } catch (\Throwable $th) {
+            dd($th);
+            abort(404);
         }
     }
 }

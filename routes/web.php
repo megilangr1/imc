@@ -96,6 +96,8 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    Route::get('penelitian-kelengkapan-dokumen/{uuid}', [PrintController::class, 'cetakPkd'])->name('cetak-pkd')->middleware(['role:MeGGi|Administrator|Operator|Verifikator|Validator']);
+
     Route::prefix('verifikasi')->middleware(['role:MeGGi|Administrator|Verifikator'])->name('verifikasi.')->group(function () {
         Route::get('/', VerifikasiMainIndex::class)->name('index');
         Route::get('/{uuid}', VerifikasiMainDetail::class)->name('verify');

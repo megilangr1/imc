@@ -63,6 +63,14 @@
             text-align: center;
         }
 
+        .text-start {
+            text-align: left;
+        }
+
+        .text-end {
+            text-align: right;
+        }
+
         h1 {
             margin: 0px;
             padding: 0px;
@@ -94,8 +102,7 @@
         }
 
         .title {
-            padding-top: 15px;
-            padding-bottom: 35px;
+            padding-bottom: 20;
         }
 
         .align-top {
@@ -119,6 +126,42 @@
             width: 250px;
             line-height: 20px;
         }
+
+        .text-xs {
+            font-size: 10px;
+        }
+
+        .text-sm {
+            font-size: 12px;
+        }
+
+        .box-black {
+            padding: 4px 10px !important;
+            border: 1px solid #000;
+            background-color: #000 !important;
+        }
+
+        .box-black-sm {
+            padding: 3px 8px !important;
+            border: 1px solid #000;
+            background-color: #000 !important;
+        }
+
+        .box-hollow {
+            padding: 4px 8px !important;
+            border: 1px solid #000;
+            background-color: #FFF;
+        }
+
+        .box-hollow-sm {
+            padding: 3px 8px !important;
+            border: 1px solid #000;
+            background-color: #FFF;
+        }
+
+        .p-2 {
+            padding: 10px;
+        }
     </style>
 </head>
 
@@ -139,21 +182,21 @@
         </div>
     </div>
 
-    <h3 class="text-center title">
-        <span style="border-bottom: 2px solid #000; padding-bottom: 2px;">RESUME</span>
-    </h3>
+    <h4 class="text-center title">
+        <span style="border-bottom: 2px solid #000; padding-bottom: 2px;">PENELITIAN KELENGKAPAN DOKUMEN</span>
+    </h4>
 
     <table class="table" style="width: 90%; margin: 0 auto;">
         @foreach ($data as $item)
             @if ($item['value'] != null)
                 <tr>
-                    <td class="align-top" width="36%">
+                    <td class="align-top text-sm" width="36%">
                         {{ $item['info'] }}
                     </td>
-                    <td class="align-top text-center" width="4%">
+                    <td class="align-top text-sm text-center" width="4%">
                         :
                     </td>
-                    <td class="align-top" width="60%">
+                    <td class="align-top text-sm" width="60%">
                         @if ($item['bold'])
                             <b>{{ $item['value'] }}</b>
                         @else
@@ -163,6 +206,48 @@
                 </tr>
             @endif
         @endforeach
+    </table>
+
+    <hr style="border-top: 1px; border-color: #000; width: 90%; margin: 10px auto;">
+
+    <table border="1" class="table" style="width: 90%; margin: 0 auto; border: 2px;">
+        <tr>
+            <td class="text-center p-2">
+                <h5 style="margin: 0px;">
+                    Ada
+                </h5>
+            </td>
+            <td class="text-center p-2">
+                <h5 style="margin: 0px;">
+                    Sesuai
+                </h5>
+            </td>
+            <td class="text-start p-2">
+                <h5 style="margin: 0px;">
+                    Jenis Dokumen
+                </h5>
+            </td>
+        </tr>
+        @foreach ($dokumen as $item)
+            <tr>
+                <td class="align-top p-2 text-xs text-center" width="10%">
+                    <span class="{{ !!$item['ada'] ? 'box-black' : 'box-hollow' }}">-</span>
+                </td>
+                <td class="align-top p-2 text-xs text-center" width="10%">
+                    <span class="{{ !!$item['sesuai'] ? 'box-black' : 'box-hollow' }}">-</span>
+                </td>
+                <td class="align-top p-2 text-xs" width="60%">
+                    {{ $item['jenis'] }}
+                </td>
+            </tr>
+        @endforeach
+        <tr>
+            <td class="p-2 text-end" colspan="3">
+                <span class="box-black-sm">-</span> = Ya
+                <span style="padding: 4px 0px;"></span>
+                <span class="box-hollow-sm">-</span> = Tidak
+            </td>
+        </tr>
     </table>
 
     <div class="tanda-tangan">

@@ -9,16 +9,32 @@
         </a>
     </x-main.page-header>
 
-    <div
-        class="rounded-lg border border-slate-200 flex flex-col gap-2 lg:gap-1 px-5 py-2 {{ $detailData->status_class }} animate-pulse">
-        <h4 class="font-semibold">Status Verifikasi / Validasi Pengajuan :</h4>
-        <div class="w-full flex items-end justify-end font-semibold">
-            <button type="button" class="btn w-full border-0 sm:w-auto bg-neutral/90 text-info">
-                {{ $detailData->status_label }}
-            </button>
+    @if ($detailData->status < 5)
+        <div
+            class="rounded-lg border border-slate-200 flex flex-col gap-2 lg:gap-1 px-5 py-2 {{ $detailData->status_class }} animate-pulse">
+            <h4 class="font-semibold">Status Verifikasi / Validasi Pengajuan :</h4>
+            <div class="w-full flex items-end justify-end font-semibold">
+                <button type="button" class="btn w-full border-0 sm:w-auto bg-neutral/90 text-info">
+                    {{ $detailData->status_label }}
+                </button>
+            </div>
         </div>
-    </div>
+    @endif
 
+    @if ($detailData->status === 5)
+        <a href="{{ route('cetak-pkd', $detailData->uuid) }}" target="_blank"
+            class="rounded-lg border border-slate-200 flex flex-col gap-4 lg:gap-1 px-5 py-2 bg-neutral text-info">
+            <h4 class="font-semibold animate-pulse text-lg">Permohonan Selesai di-Verifikasi dan di-Validasi !</h4>
+            <div class="w-full flex items-end justify-end font-semibold">
+                <button type="button"
+                    class="btn btn-info min-h-auto text-neutral w-full sm:w-auto bg border-0 -neutral/90">
+                    <x-icons.print-check class="size-5" />
+                    Cetak Lembar Penelitian Dokumen Kelengkapan
+                    <x-icons.print-check class="size-5" />
+                </button>
+            </div>
+        </a>
+    @endif
 
     <div class="card border border-slate-300 bg-base-100 w-full">
         <div class="card-body p-0 gap-0">
