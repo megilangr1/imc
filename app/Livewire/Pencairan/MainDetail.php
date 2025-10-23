@@ -74,10 +74,8 @@ class MainDetail extends Component
                     $dokumenState[$value->kode_jenis_dokumen]['folder'] = $value->folder;
                     $dokumenState[$value->kode_jenis_dokumen]['filename'] = $value->filename;
                     $dokumenState[$value->kode_jenis_dokumen]['path'] = $value->path;
-                    $dokumenState[$value->kode_jenis_dokumen]['status'] = $value->status;
-                    $dokumenState[$value->kode_jenis_dokumen]['status_label'] = $value->status_label;
-                    $dokumenState[$value->kode_jenis_dokumen]['catatan_verifikator'] = $value->catatan_verifikator ?? "-";
-                    $dokumenState[$value->kode_jenis_dokumen]['catatan_validator'] = $value->catatan_validator ?? "-";
+                    $dokumenState[$value->kode_jenis_dokumen]['status_verifikasi'] = $value->status_verifikasi;
+                    $dokumenState[$value->kode_jenis_dokumen]['status_validasi'] = $value->status_validasi;
                 }
             }
 
@@ -286,6 +284,28 @@ class MainDetail extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
             (new MainHelper)->doAlert($this);
+        }
+    }
+
+    #[On('doResetVerify')]
+    public function doResetVerify()
+    {
+        DB::beginTransaction();
+        try {
+            $data = Pengajuan::where('uuid', '=', $this->detailData->uuid)->whereIn('status', [2, 4])->firstOrFail();
+
+            $update = $data->update([
+                'status' => 0,
+                'tanggal_pengajuan_verifikasi' => null,
+            ]);
+
+            (new MainHelper)->doAlert($this, 'info', 'Verifikasi di-Ajukan !');
+            $this->getDetail($data->uuid);
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            (new MainHelper)->doAlert($this);
+            dd($th);
         }
     }
     // End Ajukan Verifikasi

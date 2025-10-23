@@ -201,17 +201,13 @@ class HibahBansos extends Component
                     'folder' => null,
                     'path' => null,
 
-                    'status' => 0,
-
-                    'tanggal_verifikasi' => null,
+                    'status_verifikasi' => 0,
                     'id_verifikator' => null,
                     'nama_verifikator' => null,
-                    'catatan_verifikator' => null,
 
-                    'tanggal_validasi' => null,
+                    'status_validasi' => 0,
                     'id_validator' => null,
                     'nama_validator' => null,
-                    'catatan_validator' => null,
                 ]);
             }
 

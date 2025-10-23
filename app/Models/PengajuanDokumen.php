@@ -22,17 +22,13 @@ class PengajuanDokumen extends Model
         'filename',
         'path',
 
-        'status',
-
-        'tanggal_verifikasi',
+        'status_verifikasi',
         'id_verifikator',
         'nama_verifikator',
-        'catatan_verifikator',
 
-        'tanggal_validasi',
+        'status_validasi',
         'id_validator',
         'nama_validator',
-        'catatan_validator',
 
         'id_creator',
         'nama_creator',
@@ -52,24 +48,6 @@ class PengajuanDokumen extends Model
                 $model->nama_creator = Auth::user()->name;
             }
         });
-    }
-
-    protected $casts = [
-        'status' => 'integer',
-    ];
-
-    // Accessor untuk status
-    public function getStatusLabelAttribute()
-    {
-        return match ($this->status) {
-            0 => 'Draft / Belum di-Ajukan Verifikasi',
-            1 => 'Menunggu Untuk di-Verifikasi',
-            2 => 'Verifikasi di-Tolak',
-            3 => 'Terverfikasi, Menunggu Untuk di-Validasi',
-            4 => 'Validasi di-Tolak',
-            5 => 'Data Terverifikasi dan Tervalidasi',
-            default => 'Status Tidak Dikenal',
-        };
     }
 
     public function pengajuan()

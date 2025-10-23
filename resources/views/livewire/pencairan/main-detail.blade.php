@@ -424,26 +424,25 @@
 
                                             <div class="flex flex-col gap-1">
                                                 <div class="w-full flex items-center justify-center gap-2">
-                                                    <div>Status Dokumen</div>
+                                                    <div>Status Verifikasi</div>
                                                     <div>:</div>
                                                     <div class="flex-auto font-semibold">
-                                                        {{ $item['status_label'] }}
+                                                        @if ($detailData->status < 2)
+                                                            Belum di-Verifikasi
+                                                        @else
+                                                            {{ $item['status_verifikasi'] ? 'Sesuai' : 'Tidak Sesuai' }}
+                                                        @endif
                                                     </div>
                                                 </div>
-
                                                 <div class="w-full flex items-center justify-center gap-2">
-                                                    <div>Catatan Verifikator</div>
+                                                    <div>Status Validasi</div>
                                                     <div>:</div>
-                                                    <div class="flex-auto">
-                                                        {{ $item['catatan_verifikator'] }}
-                                                    </div>
-                                                </div>
-
-                                                <div class="w-full flex items-center justify-center gap-2">
-                                                    <div>Catatan Validator</div>
-                                                    <div>:</div>
-                                                    <div class="flex-auto">
-                                                        {{ $item['catatan_validator'] }}
+                                                    <div class="flex-auto font-semibold">
+                                                        @if ($detailData->status < 4)
+                                                            Belum di-Validasi
+                                                        @else
+                                                            {{ $item['status_validasi'] ? 'Sesuai' : 'Tidak Sesuai' }}
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -456,7 +455,7 @@
                                                 Lihat File
                                             </a>
                                         @else
-                                            <button type="button" class="btn btn-xs btn-error w-full">
+                                            <button type="button" class="btn btn-xs btn-warning w-full">
                                                 Belum Ada File
                                             </button>
                                         @endif
@@ -542,7 +541,7 @@
                 <div
                     class="col-span-12 sm:col-span-12 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
                     <h4 class="font-semibold">Catatan Verifikator : </h4>
-                    <div class="w-full flex items-end justify-end">
+                    <div class="w-full flex items-end justify-end font-semibold">
                         {{ $detailData->catatan_verifikator ?? 'Belum Ada Informasi' }}
                     </div>
                 </div>
@@ -572,7 +571,7 @@
                 <div
                     class="col-span-12 sm:col-span-12 lg:col-span-4 border border-slate-200 flex flex-col gap-1 px-3 py-2">
                     <h4 class="font-semibold">Catatan Validator : </h4>
-                    <div class="w-full flex items-end justify-end">
+                    <div class="w-full flex items-end justify-end font-semibold">
                         {{ $detailData->catatan_validator ?? 'Belum Ada Informasi' }}
                     </div>
                 </div>
@@ -602,7 +601,7 @@
                     </div>
                 @endif
 
-                @if ($detailData->status !== 0 && $detailData->status !== 5)
+                @if ($detailData->status === 1 || $detailData->status === 3)
                     <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-[2px] bg-neutral/30">
                     </div>
 
@@ -613,6 +612,21 @@
                             <x-icons.file-x class="size-5" />
                             Batalkan Pengajuan Verifikasi
                             <x-icons.file-x class="size-5" />
+                        </button>
+                    </div>
+                @endif
+
+                @if ($detailData->status === 2 || $detailData->status === 4)
+                    <div class="col-span-12 border border-slate-200 flex flex-col gap-1 px-3 py-[2px] bg-neutral/30">
+                    </div>
+
+                    <div class="col-span-12 lg:col-span-12 flex flex-col gap-1 px-3 py-2">
+                        <button type="button"
+                            class="accept-btn btn btn-lg btn-block text-slate-300 bg-cyan-600/90 hover:bg-cyan-600 hover:text-white gap-3 text-sm lg:text-sm"
+                            data-target="pencairan.main-detail">
+                            <x-icons.history class="size-5" />
+                            Terima dan Reset Proses Verifikasi
+                            <x-icons.history class="size-5" />
                         </button>
                     </div>
                 @endif
@@ -714,6 +728,25 @@
                         text: "Proses Permohonan Akan di-Batalkan !",
                         icon: "warning",
                         confirmButtonText: "Ya, Batalkan Permohonan !",
+                    });
+                }
+            })
+        });
+
+        waitForLivewireReady(() => {
+            document.addEventListener('click', (e) => {
+                // Delete Btn
+                if (e.target.closest('.accept-btn')) { // aman walau ada <i> di dalam button
+                    const compTarget = e.target.closest('.accept-btn').dataset.target;
+
+                    doSwal(() => {
+                        Livewire.dispatchTo(compTarget, 'doResetVerify');
+                    }, {
+                        title: "Buka dan Reset Proses Verifikasi ?",
+                        text: "Informasi dan File Dapat di-Ubah Setelahnya !",
+                        icon: "info",
+                        confirmButtonColor: '#1a9ec0',
+                        confirmButtonText: "Ya !",
                     });
                 }
             })

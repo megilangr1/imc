@@ -29,7 +29,7 @@
             text: info.text,
             icon: info.icon ?? "question",
             showCancelButton: true,
-            confirmButtonColor: "#fcb700",
+            confirmButtonColor: info.confirmButtonColor ?? "#fcb700",
             cancelButtonColor: "#666666",
             confirmButtonText: info.confirmButtonText ?? "Ya !",
             cancelButtonText: "Batalkan Aksi",

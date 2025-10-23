@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pencairan;
+namespace App\Livewire\Verifikasi;
 
 use App\Helpers\MainHelper;
 use App\Models\Pengajuan;
@@ -22,7 +22,7 @@ class MainIndex extends Component
     public $staticData = [
         'kelompok_skpd' => [],
         'status' => [
-            0 => 'Draft / Belum di-Ajukan Verifikasi',
+            // 0 => 'Draft / Belum di-Ajukan Verifikasi',
             1 => 'Menunggu Untuk di-Verifikasi',
             2 => 'Verifikasi di-Tolak',
             3 => 'Terverfikasi, Menunggu Untuk di-Validasi',
@@ -85,14 +85,14 @@ class MainIndex extends Component
         }
 
         if ($this->status != null) {
-            $data = $data->where('status', '=', (int) $this->status);
+            $data = $data->where('status', '=', $this->status);
         }
 
+        $data = $data->where('status', '!=', 0);
         $data = $data->orderBy($this->order_by, $this->order_type);
-
         $data = $data->paginate(10);
 
-        return view('livewire.pencairan.main-index', [
+        return view('livewire.verifikasi.main-index', [
             'data' => $data
         ]);
     }
@@ -151,25 +151,25 @@ class MainIndex extends Component
 
         switch ($jenis) {
             case 'ls-belanja-barang-dan-jasa-kontrak':
-                $route = route('pencairan.barjas-kontrak.' . $action, ['uuid' => $uuid]);
+                $route = route('verifikasi.barjas-kontrak.' . $action, ['uuid' => $uuid]);
                 break;
             case 'ls-belanja-barang-dan-jasa-non-kontrak':
-                $route = route('pencairan.barjas-non-kontrak.' . $action, ['uuid' => $uuid]);
+                $route = route('verifikasi.barjas-non-kontrak.' . $action, ['uuid' => $uuid]);
                 break;
             case 'ls-hibah-dan-bansos':
-                $route = route('pencairan.hibah-bansos.' . $action, ['uuid' => $uuid]);
+                $route = route('verifikasi.hibah-bansos.' . $action, ['uuid' => $uuid]);
                 break;
             case 'tambah-uang':
-                $route = route('pencairan.tambah-uang.' . $action, ['uuid' => $uuid]);
+                $route = route('verifikasi.tambah-uang.' . $action, ['uuid' => $uuid]);
                 break;
             case 'tunjangan-kinerja':
-                $route = route('pencairan.tunjangan-kinerja.' . $action, ['uuid' => $uuid]);
+                $route = route('verifikasi.tunjangan-kinerja.' . $action, ['uuid' => $uuid]);
                 break;
             case 'gaji-jkk-jkm-bpjs':
-                $route = route('pencairan.gaji-jkk-jkm-bpjs.' . $action, ['uuid' => $uuid]);
+                $route = route('verifikasi.gaji-jkk-jkm-bpjs.' . $action, ['uuid' => $uuid]);
                 break;
             case 'up-gu':
-                $route = route('pencairan.up-gu.' . $action, ['uuid' => $uuid]);
+                $route = route('verifikasi.up-gu.' . $action, ['uuid' => $uuid]);
                 break;
 
             default:
@@ -181,34 +181,10 @@ class MainIndex extends Component
     }
 
     // Action
-    public function doEdit($jenis, $uuid)
-    {
-        if (!$route = $this->actionPath($jenis, $uuid, 'edit')) return (new MainHelper)->doAlert($this);
-        $this->redirect($route, navigate: true);
-    }
-
     public function doDetail($jenis, $uuid)
     {
         if (!$route = $this->actionPath($jenis, $uuid, 'detail')) return (new MainHelper)->doAlert($this);
         $this->redirect($route, navigate: true);
-    }
-
-    #[On('doDelete')]
-    public function doDelete(String $uuid)
-    {
-        DB::beginTransaction();
-        try {
-            $data = Pengajuan::where('uuid', '=', $uuid)->firstOrFail();
-
-            $delete = $data->delete();
-            $dokumenDokumen = $data->dokumen()->delete();
-
-            DB::commit();
-            (new MainHelper)->doAlert($this, 'warning', 'Data Berhasil di-Hapus !');
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            (new MainHelper)->doAlert($this);
-        }
     }
 
 

@@ -260,7 +260,7 @@
                                     @endforeach
                                 </select>
                                 <div
-                                    class="absolute inset-y-0 end-6 {{ $errors->has('state.bulan') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
+                                    class="absolute inset-y-0 end-6 {{ $errors->has('state.sumber_dana') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
                                     <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"

@@ -23,17 +23,13 @@ return new class extends Migration
             $table->text('filename')->nullable();
             $table->text('path')->nullable();
 
-            $table->tinyInteger('status')->default(0);
-
-            $table->date('tanggal_verifikasi')->nullable();
+            $table->boolean('status_verifikasi')->default(false);
             $table->foreignId('id_verifikator')->nullable();
             $table->string('nama_verifikator')->nullable();
-            $table->text('catatan_verifikator')->nullable();
 
-            $table->date('tanggal_validasi')->nullable();
+            $table->boolean('status_validasi')->default(false);
             $table->foreignId('id_validator')->nullable();
             $table->string('nama_validator')->nullable();
-            $table->text('catatan_validator')->nullable();
 
             $table->foreignId('id_creator')->nullable();
             $table->string('nama_creator')->nullable();

@@ -6,7 +6,8 @@
                 alt="{{ env('APP_NAME', 'Laravel') }}">
         </a>
 
-        <div class="flex-auto flex flex-col items-center lg:items-start justify-center gap-0.5 lg:ps-2">
+        <div
+            class="flex-auto flex flex-col items-center lg:items-start justify-center gap-0.5 lg:ps-2 text-center lg:text-start">
             <h1 class="text-xs lg:text-sm">{{ config('app.name') }}</h1>
             <h2 class="text-[10px] underline underline-offset-4">Chiro IT Solution</h2>
         </div>
@@ -47,6 +48,7 @@
                 </details>
             </li>
         @endif
+
         @if (auth()->user()->hasAnyRole(['MeGGi', 'Administrator', 'Operator']))
             <li>
                 <details {{ request()->is(['pencairan', 'pencairan/*']) ? 'open' : '' }}>
@@ -62,6 +64,24 @@
                         <li>
                             <a href="{{ route('pencairan.create') }}" wire:navigate>
                                 Formulir Pengajuan
+                            </a>
+                        </li>
+                    </ul>
+                </details>
+            </li>
+        @endif
+
+        @if (auth()->user()->hasAnyRole(['MeGGi', 'Administrator', 'Verifikator']))
+            <li>
+                <details {{ request()->is(['verifikasi', 'verifikasi/*']) ? 'open' : '' }}>
+                    <summary
+                        class="{{ request()->is(['verifikasi', 'verifikasi/*']) ? 'bg-neutral text-white' : '' }}">
+                        Verifikasi Permohonan
+                    </summary>
+                    <ul class="mt-1">
+                        <li>
+                            <a href="{{ route('verifikasi.index') }}" wire:navigate>
+                                Daftar Permohonan
                             </a>
                         </li>
                     </ul>
