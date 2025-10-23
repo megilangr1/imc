@@ -108,7 +108,11 @@ class MainIndex extends Component
                 $q->where('nip', 'LIKE', '%' . $this->search . '%')
                     ->orWhere('name', 'LIKE', '%' . $this->search . '%')
                     ->orWhere('jabatan', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('email', 'LIKE', '%' . $this->search . '%');
+                    ->orWhere('email', 'LIKE', '%' . $this->search . '%')
+                    ->orWhereHas('skpd', function ($q1) {
+                        $q1->where('nama_skpd', 'LIKE', '%' . $this->search . '%')
+                            ->orWhere('kode_skpd', 'LIKE', '%' . $this->search . '%');
+                    });
             });
         }
 

@@ -353,11 +353,21 @@
             <thead>
                 <tr>
                     <td class="text-center" width="8%">No.</td>
-                    <td class="text-center">SKPD</td>
-                    <td>NIP & Nama Lengkap</td>
-                    <td>Email</td>
+                    <td>
+                        <x-table.th label="NIP" field="nip" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
+                    <td>
+                        <x-table.th label="Nama" field="name" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
+                    <td>
+                        <x-table.th label="Email" field="email" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
+                    <td>Kode SKPD</td>
+                    <td>Nama SKPD</td>
                     <td>Hak Akses</td>
-                    <td>Pembuat</td>
+                    <td>
+                        <x-table.th label="Pembuat" field="created_at" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
                     <th class="text-center" width="10%">Aksi</th>
                 </tr>
             </thead>
@@ -365,31 +375,11 @@
                 @forelse ($data as $item)
                     <tr>
                         <td class="text-center bg-slate-200">{{ $loop->iteration }}.</td>
-                        <td>
-                            <div class="w-full flex flex-col items-center justify-center">
-                                @if ($item->skpd != null)
-                                    <div class="text-[10px] font-bold">
-                                        {{ $item->skpd->kode_skpd }}
-                                    </div>
-                                    <div class="text-xs underline underline-offset-4">
-                                        {{ $item->skpd->nama_skpd }}
-                                    </div>
-                                @else
-                                    -
-                                @endif
-                            </div>
-                        </td>
-                        <td>
-                            <div class="w-full flex flex-col items-start justify-center gap-1">
-                                <div class="text-xs underline underline-offset-4">
-                                    {{ $item->name }}
-                                </div>
-                                <div class="text-[10px] font-bold">
-                                    {{ $item->nip != null ? 'NIP : ' . $item->nip : '' }}
-                                </div>
-                            </div>
-                        </td>
-                        <td>{{ $item->email }}</td>
+                        <td>{{ $item->nip ?? '-' }}</td>
+                        <td>{{ $item->name ?? '-' }}</td>
+                        <td>{{ $item->email ?? '-' }}</td>
+                        <td>{{ $item->skpd->kode_skpd ?? '-' }}</td>
+                        <td>{{ $item->skpd->nama_skpd ?? '-' }}</td>
                         <td>{{ $item->getRoleNames()[0] ?? '-' }}</td>
                         <td>{{ $item->nama_creator }}</td>
                         <th class="text-center">
@@ -421,7 +411,7 @@
 
                 @empty
                     <tr>
-                        <td colspan="7" class="text-center p-2">Belum Ada Data</td>
+                        <td colspan="9" class="text-center p-2">Belum Ada Data</td>
                     </tr>
                 @endforelse
             </tbody>
