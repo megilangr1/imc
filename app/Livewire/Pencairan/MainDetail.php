@@ -6,6 +6,7 @@ use App\Helpers\MainHelper;
 use App\Models\Pengajuan;
 use App\Models\PengajuanDokumen;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
@@ -27,8 +28,14 @@ class MainDetail extends Component
     public $cetakResumeUrl;
     // End Form State
 
+    // User Info
+    #[Locked]
+    public $isAdmin = false;
+    // End User Info
+
     public function mount($uuid = null)
     {
+        $this->isAdmin = Auth::user()->is_admin;
         $this->getStaticData();
 
         if ($uuid != null) {
@@ -52,10 +59,9 @@ class MainDetail extends Component
     public function getDetail($uuid)
     {
         try {
-            $detailData = Pengajuan::with([
-                'skpd',
-                'dokumen'
-            ])->where('uuid', '=', $uuid)->firstOrFail();
+            $detailData = Pengajuan::with(['skpd', 'dokumen'])->where('uuid', '=', $uuid);
+            if (!$this->isAdmin) $detailData = $detailData->where('id_creator', '=', Auth::id());
+            $detailData = $detailData->firstOrFail();
             $this->detailData = $detailData;
         } catch (\Throwable $th) {
             abort(404);
@@ -305,16 +311,7 @@ class MainDetail extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
             (new MainHelper)->doAlert($this);
-            dd($th);
         }
     }
     // End Ajukan Verifikasi
-
-    // Dummy
-    public function dummy()
-    {
-        // $this->modalUpload = true;
-        // dd($this->detailData->dokumen->toArray());
-        dd($this->dokumenState);
-    }
 }

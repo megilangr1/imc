@@ -46,6 +46,9 @@
                             :orderType="$order_type" />
                     </td>
                     <td>
+                        <x-table.th label="SKPD" field="nama_skpd" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
+                    <td>
                         <x-table.th label="Nomor SPM" field="nomor_spm" :orderBy="$order_by" :orderType="$order_type" />
                     </td>
                     <td>
@@ -67,6 +70,7 @@
                 @forelse ($data as $item)
                     <tr>
                         <th class="text-center bg-slate-200">{{ $loop->iteration }}.</th>
+                        <td class="text-[10px]">{{ $item->nama_skpd }}</td>
                         <td>{{ $item->nama_jenis_pengajuan }}</td>
                         <td>{{ $item->nomor_spm }}</td>
                         <td>{{ date('d/m/Y', strtotime($item->tanggal_spm)) }}</td>
@@ -105,7 +109,6 @@
                             </div>
                         </th>
                     </tr>
-
                 @empty
                     <tr>
                         <td colspan="7" class="text-center p-2">Belum Ada Data</td>

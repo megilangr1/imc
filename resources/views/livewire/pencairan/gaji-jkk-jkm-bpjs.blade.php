@@ -534,7 +534,6 @@
                         </div>
                     </div>
                 </div>
-
             </form>
             <div class="card-actions text-xs font-semibold text-slate-600 bg-slate-200 rounded-b-lg px-5 py-2">
                 Formulir Permohonan Pengajuan Pencairan - Gaji / JKK / JKM / BPJS |

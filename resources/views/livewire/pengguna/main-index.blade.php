@@ -408,7 +408,6 @@
                             </div>
                         </th>
                     </tr>
-
                 @empty
                     <tr>
                         <td colspan="9" class="text-center p-2">Belum Ada Data</td>

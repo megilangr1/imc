@@ -4,6 +4,7 @@ namespace App\Livewire\Modal;
 
 use App\Helpers\MainHelper;
 use App\Models\Skpd;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -16,14 +17,22 @@ class DataSkpd extends Component
     #[Locked]
     public $tingkat = 0;
 
-    public function mount($tingkat = 0)
+    #[Locked]
+    public $all = 0;
+
+    public function mount($tingkat = 0, $all = false)
     {
         $this->tingkat = $tingkat;
+        $this->all = $all;
     }
 
     public function render()
     {
         $data = new Skpd();
+
+        if (!$this->all && !Auth::user()->is_admin) {
+            $data = $data->where('id', '=', Auth::user()->id_skpd);
+        }
 
         if ($this->tingkat > 0) {
             $data = $data->where('tingkat', '=', $this->tingkat);

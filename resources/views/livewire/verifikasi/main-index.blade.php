@@ -91,7 +91,6 @@
                             @endif
                         </th>
                     </tr>
-
                 @empty
                     <tr>
                         <td colspan="8" class="text-center p-2">Belum Ada Data</td>

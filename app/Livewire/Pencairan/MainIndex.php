@@ -5,6 +5,8 @@ namespace App\Livewire\Pencairan;
 use App\Helpers\MainHelper;
 use App\Models\Pengajuan;
 use App\Models\Skpd;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
@@ -56,15 +58,23 @@ class MainIndex extends Component
     public $status;
     // End Filter
 
+    // User Info
+    #[Locked]
+    public $isAdmin = false;
+    // End User Info
+
     public function mount()
     {
+        $this->isAdmin = Auth::user()->is_admin;
         $this->getStaticData();
     }
 
     public function getStaticData()
     {
         try {
-            $getSkpd = Skpd::where('tingkat', '=', 1)->orderBy('kode_skpd', 'ASC')->get();
+            $getSkpd = Skpd::where('tingkat', '=', 1);
+            if (!$this->isAdmin) $getSkpd = $getSkpd->where('id', '=', Auth::user()->id_skpd);
+            $getSkpd = $getSkpd->orderBy('kode_skpd', 'ASC')->get();
 
             $this->staticData['kelompok_skpd'] = $getSkpd;
         } catch (\Throwable $th) {
@@ -76,6 +86,10 @@ class MainIndex extends Component
     public function render()
     {
         $data = new Pengajuan();
+
+        if (!$this->isAdmin) {
+            $data = $data->where('id_creator', '=', Auth::id());
+        }
 
         if ($this->search != null) {
             $data = $data->where(function ($q) {

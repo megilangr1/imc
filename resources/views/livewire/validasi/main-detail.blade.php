@@ -562,7 +562,6 @@
                     </div>
                 </div>
 
-
                 @if ($detailData->status === 3)
                     <div
                         class="card-title px-5 py-3 border-b border-b-slate-300 text-sm flex flex-col md:flex-row items-center justify-between gap-1 bg-warning">
@@ -660,7 +659,6 @@
             </div>
         </div>
     </form>
-
 </div>
 
 @push('js')

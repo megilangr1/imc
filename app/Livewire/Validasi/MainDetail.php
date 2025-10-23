@@ -136,18 +136,10 @@ class MainDetail extends Component
             DB::commit();
             (new MainHelper)->doAlert($this, 'success', 'Data Berhasil di-Buat !');
             return $this->redirect(route('validasi.detail', ['uuid' => $data->uuid]), navigate: true);
-
-            dd($data, $dokumen, $dokumen->count());
         } catch (\Throwable $th) {
             DB::rollBack();
             (new MainHelper)->doAlert($this);
         }
     }
     // End Action
-
-    // Dummy
-    public function dummy()
-    {
-        dd($this->dokumenState, $this->verifyState);
-    }
 }

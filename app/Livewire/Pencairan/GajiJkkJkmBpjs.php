@@ -6,6 +6,7 @@ use App\Helpers\MainHelper;
 use App\Models\Pengajuan;
 use App\Models\PengajuanDokumen;
 use App\Models\Skpd;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
@@ -60,8 +61,15 @@ class GajiJkkJkmBpjs extends Component
     ];
     // End Tom Select
 
+    // User Info
+    #[Locked]
+    public $isAdmin = false;
+    // End User Info
+
     public function mount($uuid = null)
     {
+        $this->isAdmin = Auth::user()->is_admin;
+
         $this->state = $this->params;
         $this->getStaticData();
 
@@ -74,7 +82,9 @@ class GajiJkkJkmBpjs extends Component
     public function getStaticData()
     {
         try {
-            $getSkpd = Skpd::orderBy('kode_skpd', 'ASC')->get();
+            $getSkpd = new Skpd();
+            if (!$this->isAdmin) $getSkpd = $getSkpd->where('id', '=', Auth::user()->id_skpd);
+            $getSkpd = $getSkpd->orderBy('kode_skpd', 'ASC')->get();
 
             $this->staticData['skpd'] = $getSkpd;
             $this->staticData['bulan'] = (new MainHelper)->bulan;
@@ -94,11 +104,9 @@ class GajiJkkJkmBpjs extends Component
     {
         try {
 
-            $editData = Pengajuan::with([
-                'skpd'
-            ])->where('uuid', '=', $uuid)
-                ->where('status', '=', 0)
-                ->firstOrFail();
+            $editData = Pengajuan::with(['skpd'])->where('uuid', '=', $uuid)->where('status', '=', 0);
+            if (!$this->isAdmin) $editData = $editData->where('id_creator', '=', Auth::id());
+            $editData = $editData->firstOrFail();
             $this->editData = $editData;
         } catch (\Throwable $th) {
             abort(404);
@@ -239,7 +247,6 @@ class GajiJkkJkmBpjs extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
             (new MainHelper)->doAlert($this);
-            dd($th);
         }
     }
 

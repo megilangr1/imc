@@ -155,7 +155,6 @@ class PrintController extends Controller
 
             return $pdf->stream('Resume' . date('mdY_His') . $data->id  . '.pdf');
         } catch (\Throwable $th) {
-            dd($th);
             abort(500);
         }
     }
