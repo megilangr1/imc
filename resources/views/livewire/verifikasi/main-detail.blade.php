@@ -471,25 +471,37 @@
                                                 </h6>
 
                                                 <div class="flex flex-col gap-1">
-                                                    <div class="w-full flex items-center justify-center gap-2">
-                                                        <div>Status Verifikasi</div>
-                                                        <div>:</div>
-                                                        <div class="flex-auto font-semibold">
+                                                    <div
+                                                        class="btn btn-info btn-outline btn-xs btn-wide justify-start group">
+                                                        <div class="group-hover:text-white">Status Verifikasi</div>
+                                                        <div class="group-hover:text-white">:</div>
+                                                        <div class="font-semibold">
                                                             @if ($detailData->status < 2)
-                                                                Belum di-Verifikasi
+                                                                Belum di-Validasi
                                                             @else
-                                                                {{ $item['status_verifikasi'] ? 'Sesuai' : 'Tidak Sesuai' }}
+                                                                @if ($item['status_verifikasi'])
+                                                                    <span
+                                                                        class="text-info group-hover:text-white">Sesuai</span>
+                                                                @else
+                                                                    <span class="text-red-500">Tidak Sesuai</span>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                     </div>
-                                                    <div class="w-full flex items-center justify-center gap-2">
-                                                        <div>Status Validasi</div>
-                                                        <div>:</div>
-                                                        <div class="flex-auto font-semibold">
+                                                    <div
+                                                        class="btn btn-success btn-outline btn-xs btn-wide justify-start group">
+                                                        <div class="group-hover:text-white">Status Validasi</div>
+                                                        <div class="group-hover:text-white">:</div>
+                                                        <div class="font-semibold">
                                                             @if ($detailData->status < 4)
                                                                 Belum di-Validasi
                                                             @else
-                                                                {{ $item['status_validasi'] ? 'Sesuai' : 'Tidak Sesuai' }}
+                                                                @if ($item['status_validasi'])
+                                                                    <span
+                                                                        class="text-success group-hover:text-white">Sesuai</span>
+                                                                @else
+                                                                    <span class="text-red-500">Tidak Sesuai</span>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                     </div>
