@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Livewire\Verifikasi;
+namespace App\Livewire\Validasi;
 
 use App\Helpers\MainHelper;
 use App\Models\Pengajuan;
 use App\Models\Skpd;
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -23,8 +22,8 @@ class MainIndex extends Component
         'kelompok_skpd' => [],
         'status' => [
             // 0 => 'Draft / Belum di-Ajukan Verifikasi',
-            1 => 'Menunggu Untuk di-Verifikasi',
-            2 => 'Verifikasi di-Tolak',
+            // 1 => 'Menunggu Untuk di-Verifikasi',
+            // 2 => 'Verifikasi di-Tolak',
             3 => 'Terverfikasi, Menunggu Untuk di-Validasi',
             4 => 'Validasi di-Tolak',
             5 => 'Data Terverifikasi dan Tervalidasi',
@@ -53,7 +52,7 @@ class MainIndex extends Component
     #[Url(except: '')]
     public $order_type = 'DESC';
 
-    public $status = 1;
+    public $status = 3;
     // End Filter
 
     public function mount()
@@ -88,11 +87,11 @@ class MainIndex extends Component
             $data = $data->where('status', '=', $this->status);
         }
 
-        $data = $data->where('status', '>', 0);
+        $data = $data->where('status', '>', 2);
         $data = $data->orderBy($this->order_by, $this->order_type);
         $data = $data->paginate(10);
 
-        return view('livewire.verifikasi.main-index', [
+        return view('livewire.validasi.main-index', [
             'data' => $data
         ]);
     }

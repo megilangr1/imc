@@ -17,6 +17,8 @@ use App\Livewire\Pencairan\TunjanganKinerja;
 use App\Livewire\Pencairan\UpGu;
 use App\Livewire\Pengguna\MainIndex as PenggunaMainIndex;
 use App\Livewire\Skpd\MainIndex as SkpdMainIndex;
+use App\Livewire\Validasi\MainDetail as ValidasiMainDetail;
+use App\Livewire\Validasi\MainIndex as ValidasiMainIndex;
 use App\Livewire\Verifikasi\MainDetail as VerifikasiMainDetail;
 use App\Livewire\Verifikasi\MainIndex as VerifikasiMainIndex;
 use Illuminate\Support\Facades\Route;
@@ -98,6 +100,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', VerifikasiMainIndex::class)->name('index');
         Route::get('/{uuid}', VerifikasiMainDetail::class)->name('verify');
         Route::get('/{uuid}/detail', VerifikasiMainDetail::class)->name('detail');
+    });
+
+    Route::prefix('validasi')->middleware(['role:MeGGi|Administrator|Validator'])->name('validasi.')->group(function () {
+        Route::get('/', ValidasiMainIndex::class)->name('index');
+        Route::get('/{uuid}', ValidasiMainDetail::class)->name('verify');
+        Route::get('/{uuid}/detail', ValidasiMainDetail::class)->name('detail');
     });
 });
 

@@ -83,7 +83,7 @@
                                 </a>
                             @endif
 
-                            @if ($item->status === 3)
+                            @if ($item->status > 1 && $item->status < 4)
                                 <a href="{{ route('verifikasi.detail', ['uuid' => $item->uuid]) }}"
                                     class="btn btn-xs btn-neutral w-full tracking-wider">
                                     Detail
@@ -94,7 +94,7 @@
 
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center p-2">Belum Ada Data</td>
+                        <td colspan="8" class="text-center p-2">Belum Ada Data</td>
                     </tr>
                 @endforelse
             </tbody>

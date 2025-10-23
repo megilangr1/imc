@@ -1,10 +1,9 @@
 <div class="flex flex-col gap-3">
-    <x-main.page-header title="Data Permohonan Pengajuan Pencairan">
+    <x-main.page-header title="Data Permohonan Verifikasi">
         <a href="{{ route('pencairan.create') }}" wire:navigate>
             <button type="button" class="btn btn-neutral btn-sm">Tambah Data</button>
         </a>
     </x-main.page-header>
-
 
     <div class="w-full grid grid-cols-12 gap-x-3 gap-y-2">
         <div class="relative w-full col-span-12 md:col-span-8 lg:col-span-4">
@@ -42,6 +41,9 @@
                         No.
                     </th>
                     <td>
+                        <x-table.th label="SKPD" field="kode_skpd" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
+                    <td>
                         <x-table.th label="Jenis Pengajuan" field="kode_jenis_pengajuan" :orderBy="$order_by"
                             :orderType="$order_type" />
                     </td>
@@ -67,48 +69,32 @@
                 @forelse ($data as $item)
                     <tr>
                         <th class="text-center bg-slate-200">{{ $loop->iteration }}.</th>
+                        <td>{{ $item->nama_skpd }}</td>
                         <td>{{ $item->nama_jenis_pengajuan }}</td>
                         <td>{{ $item->nomor_spm }}</td>
                         <td>{{ date('d/m/Y', strtotime($item->tanggal_spm)) }}</td>
                         <td class="font-semibold text-center">{{ $item->status_label }}</td>
                         <td>{{ $item->nama_creator }}</td>
                         <th class="text-center">
-                            <button type="button" class="btn btn-xs btn-neutral w-full font-normal tracking-wider"
-                                popovertarget="popover-{{ $loop->iteration }}"
-                                style="anchor-name:--anchor-{{ $loop->iteration }}">
-                                Aksi
-                            </button>
-                            <div class="dropdown dropdown-end menu w-auto rounded-box bg-base-100 border border-slate-300 shadow-lg text-xs flex flex-col gap-1 px-4"
-                                popover id="popover-{{ $loop->iteration }}"
-                                style="position-anchor:--anchor-{{ $loop->iteration }}">
-                                <h5 class="text-center">Aksi Data</h5>
-                                <hr class="border-t-1 border-t-slate-300 my-1">
-                                <button type="button" class="btn btn-xs btn-outline w-full font-normal tracking-wider"
-                                    popovertarget="popover-{{ $loop->iteration }}"
-                                    wire:click="doDetail('{{ $item->kode_jenis_pengajuan }}', '{{ $item->uuid }}')">
-                                    Detail Data
-                                </button>
-                                @if ($item->status === 0)
-                                    <button type="button"
-                                        class="btn btn-xs btn-outline w-full font-normal tracking-wider"
-                                        popovertarget="popover-{{ $loop->iteration }}"
-                                        wire:click="doEdit('{{ $item->kode_jenis_pengajuan }}', '{{ $item->uuid }}')">
-                                        Edit Data
-                                    </button>
-                                    <button type="button" popovertarget="popover-{{ $loop->iteration }}"
-                                        class="btn btn-xs btn-outline w-full font-normal tracking-wider delete-btn"
-                                        popovertarget="popover-{{ $loop->iteration }}" data-uuid="{{ $item->uuid }}"
-                                        data-target="pencairan.main-index">
-                                        Hapus Data
-                                    </button>
-                                @endif
-                            </div>
+                            @if ($item->status === 3)
+                                <a href="{{ route('validasi.verify', ['uuid' => $item->uuid]) }}"
+                                    class="btn btn-xs btn-primary text-white w-full tracking-wider">
+                                    Validasi
+                                </a>
+                            @endif
+
+                            @if ($item->status > 3)
+                                <a href="{{ route('validasi.detail', ['uuid' => $item->uuid]) }}"
+                                    class="btn btn-xs btn-neutral w-full tracking-wider">
+                                    Detail
+                                </a>
+                            @endif
                         </th>
                     </tr>
 
                 @empty
                     <tr>
-                        <td colspan="7" class="text-center p-2">Belum Ada Data</td>
+                        <td colspan="8" class="text-center p-2">Belum Ada Data</td>
                     </tr>
                 @endforelse
             </tbody>

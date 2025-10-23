@@ -421,7 +421,7 @@
 
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center p-2">Belum Ada Data</td>
+                        <td colspan="7" class="text-center p-2">Belum Ada Data</td>
                     </tr>
                 @endforelse
             </tbody>

@@ -88,64 +88,24 @@
                 </details>
             </li>
         @endif
-        {{-- <li>
-            <details {{ request()->is('master-data/*') ? 'open' : '' }}>
-                <summary class="{{ request()->is('master-data/*') ? 'bg-neutral text-white' : '' }}">
-                    Master Data
-                </summary>
-                <ul class="mt-1">
-                    <li>
-                        <a href="{{ route('pengguna') }}" wire:current="menu-active" wire:navigate>
-                            Akun Pengguna
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('opd') }}" wire:current="menu-active" wire:navigate>
-                            Daftar OPD
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('opd-pengguna') }}" wire:current="menu-active" wire:navigate>
-                            Akun OPD
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('jenis-produk-hukum') }}" wire:current="menu-active" wire:navigate>
-                            Jenis Produk Hukum
-                        </a>
-                    </li>
-                </ul>
-            </details>
-        </li>
-        <li>
-            <details {{ request()->is('permohonan/*') ? 'open' : '' }}>
-                <summary class="{{ request()->is('permohonan/*') ? 'bg-neutral text-white' : '' }}">
-                    Permohonan
-                </summary>
-                <ul class="mt-1">
-                    <li>
-                        <a href="{{ route('permohonan.index') }}" wire:current="menu-active" wire:navigate>
-                            Daftar Permohonan
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('permohonan.create') }}" wire:current="menu-active" wire:navigate>
-                            Formulir Permohonan
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('opd-pengguna') }}" wire:current="menu-active" wire:navigate>
-                            Akun OPD
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('jenis-produk-hukum') }}" wire:current="menu-active" wire:navigate>
-                            Jenis Produk Hukum
-                        </a>
-                    </li>
-                </ul>
-            </details>
-        </li> --}}
+
+        @if (auth()->user()->hasAnyRole(['MeGGi', 'Administrator', 'Validator']))
+            <li>
+                <details {{ request()->is(['validasi', 'validasi/*']) ? 'open' : '' }}>
+                    <summary class="{{ request()->is(['validasi', 'validasi/*']) ? 'bg-neutral text-white' : '' }}">
+                        Validasi Permohonan
+                    </summary>
+                    <ul class="mt-1">
+                        <li>
+                            <a href="{{ route('validasi.index') }}" wire:navigate>
+                                Daftar Permohonan
+                            </a>
+                        </li>
+                    </ul>
+                </details>
+            </li>
+        @endif
+
         <li>
             <a href="{{ route('dummy') }}" wire:current="menu-active" wire:navigate>
                 Dummy
