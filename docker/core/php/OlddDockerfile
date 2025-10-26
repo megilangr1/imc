@@ -1,0 +1,63 @@
+# ===========================================
+# Stage 1: Build frontend assets
+# ===========================================
+FROM node:22-alpine AS frontend
+
+WORKDIR /app
+
+# Hanya copy file yang diperlukan untuk build (lebih efisien)
+COPY ./src/package*.json ./
+RUN npm ci
+
+# Copy seluruh source untuk build (setelah dependencies terpasang)
+COPY ./src ./
+RUN npm run build
+
+
+# ===========================================
+# Stage 2: PHP base image for Laravel
+# ===========================================
+FROM php:8.2-fpm-alpine AS backend
+
+WORKDIR /var/www/html
+
+# Install system dependencies dan PHP extensions
+RUN apk add --no-cache \
+  git \
+  unzip \
+  libpng-dev \
+  libjpeg-turbo-dev \
+  freetype-dev \
+  oniguruma-dev \
+  libxml2-dev \
+  libzip-dev \
+  curl \
+  bash \
+  && docker-php-ext-configure gd --with-freetype --with-jpeg \
+  && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
+
+# Install Composer (resmi)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copy project source code
+COPY ./src ./
+
+# Copy hasil build frontend
+COPY --from=frontend /app/public/build ./public/build
+
+# Copy environment example (optional)
+RUN cp .env.example .env || true
+
+# Install Laravel dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Generate key dan optimize
+RUN php artisan key:generate && php artisan optimize
+
+# Set permission (penting untuk Laravel)
+RUN chown -R www-data:www-data storage bootstrap/cache
+RUN chmod -R 775 storage bootstrap/cache
+
+EXPOSE 9000
+
+CMD ["php-fpm"]

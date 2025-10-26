@@ -1,0 +1,65 @@
+# ===========================================
+# Stage 1: Build frontend assets
+# ===========================================
+FROM node::22-alpine AS frontend
+
+# Set working directory
+WORKDIR /app
+
+# Copy source code
+COPY ./src ./
+
+# Install dependencies dan build assets
+RUN npm ci && npm run build
+
+
+# ===========================================
+# Stage 2: PHP base image for Laravel
+# ===========================================
+FROM php:8.2-fpm-alpine AS backend
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+  git \
+  unzip \
+  zip \
+  libpng-dev \
+  libjpeg-dev \
+  libfreetype6-dev \
+  libonig-dev \
+  libxml2-dev \
+  libzip-dev \
+  curl \
+  && docker-php-ext-configure gd --with-freetype --with-jpeg \
+  && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip \
+  && rm -rf /var/lib/apt/lists/*
+
+# Install Composer (from official image)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copy project source
+COPY ./src ./
+
+# Copy compiled frontend assets dari stage Node
+COPY --from=frontend /app/public/build ./public/build
+
+# Copy environment (jika ada file .env.example)
+RUN cp .env.example .env || true
+
+# Install Laravel dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Generate key dan optimize
+RUN php artisan key:generate && \
+  php artisan optimize
+
+# Change permissions
+RUN chown -R www-data:www-data storage bootstrap/cache
+
+# Expose port FPM
+EXPOSE 9000
+
+CMD ["php-fpm"]
