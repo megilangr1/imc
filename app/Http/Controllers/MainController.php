@@ -8,7 +8,7 @@ class MainController extends Controller
 {
     public function main()
     {
-        return view('main');
+        return view('login');
     }
 
     public function dashboard()

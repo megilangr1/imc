@@ -106,11 +106,11 @@
             </li>
         @endif
 
-        <li>
+        {{-- <li>
             <a href="{{ route('dummy') }}" wire:current="menu-active" wire:navigate>
                 Dummy
             </a>
-        </li>
+        </li> --}}
     </ul>
 
     <div class="border-t border-slate-300 p-3 mt-auto flex flex-col gap-2">

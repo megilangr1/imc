@@ -1,5 +1,5 @@
 @extends('layouts.master')
 
 @section('content')
-    OAWKOWAK
+    Selamat Datang di {{ env('APP_NAME') }}
 @endsection
