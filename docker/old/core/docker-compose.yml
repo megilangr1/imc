@@ -9,7 +9,7 @@ services:
     environment:
       # APP_ENV: production
       # APP_DEBUG: false
-      APP_URL: https://siadik.sukabumikota.go.id
+      APP_URL: http://36.95.57.60
       DB_CONNECTION: mysql
       DB_HOST: 172.17.0.1
       DB_PORT: 3306
@@ -32,19 +32,9 @@ services:
       - shared_net
     labels:
       - "traefik.enable=true"
-
-      # 🧭 Router utama
-      - "traefik.http.routers.siadik.rule=Host(`siadik.sukabumikota.go.id`)"
-      - "traefik.http.routers.siadik.entrypoints=websecure"
-
-      # 🔒 HTTPS via Let's Encrypt
-      - "traefik.http.routers.siadik.tls=true"
-      - "traefik.http.routers.siadik.tls.certresolver=myresolver"
-
-      # 🔀 Arahkan trafik ke port 80 (nginx internal)
+      - "traefik.http.routers.siadik.rule=Host(`36.95.57.60`)"
+      - "traefik.http.routers.siadik.entrypoints=web"
       - "traefik.http.services.siadik.loadbalancer.server.port=80"
-
-      # 🧩 Pastikan pakai network yang sama
       - "traefik.docker.network=shared_net"
 
 networks:
