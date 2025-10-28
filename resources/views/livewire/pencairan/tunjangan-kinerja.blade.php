@@ -85,7 +85,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-9">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="kegiatan"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.kegiatan') ? 'text-red-500' : '' }}">
                                 Kegiatan :
@@ -116,7 +116,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-3">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="bulan"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.bulan') ? 'text-red-500' : '' }}">
                                 Pembayaran Bulan :
@@ -152,7 +152,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-5">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="nomor_spm"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.nomor_spm') ? 'text-red-500' : '' }}">
                                 Nomor SPM :
@@ -183,7 +183,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-3">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="tanggal_spm"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.tanggal_spm') ? 'text-red-500' : '' }}">
                                 Tanggal SPM :
@@ -215,7 +215,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-4">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="nominal"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.nominal') ? 'text-red-500' : '' }}">
                                 Nominal :
@@ -290,7 +290,7 @@
                     <h5 class="py-2 px-3 font-semibold bg-sky-200">Informasi Penanggung Jawab Kegiatan</h5>
 
                     <div class="w-full grid grid-cols-12 px-4 pb-1 gap-3">
-                        <div class="col-span-12 md:col-span-12 lg:col-span-4">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="nip_pa_kpa"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.nip_pa_kpa') ? 'text-red-500' : '' }}">
                                 NIP PA / KPA :
@@ -322,7 +322,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-4">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="nama_pa_kpa"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.nama_pa_kpa') ? 'text-red-500' : '' }}">
                                 Nama PA / KPA :
@@ -354,7 +354,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-4">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="jabatan_pa_kpa"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.jabatan_pa_kpa') ? 'text-red-500' : '' }}">
                                 Jabatan PA / KPA :
@@ -386,7 +386,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-4">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="nip_ppk"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.nip_ppk') ? 'text-red-500' : '' }}">
                                 NIP PPK :
@@ -417,7 +417,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-4">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="nama_ppk"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.nama_ppk') ? 'text-red-500' : '' }}">
                                 Nama PPK :
@@ -448,7 +448,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-4">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="jabatan_ppk"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.jabatan_ppk') ? 'text-red-500' : '' }}">
                                 Jabatan PPK :

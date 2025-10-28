@@ -117,7 +117,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-5">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="nomor_spm"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.nomor_spm') ? 'text-red-500' : '' }}">
                                 Nomor SPM :
@@ -148,7 +148,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-3">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="tanggal_spm"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.tanggal_spm') ? 'text-red-500' : '' }}">
                                 Tanggal SPM :
@@ -180,7 +180,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-span-12 md:col-span-12 lg:col-span-4">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
                             <label for="nominal"
                                 class="block text-sm font-medium mb-2 {{ $errors->has('state.nominal') ? 'text-red-500' : '' }}">
                                 Nominal :
