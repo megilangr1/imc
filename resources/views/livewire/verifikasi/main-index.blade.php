@@ -77,14 +77,14 @@
                         <td>{{ $item->nama_creator }}</td>
                         <th class="text-center">
                             @if ($item->status === 1)
-                                <a href="{{ route('verifikasi.verify', ['uuid' => $item->uuid]) }}"
+                                <a href="{{ route('verifikasi.verify', ['uuid' => $item->uuid]) }}" wire:navigate
                                     class="btn btn-xs btn-success text-white w-full tracking-wider">
                                     Verifikasi
                                 </a>
                             @endif
 
                             @if ($item->status > 1 && $item->status < 4)
-                                <a href="{{ route('verifikasi.detail', ['uuid' => $item->uuid]) }}"
+                                <a href="{{ route('verifikasi.detail', ['uuid' => $item->uuid]) }}" wire:navigate
                                     class="btn btn-xs btn-neutral w-full tracking-wider">
                                     Detail
                                 </a>

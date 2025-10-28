@@ -86,11 +86,11 @@
                                 </div>
                             </form>
 
-                            <a href="{{ route('main') }}">
+                            {{-- <a href="{{ route('main') }}">
                                 <div class="divider text-xs font-semibold text-slate-600 my-1">
                                     Kembali Ke Halaman Utama
                                 </div>
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                     <div class="bg-muted relative hidden md:block">
