@@ -4,17 +4,26 @@ services:
     container_name: traefik
     restart: unless-stopped
     command:
-      # 🔧 Basic config
-      - "--api.dashboard=true"
+      # 📦 Providers
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+
+      # 🚪 Entrypoints
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
 
-      # 🔒 Let's Encrypt (optional untuk production)
+      # 🔁 Redirect HTTP → HTTPS otomatis
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+
+      # 🔒 Let's Encrypt (SSL)
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=admin@siadik.localhost"
+      - "--certificatesresolvers.myresolver.acme.email=admin@sukabumikota.go.id"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+
+      # 🧰 Dashboard (optional)
+      - "--api.dashboard=false"
+      - "--api.insecure=false" # ❗ Hanya aktifkan untuk debug, matikan di production
     ports:
       - "80:80"
       - "443:443"
