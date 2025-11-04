@@ -2,20 +2,22 @@
 
 @section('content')
     {{-- Hero Section --}}
-    <section class="hero min-h-[90vh] bg-base-200">
-        <div class="hero-content flex-col lg:flex-row-reverse">
-            <img src="https://placehold.co/500x350" class="sm:max-w-sm rounded-lg shadow-2xl" alt="Hero Image" />
-            <div>
-                <h1 class="text-5xl font-bold leading-tight">
-                    Build better web apps with <span class="text-primary">{{ config('app.name') }}</span>
-                </h1>
-                <p class="py-6">
-                    A modern Laravel 12 + Livewire + DaisyUI starter kit designed for simplicity and speed.
-                </p>
-                <a href="/register" class="btn btn-primary">Get Started</a>
+    <div class="bg-base-200">
+        <section class="container mx-auto hero min-h-[90vh]">
+            <div class="hero-content flex-col lg:flex-row-reverse">
+                <img src="https://placehold.co/500x350" class="sm:max-w-sm rounded-lg shadow-2xl" alt="Hero Image" />
+                <div>
+                    <h1 class="text-5xl font-bold leading-tight">
+                        Build better web apps with <span class="text-primary">{{ config('app.name') }}</span>
+                    </h1>
+                    <p class="py-6">
+                        A modern Laravel 12 + Livewire + DaisyUI starter kit designed for simplicity and speed.
+                    </p>
+                    <a href="/register" class="btn btn-primary">Get Started</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
     {{-- Features Section --}}
     <section id="features" class="py-20 container mx-auto px-4">

@@ -12,7 +12,7 @@
                                     {{ config('app.name') ?? 'Laravel' }}
                                 </h1>
                                 <p class="text-[10px] sm:text-xs text-muted-foreground text-balance">
-                                    Silahkan Login Untuk Mengakses Aplikasi
+                                    Silahkan Login Untuk Mengakses Halaman Admin
                                 </p>
                                 <hr class="w-full mt-2 border-t-1" />
                             </div>
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="bg-muted relative hidden md:block">
-                        <img src="/img/login-banner.jpg" alt="Image"
+                        <img src="{{ asset('img/logo.png') }}" alt="Image"
                             class="absolute inset-0 h-full w-full object-cover " />
                     </div>
                 </div>
