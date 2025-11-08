@@ -35,20 +35,3 @@ window.deleteSwal = (event) => {
         }
     });
 };
-
-window.verifySwal = (event) => {
-    Swal.fire({
-        title: "Ajukan Verifikasi Data ?",
-        text: "Data Yang di-Ajukan Tidak Dapat di-Ubah Informasinya!",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#4f46e5",
-        cancelButtonColor: "#666666",
-        confirmButtonText: "Ya, Lakukan Pengajuan!",
-        cancelButtonText: "Batalkan Aksi",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            event && event();
-        }
-    });
-};

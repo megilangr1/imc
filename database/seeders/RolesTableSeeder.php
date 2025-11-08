@@ -26,14 +26,6 @@ class RolesTableSeeder extends Seeder
                 'name' => 'Operator',
                 'guard_name' => 'web',
             ],
-            [
-                'name' => 'Verifikator',
-                'guard_name' => 'web',
-            ],
-            [
-                'name' => 'Validator',
-                'guard_name' => 'web',
-            ],
         ];
 
         try {

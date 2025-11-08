@@ -27,10 +27,7 @@ class MainIndex extends Component
 
     #[Locked]
     public $params = [
-        'id_skpd' => null,
-
         'name' => null,
-        'nip' => null,
         'jabatan' => null,
 
         'email' => null,
@@ -47,20 +44,13 @@ class MainIndex extends Component
     // Static Data 
     #[Locked]
     public $staticData = [
-        'skpd' => [],
         'roles' => [],
     ];
     // End Static Data
 
     // Tom Select
     #[Locked]
-    public $tomSelectData = [
-        'skpd' => [
-            'selectId' => 'skpd',
-            'value' => '',
-            'option' => null,
-        ],
-    ];
+    public $tomSelectData = [];
     // End Tom Select
 
 
@@ -84,10 +74,8 @@ class MainIndex extends Component
     public function getStaticData()
     {
         try {
-            $getSkpd = Skpd::orderBy('kode_skpd', 'ASC')->get();
             $getRoles = Role::where('name', '!=', 'MeGGi')->get();
 
-            $this->staticData['skpd'] = $getSkpd;
             $this->staticData['roles'] = $getRoles;
         } catch (\Throwable $th) {
             (new MainHelper)->doAlert($this);
@@ -98,7 +86,7 @@ class MainIndex extends Component
     public function render()
     {
         $data = new User();
-        $data = $data->with(['skpd', 'roles']);
+        $data = $data->with(['roles']);
 
         $data = $data->where('email', '!=', 'admin@mail.com');
         $data = $data->where('id', '!=', Auth::user()->id);
@@ -108,11 +96,7 @@ class MainIndex extends Component
                 $q->where('nip', 'LIKE', '%' . $this->search . '%')
                     ->orWhere('name', 'LIKE', '%' . $this->search . '%')
                     ->orWhere('jabatan', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('email', 'LIKE', '%' . $this->search . '%')
-                    ->orWhereHas('skpd', function ($q1) {
-                        $q1->where('nama_skpd', 'LIKE', '%' . $this->search . '%')
-                            ->orWhere('kode_skpd', 'LIKE', '%' . $this->search . '%');
-                    });
+                    ->orWhere('email', 'LIKE', '%' . $this->search . '%');
             });
         }
 
@@ -142,17 +126,6 @@ class MainIndex extends Component
             $this->state['jabatan'] = $this->editData['jabatan'];
             $this->state['email'] = $this->editData['email'];
             $this->state['roles'] = $this->editData->getRoleNames()[0] ?? 'Administrator';
-
-            if ($this->editData->skpd != null) {
-                $this->state['id_skpd'] = $this->editData->skpd->uuid;
-
-                $tomSelectData['skpd']['selectId'] = 'skpd';
-                $tomSelectData['skpd']['value'] = $this->editData->skpd->uuid;
-                // $tomSelectData['opd']['option'] = [
-                //     'value' => $this->editData->opd->uuid,
-                //     'text' => $this->editData->opd->nama_opd,
-                // ];
-            }
         } else {
             $this->reset('editData');
         }
@@ -172,8 +145,6 @@ class MainIndex extends Component
     public function doCreate()
     {
         $this->validate([
-            'state.id_skpd' => 'nullable|string|exists:skpds,uuid',
-            'state.nip' => 'nullable|string',
             'state.name' => 'required|string',
             'state.jabatan' => 'nullable|string',
 
@@ -181,8 +152,6 @@ class MainIndex extends Component
             'state.password' => 'required|string|min:8|confirmed',
             'state.roles' => 'required|string|exists:roles,name',
         ], [], [
-            'state.id_skpd' => 'Satuan Kerja Perangkat Daerah (SKPD)',
-            'state.nip' => 'Nomor Induk Pegawai (NIP)',
             'state.name' => 'Nama Lengkap',
             'state.jabatan' => 'Jabatan',
 
@@ -193,15 +162,8 @@ class MainIndex extends Component
 
         DB::beginTransaction();
         try {
-            if ($this->state['id_skpd'] != null) {
-                $skpd = Skpd::where('uuid', '=', $this->state['id_skpd'])->firstOrFail();
-            }
-
             $data = User::firstOrCreate([
-                'id_skpd' => $skpd->id ?? null,
-
                 'name' => $this->state['name'],
-                'nip' => $this->state['nip'],
                 'jabatan' => $this->state['jabatan'],
 
                 'email' => $this->state['email'],
@@ -222,7 +184,7 @@ class MainIndex extends Component
     {
         DB::beginTransaction();
         try {
-            $this->editData = User::with(['skpd', 'roles'])->where('uuid', '=', $uuid)->firstOrFail();
+            $this->editData = User::with(['roles'])->where('uuid', '=', $uuid)->firstOrFail();
             $this->showForm(true, true);
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -233,8 +195,6 @@ class MainIndex extends Component
     public function doUpdate()
     {
         $this->validate([
-            'state.id_skpd' => 'nullable|string|exists:skpds,uuid',
-            'state.nip' => 'nullable|string',
             'state.name' => 'required|string',
             'state.jabatan' => 'nullable|string',
 
@@ -243,8 +203,6 @@ class MainIndex extends Component
 
             'state.roles' => 'required|string|exists:roles,name',
         ], [], [
-            'state.id_skpd' => 'Satuan Kerja Perangkat Daerah (SKPD)',
-            'state.nip' => 'Nomor Induk Pegawai (NIP)',
             'state.name' => 'Nama Lengkap',
             'state.jabatan' => 'Jabatan',
 
@@ -258,15 +216,8 @@ class MainIndex extends Component
             $data = User::where('uuid', '=', $this->editData->uuid)->firstOrFail();
             $password = $this->state['password'] != null ? Hash::make($this->state['password']) : $data->password;
 
-            if ($this->state['id_skpd'] != null) {
-                $skpd = Skpd::where('uuid', '=', $this->state['id_skpd'])->firstOrFail();
-            }
-
             $update = $data->update([
-                'id_skpd' => $skpd->id ?? null,
-
                 'name' => $this->state['name'],
-                'nip' => $this->state['nip'],
                 'jabatan' => $this->state['jabatan'],
 
                 'email' => $this->state['email'],
@@ -304,28 +255,6 @@ class MainIndex extends Component
     }
 
     // Event
-    #[On('selectedSkpd')]
-    public function selectedSkpd($value)
-    {
-        $tomSelectData = $this->tomSelectData;
-
-        if ($value !== null) {
-            $this->state['id_skpd'] = $value['uuid'];
-
-            $tomSelectData['skpd']['selectId'] = 'skpd';
-            $tomSelectData['skpd']['value'] = $value['uuid'];
-            $tomSelectData['skpd']['option'] = null;
-        }
-
-        $this->dispatch('setTomSelect', $tomSelectData);
-    }
-
-    public function resetSelectedSkpd()
-    {
-        $this->state['id_skpd'] = null;
-        $tomSelectData = $this->tomSelectData;
-        $this->dispatch('setTomSelect', $tomSelectData);
-    }
 
     // Filter Event
     #[On('setOrderBy')]

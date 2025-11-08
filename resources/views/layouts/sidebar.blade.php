@@ -35,11 +35,6 @@
                     </summary>
                     <ul class="mt-1">
                         <li>
-                            <a href="{{ route('skpd.index') }}" wire:current="menu-active" wire:navigate>
-                                Data Skpd
-                            </a>
-                        </li>
-                        <li>
                             <a href="{{ route('pengguna.index') }}" wire:current="menu-active" wire:navigate>
                                 Akun Pengguna
                             </a>
@@ -49,68 +44,11 @@
             </li>
         @endif
 
-        @if (auth()->user()->hasAnyRole(['MeGGi', 'Administrator', 'Operator']))
-            <li>
-                <details {{ request()->is(['pencairan', 'pencairan/*']) ? 'open' : '' }}>
-                    <summary class="{{ request()->is(['pencairan', 'pencairan/*']) ? 'bg-neutral text-white' : '' }}">
-                        Pengajuan Pencairan
-                    </summary>
-                    <ul class="mt-1">
-                        <li>
-                            <a href="{{ route('pencairan.index') }}" wire:navigate>
-                                Daftar Pengajuan
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('pencairan.create') }}" wire:navigate>
-                                Formulir Pengajuan
-                            </a>
-                        </li>
-                    </ul>
-                </details>
-            </li>
-        @endif
-
-        @if (auth()->user()->hasAnyRole(['MeGGi', 'Administrator', 'Verifikator']))
-            <li>
-                <details {{ request()->is(['verifikasi', 'verifikasi/*']) ? 'open' : '' }}>
-                    <summary
-                        class="{{ request()->is(['verifikasi', 'verifikasi/*']) ? 'bg-neutral text-white' : '' }}">
-                        Verifikasi Permohonan
-                    </summary>
-                    <ul class="mt-1">
-                        <li>
-                            <a href="{{ route('verifikasi.index') }}" wire:navigate>
-                                Daftar Permohonan
-                            </a>
-                        </li>
-                    </ul>
-                </details>
-            </li>
-        @endif
-
-        @if (auth()->user()->hasAnyRole(['MeGGi', 'Administrator', 'Validator']))
-            <li>
-                <details {{ request()->is(['validasi', 'validasi/*']) ? 'open' : '' }}>
-                    <summary class="{{ request()->is(['validasi', 'validasi/*']) ? 'bg-neutral text-white' : '' }}">
-                        Validasi Permohonan
-                    </summary>
-                    <ul class="mt-1">
-                        <li>
-                            <a href="{{ route('validasi.index') }}" wire:navigate>
-                                Daftar Permohonan
-                            </a>
-                        </li>
-                    </ul>
-                </details>
-            </li>
-        @endif
-
-        {{-- <li>
+        <li>
             <a href="{{ route('dummy') }}" wire:current="menu-active" wire:navigate>
                 Dummy
             </a>
-        </li> --}}
+        </li>
     </ul>
 
     <div class="border-t border-slate-300 p-3 mt-auto flex flex-col gap-2">

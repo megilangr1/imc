@@ -18,37 +18,6 @@
             <form wire:submit="actionForm">
                 <div class="w-full grid grid-cols-6 px-6 pb-2 gap-3">
 
-                    <div class="col-span-6 md:col-span-3 lg:col-span-2">
-                        <label for="nip"
-                            class="block text-sm font-medium mb-2 {{ $errors->has('state.nip') ? 'text-red-500' : '' }}">
-                            Nomor Induk Pegawai (NIP) :
-                        </label>
-                        <div class="relative">
-                            <input type="text" wire:model="state.nip" id="nip" name="nip"
-                                class="w-full input @error('state.nip') input-error @enderror"
-                                aria-describedby="nip-helper" placeholder="Masukan Nomor Induk Pegawai (NIP)..."
-                                autocomplete="false">
-                            <div
-                                class="absolute inset-y-0 end-0 {{ $errors->has('state.nip') ? 'flex' : 'hidden' }} items-center pointer-events-none pe-3">
-                                <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg"
-                                    width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="12" x2="12" y1="8" y2="12">
-                                    </line>
-                                    <line x1="12" x2="12.01" y1="16" y2="16">
-                                    </line>
-                                </svg>
-                            </div>
-                        </div>
-                        @error('state.nip')
-                            <p class="text-xs text-red-600 mt-1" id="nip-helper">
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
-
                     <div class="col-span-6 md:col-span-3 lg:col-span-4">
                         <label for="name"
                             class="block text-sm font-medium mb-2 {{ $errors->has('state.name') ? 'text-red-500' : '' }}">
@@ -76,67 +45,6 @@
                         </div>
                         @error('state.name')
                             <p class="text-xs text-red-600 mt-1" id="name-helper">
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
-
-                    <div class="col-span-6 lg:col-span-4">
-                        <div class="flex flex-col sm:flex-row justify-between gap-1 mb-2">
-                            <span
-                                class="flex-auto block text-sm font-medium {{ $errors->has('state.id_skpd') ? 'text-red-500' : '' }}"
-                                wire:click="$dispatchTo('modal.data-skpd', 'open-data-skpd-modal')">
-                                Satuan Kerja Perangkat Daerah (SKPD) :
-                            </span>
-                            <div class="ms-auto">
-                                <div class="flex gap-x-1">
-                                    @if ($state['id_skpd'] != null)
-                                        <span class="badge badge-xs badge-error cursor-pointer text-white"
-                                            wire:click="resetSelectedSkpd">
-                                            <svg class="shrink-0 size-2" xmlns="http://www.w3.org/2000/svg"
-                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" class="lucide lucide-rotate-ccw">
-                                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                                                <path d="M3 3v5h5" />
-                                            </svg>
-
-                                            Reset Pilihan
-                                        </span>
-                                    @endif
-                                    <span class="badge badge-xs badge-success cursor-pointer text-white"
-                                        wire:click="$dispatchTo('modal.data-skpd', 'open-data-skpd-modal')">
-                                        <svg class="shrink-0 size-2" xmlns="http://www.w3.org/2000/svg"
-                                            width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round" class="lucide lucide-sheet-icon lucide-sheet">
-                                            <rect width="18" height="18" x="3" y="3" rx="2"
-                                                ry="2" />
-                                            <line x1="3" x2="21" y1="9" y2="9" />
-                                            <line x1="3" x2="21" y1="15" y2="15" />
-                                            <line x1="9" x2="9" y1="9" y2="21" />
-                                            <line x1="15" x2="15" y1="9" y2="21" />
-                                        </svg>
-
-                                        Daftar Data
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div wire:ignore>
-                            <select wire:model="state.id_skpd" id="skpd" name="skpd"
-                                class="w-full @error('state.id_skpd') select-error @enderror"
-                                aria-describedby="skpd-helper">
-                                <option value="">Pilih Kelompok SKPD</option>
-                                @foreach ($staticData['skpd'] as $item)
-                                    <option value="{{ $item->uuid }}">
-                                        {{ $item->kode_skpd }} - {{ $item->nama_skpd }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @error('state.id_skpd')
-                            <p class="text-xs text-red-600 mt-1" id="skpd-helper">
                                 {{ $message }}
                             </p>
                         @enderror
@@ -354,16 +262,11 @@
                 <tr>
                     <td class="text-center" width="8%">No.</td>
                     <td>
-                        <x-table.th label="NIP" field="nip" :orderBy="$order_by" :orderType="$order_type" />
-                    </td>
-                    <td>
                         <x-table.th label="Nama" field="name" :orderBy="$order_by" :orderType="$order_type" />
                     </td>
                     <td>
                         <x-table.th label="Email" field="email" :orderBy="$order_by" :orderType="$order_type" />
                     </td>
-                    <td>Kode SKPD</td>
-                    <td>Nama SKPD</td>
                     <td>Hak Akses</td>
                     <td>
                         <x-table.th label="Pembuat" field="created_at" :orderBy="$order_by" :orderType="$order_type" />
@@ -375,11 +278,8 @@
                 @forelse ($data as $item)
                     <tr>
                         <td class="text-center bg-slate-200">{{ $loop->iteration }}.</td>
-                        <td>{{ $item->nip ?? '-' }}</td>
                         <td>{{ $item->name ?? '-' }}</td>
                         <td>{{ $item->email ?? '-' }}</td>
-                        <td>{{ $item->skpd->kode_skpd ?? '-' }}</td>
-                        <td>{{ $item->skpd->nama_skpd ?? '-' }}</td>
                         <td>{{ $item->getRoleNames()[0] ?? '-' }}</td>
                         <td>{{ $item->nama_creator }}</td>
                         <th class="text-center">
@@ -420,16 +320,8 @@
     <div class="w-full">
         {{ $data->onEachSide(1)->links() }}
     </div>
-
-    <livewire:modal.data-skpd />
 </div>
 
 @push('js')
-    <script>
-        document.addEventListener("livewire:navigated", () => {
-            initTomSelect('#skpd', {
-                maxItems: 1
-            });
-        });
-    </script>
+    <script></script>
 @endpush

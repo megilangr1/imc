@@ -22,10 +22,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'uuid',
-        'id_skpd',
 
         'name',
-        'nip',
         'jabatan',
 
         'email',
@@ -74,11 +72,6 @@ class User extends Authenticatable
         });
     }
 
-    public function skpd()
-    {
-        return $this->belongsTo(Skpd::class, 'id_skpd', 'id');
-    }
-
     public function getIsAdminAttribute(): bool
     {
         return $this->hasRole(['MeGGi', 'Administrator']);
@@ -87,15 +80,5 @@ class User extends Authenticatable
     public function getIsOperatorAttribute(): bool
     {
         return $this->hasRole(['Operator']);
-    }
-
-    public function getIsVerifikatorAttribute(): bool
-    {
-        return $this->hasRole(['Verifikator']);
-    }
-
-    public function getIsValidatorAttribute(): bool
-    {
-        return $this->hasRole(['Validator']);
     }
 }
