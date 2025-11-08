@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+    <div class="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10 bg-base-200">
         <div class="w-full max-w-sm md:max-w-3xl">
             <div class="flex flex-col gap-6">
                 <div class="card overflow-hidden grid p-0 md:grid-cols-2 border border-slate-300">
@@ -86,16 +86,16 @@
                                 </div>
                             </form>
 
-                            {{-- <a href="{{ route('main') }}">
+                            <a href="{{ route('main') }}">
                                 <div class="divider text-xs font-semibold text-slate-600 my-1">
                                     Kembali Ke Halaman Utama
                                 </div>
-                            </a> --}}
+                            </a>
                         </div>
                     </div>
                     <div class="bg-muted relative hidden md:block">
-                        <img src="{{ asset('img/logo.png') }}" alt="Image"
-                            class="absolute inset-0 h-full w-full object-cover " />
+                        <img src="{{ asset('img/banner-1.jpg') }}" alt="Image"
+                            class="absolute inset-0 h-full w-full object-cover" />
                     </div>
                 </div>
             </div>
