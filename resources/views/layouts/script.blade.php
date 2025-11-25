@@ -98,6 +98,19 @@
             }
         });
 
+        // Trix Set Input Content
+        Livewire.on('fill-trix', (value) => {
+            const trixEvent = value[0] ?? [];
+
+            if (trixEvent != null) {
+                const editor = document.querySelector('#' + trixEvent.hiddenInput)._x_refs?.trixInput
+                    ?.editor ??
+                    document.querySelector('trix-editor').editor;
+
+                editor.loadHTML(trixEvent.value || "");
+            }
+        });
+        // End Trix Set Input Content
     });
 </script>
 
@@ -105,6 +118,13 @@
     document.addEventListener('livewire:navigated', () => {
         // When Navigated
     });
+</script>
+
+<script>
+    // Trix disable file upload
+    document.addEventListener("trix-file-accept", e => e.preventDefault());
+    document.addEventListener("trix-attachment-add", e => e.preventDefault());
+    // End Trix disable file upload
 </script>
 
 @yield('js')

@@ -1,19 +1,16 @@
 <?php
 
-namespace App\Livewire\Pengguna;
+namespace App\Livewire\Kategori;
 
 use App\Helpers\MainHelper;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Kategori;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Spatie\Permission\Models\Role;
 
 class MainIndex extends Component
 {
@@ -26,25 +23,16 @@ class MainIndex extends Component
 
     #[Locked]
     public $params = [
-        'name' => null,
-        'jabatan' => null,
-
-        'email' => null,
-        'password' => null,
-        'password_confirmation' => null,
-
-        'roles' => 'Administrator',
+        'nama_kategori' => null,
     ];
 
     #[Locked]
-    public ?User $editData;
+    public ?Kategori $editData;
     // End Form State
 
     // Static Data 
     #[Locked]
-    public $staticData = [
-        'roles' => [],
-    ];
+    public $staticData = [];
     // End Static Data
 
     // Tom Select
@@ -73,9 +61,6 @@ class MainIndex extends Component
     public function getStaticData()
     {
         try {
-            $getRoles = Role::where('name', '!=', 'MeGGi')->get();
-
-            $this->staticData['roles'] = $getRoles;
         } catch (\Throwable $th) {
             (new MainHelper)->doAlert($this);
         }
@@ -84,18 +69,11 @@ class MainIndex extends Component
     #[Layout('layouts.master')]
     public function render()
     {
-        $data = new User();
-        $data = $data->with(['roles']);
-
-        $data = $data->where('email', '!=', 'admin@mail.com');
-        $data = $data->where('id', '!=', Auth::user()->id);
+        $data = new Kategori();
 
         if ($this->search != null) {
             $data = $data->where(function ($q) {
-                $q->where('nip', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('name', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('jabatan', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('email', 'LIKE', '%' . $this->search . '%');
+                $q->where('nama_kategori', 'LIKE', '%' . $this->search . '%');
             });
         }
 
@@ -103,7 +81,7 @@ class MainIndex extends Component
 
         $data = $data->paginate(10);
 
-        return view('livewire.pengguna.main-index', [
+        return view('livewire.kategori.main-index', [
             'data' => $data
         ]);
     }
@@ -118,13 +96,7 @@ class MainIndex extends Component
         $tomSelectData = $this->tomSelectData;
 
         if ($edit) {
-            $this->state['id_skpd'] = $this->editData['id_skpd'];
-
-            $this->state['name'] = $this->editData['name'];
-            $this->state['nip'] = $this->editData['nip'];
-            $this->state['jabatan'] = $this->editData['jabatan'];
-            $this->state['email'] = $this->editData['email'];
-            $this->state['roles'] = $this->editData->getRoleNames()[0] ?? 'Administrator';
+            $this->state['nama_kategori'] = $this->editData['nama_kategori'];
         } else {
             $this->reset('editData');
         }
@@ -144,31 +116,17 @@ class MainIndex extends Component
     public function doCreate()
     {
         $this->validate([
-            'state.name' => 'required|string',
-            'state.jabatan' => 'nullable|string',
-
-            'state.email' => 'required|string|email|unique:users,email',
-            'state.password' => 'required|string|min:8|confirmed',
-            'state.roles' => 'required|string|exists:roles,name',
+            'state.nama_kategori' => 'required|string|unique:kategoris,nama_kategori',
         ], [], [
-            'state.name' => 'Nama Lengkap',
-            'state.jabatan' => 'Jabatan',
-
-            'state.email' => 'Email',
-            'state.password' => 'Password',
-            'state.roles' => 'Hak Akses Pengguna',
+            'state.nama_kategori' => 'Nama Kategori',
         ]);
 
         DB::beginTransaction();
         try {
-            $data = User::firstOrCreate([
-                'name' => $this->state['name'],
-                'jabatan' => $this->state['jabatan'],
-
-                'email' => $this->state['email'],
-                'password' => Hash::make($this->state['password']),
+            $data = Kategori::firstOrCreate([
+                'nama_kategori' => $this->state['nama_kategori'],
+                'slug_kategori' => str()->slug($this->state['nama_kategori']),
             ]);
-            $data->syncRoles($this->state['roles']);
 
             DB::commit();
             (new MainHelper)->doAlert($this, 'success', 'Data Berhasil di-Buat !');
@@ -183,46 +141,31 @@ class MainIndex extends Component
     {
         DB::beginTransaction();
         try {
-            $this->editData = User::with(['roles'])->where('uuid', '=', $uuid)->firstOrFail();
+            $this->editData = Kategori::where('uuid', '=', $uuid)->firstOrFail();
             $this->showForm(true, true);
         } catch (\Throwable $th) {
             DB::rollBack();
             (new MainHelper)->doAlert($this);
+            dd($th);
         }
     }
 
     public function doUpdate()
     {
         $this->validate([
-            'state.name' => 'required|string',
-            'state.jabatan' => 'nullable|string',
-
-            'state.email' => 'required|string|email|unique:users,email,' . $this->editData->id,
-            'state.password' => 'nullable|string|min:8|confirmed',
-
-            'state.roles' => 'required|string|exists:roles,name',
+            'state.nama_kategori' => 'required|string|unique:kategoris,nama_kategori,' . $this->editData->id,
         ], [], [
-            'state.name' => 'Nama Lengkap',
-            'state.jabatan' => 'Jabatan',
-
-            'state.email' => 'Email',
-            'state.password' => 'Password',
-            'state.roles' => 'Hak Akses Pengguna',
+            'state.nama_kategori' => 'Nama Kategori',
         ]);
 
         DB::beginTransaction();
         try {
-            $data = User::where('uuid', '=', $this->editData->uuid)->firstOrFail();
-            $password = $this->state['password'] != null ? Hash::make($this->state['password']) : $data->password;
+            $data = Kategori::where('uuid', '=', $this->editData->uuid)->firstOrFail();
 
             $update = $data->update([
-                'name' => $this->state['name'],
-                'jabatan' => $this->state['jabatan'],
-
-                'email' => $this->state['email'],
-                'password' => $password,
+                'nama_kategori' => $this->state['nama_kategori'],
+                'slug_kategori' => str()->slug($this->state['nama_kategori']),
             ]);
-            $data->syncRoles($this->state['roles']);
 
             DB::commit();
             (new MainHelper)->doAlert($this, 'info', 'Perubahan Data Berhasil di-Simpan !');
@@ -238,7 +181,7 @@ class MainIndex extends Component
     {
         DB::beginTransaction();
         try {
-            $data = User::where('uuid', '=', $uuid)->firstOrFail();
+            $data = Kategori::where('uuid', '=', $uuid)->firstOrFail();
             $delete = $data->delete();
 
             DB::commit();

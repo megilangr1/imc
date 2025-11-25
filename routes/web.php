@@ -4,7 +4,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\StreamDocumentController;
 use App\Livewire\Dummy;
+use App\Livewire\Kategori\MainIndex as KategoriMainIndex;
 use App\Livewire\Pengguna\MainIndex as PenggunaMainIndex;
+use App\Livewire\Produk\MainForm as ProdukMainForm;
+use App\Livewire\Produk\MainIndex as ProdukMainIndex;
 use Illuminate\Support\Facades\Route;
 
 // Frontend
@@ -21,6 +24,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('master-data')->middleware(['role:MeGGi|Administrator'])->group(function () {
         Route::get('/data-pengguna', PenggunaMainIndex::class)->name('pengguna.index');
+        Route::get('/data-kategori', KategoriMainIndex::class)->name('kategori.index');
+
+        Route::prefix('data-produk')->name('produk.')->group(function () {
+            Route::get('/', ProdukMainIndex::class)->name('index');
+            Route::get('/tambah', ProdukMainForm::class)->name('create');
+            Route::get('/ubah/{uuid}', ProdukMainForm::class)->name('edit');
+        });
     });
 
     Route::get('/dummy', Dummy::class)->name('dummy');

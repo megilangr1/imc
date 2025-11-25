@@ -60,16 +60,14 @@ return [
             'report' => false,
         ],
 
-        'public-path' => [
-            'driver' => 'local',
-            'root' => public_path(''),
-            'url' => env('APP_URL') . '/public',
-            'visibility' => 'public',
-        ],
-
         'private-path' => [
             'driver' => 'local',
             'root' => storage_path('private-path'),
+        ],
+
+        'public-path' => [
+            'driver' => 'local',
+            'root' => storage_path('public-path'),
         ],
     ],
 

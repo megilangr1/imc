@@ -16,6 +16,7 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
+        "quill": "^2.0.3",
         "sweetalert2": "^11.24.1",
         "tom-select": "^2.4.3"
     }

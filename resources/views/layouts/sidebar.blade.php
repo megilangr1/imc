@@ -39,6 +39,16 @@
                                 Akun Pengguna
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('kategori.index') }}" wire:current="menu-active" wire:navigate>
+                                Kategori Produk
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('produk.index') }}" wire:current="menu-active" wire:navigate>
+                                Daftar Produk
+                            </a>
+                        </li>
                     </ul>
                 </details>
             </li>
