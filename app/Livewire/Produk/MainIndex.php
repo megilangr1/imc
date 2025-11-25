@@ -82,10 +82,6 @@ class MainIndex extends Component
 
             DB::commit();
             (new MainHelper)->doAlert($this, 'warning', 'Data Berhasil di-Hapus !');
-
-            if ($this->form && $this->editData->uuid === $uuid) {
-                $this->showForm(false, false);
-            }
         } catch (\Throwable $th) {
             DB::rollBack();
             (new MainHelper)->doAlert($this);

@@ -5,8 +5,8 @@
 
     <div class="w-full grid grid-cols-12">
         <div class="relative w-full col-span-12 md:col-span-8 lg:col-span-4">
-            <label class="sr-only" for="filter-search-data-kategori">Cari Data :</label>
-            <input type="text" name="filter-search-data-kategori" id="filter-search-data-kategori"
+            <label class="sr-only" for="filter-search-data-produk">Cari Data :</label>
+            <input type="text" name="filter-search-data-produk" id="filter-search-data-produk"
                 wire:model.live.debounce.500ms="search"
                 class="py-2 px-3 ps-9 block w-full border border-gray-300 text-sm rounded outline-none"
                 placeholder="Masukan Keyword Untuk Melakukan Pencarian...">
@@ -64,7 +64,7 @@
                                 <button type="button" popovertarget="popover-{{ $loop->iteration }}"
                                     class="btn btn-xs btn-outline w-full font-normal tracking-wider delete-btn"
                                     popovertarget="popover-{{ $loop->iteration }}" data-uuid="{{ $item->uuid }}"
-                                    data-target="kategori.main-index">
+                                    data-target="produk.main-index">
                                     Hapus Data
                                 </button>
                             </div>
