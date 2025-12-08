@@ -65,6 +65,7 @@ class MainIndex extends Component
         $data = $data->orderBy($this->order_by, $this->order_type);
 
         $data = $data->paginate(10);
+        // dd($data->toArray());
 
         return view('livewire.produk.main-index', [
             'data' => $data

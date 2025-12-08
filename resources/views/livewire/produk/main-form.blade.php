@@ -60,7 +60,7 @@
                             <select wire:model="state.id_kategori" id="kategori" name="kategori"
                                 class="w-full @error('state.id_kategori') select-error @enderror"
                                 aria-describedby="kategori-helper">
-                                <option value="">Pilih Kelompok SKPD</option>
+                                <option value="">Pilih Kelompok Kategori Produk</option>
                                 @foreach ($staticData['kategori'] as $item)
                                     <option value="{{ $item->uuid }}">
                                         {{ $item->nama_kategori }}

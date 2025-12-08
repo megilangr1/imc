@@ -32,9 +32,26 @@
                     <td>
                         <x-table.th label="Slug" field="slug_kategori" :orderBy="$order_by" :orderType="$order_type" />
                     </td>
+
                     <td>
                         <x-table.th label="Pembuat" field="created_at" :orderBy="$order_by" :orderType="$order_type" />
                     </td>
+                    <td>
+                        <x-table.th label="SKU" field="sku" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
+                    <td>
+                        <x-table.th label="Brand" field="brand" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
+                    <td>
+                        <x-table.th label="Harga" field="harga" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
+                    <td>
+                        <x-table.th label="Stok" field="stok" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
+                    <td>
+                        <x-table.th label="Satuan" field="satuan" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
+
                     <th class="text-center" width="10%">Aksi</th>
                 </tr>
             </thead>
@@ -45,6 +62,11 @@
                         <td>{{ $item->nama_produk ?? '-' }}</td>
                         <td>{{ $item->slug_kategori ?? '-' }}</td>
                         <td>{{ $item->nama_creator }}</td>
+                        <td>{{ $item->sku ?? '-' }}</td>
+                        <td>{{ $item->brand ?? '-' }}</td>
+                        <td>Rp.{{ number_format($item->harga, 0, '.', ',') }}</td>
+                        <td>{{ $item->stok }}</td>
+                        <td>{{ $item->satuan ?? '-' }}</td>
                         <th class="text-center">
                             <button type="button" class="btn btn-xs btn-neutral w-full font-normal tracking-wider"
                                 popovertarget="popover-{{ $loop->iteration }}"
