@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="utf-8" />
@@ -38,6 +38,9 @@
                     <nav class="hidden md:flex flex-row gap-6 items-center justify-center">
                         <a href="#about" class="font-semibold hover:text-primary">Tentang Kami</a>
                         <a href="#products" class="font-semibold hover:text-primary">Layanan Produk</a>
+                        <a href="{{ route('katalog-produk') }}" class="font-semibold hover:text-primary" wire:navigate>
+                            Katalog Produk
+                        </a>
                     </nav>
 
                     <div class="flex md:hidden items-center space-x-3">

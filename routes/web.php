@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\StreamDocumentController;
 use App\Livewire\Dummy;
-use App\Livewire\FeKatalog\MainIndex as FeKatalog;
+use App\Livewire\FeKatalog\MainIndex as FeKatalogMainIndex;
 use App\Livewire\Kategori\MainIndex as KategoriMainIndex;
 use App\Livewire\Pengguna\MainIndex as PenggunaMainIndex;
 use App\Livewire\Produk\MainForm as ProdukMainForm;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 // Frontend
 Route::get('/', [MainController::class, 'main'])->name('main');
-Route::get('/katalog-produk', FeKatalog::class)->name('katalog-produk');
+Route::get('/katalog-produk', FeKatalogMainIndex::class)->name('katalog-produk');
 
 
 // Auth
