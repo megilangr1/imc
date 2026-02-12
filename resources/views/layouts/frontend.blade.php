@@ -144,9 +144,19 @@
 
                     <hr class="w-full mx-auto border-t-2 border-slate-300">
 
-                    <a href="{{ route('login') }}" class="btn btn-primary btn-block">
-                        Login
-                    </a>
+                    <nav class="flex flex-col gap-6 items-center justify-center">
+                        <a href="{{ route('main') }}" class="font-semibold hover:text-primary" wire:navigate>
+                            Halaman Utama
+                        </a>
+                        <a href="{{ route('katalog-produk') }}" class="font-semibold hover:text-primary"
+                            wire:navigate>
+                            Katalog Produk
+                        </a>
+                        <a href="{{ route('daftar-artikel') }}" class="font-semibold hover:text-primary"
+                            wire:navigate>
+                            Artikel
+                        </a>
+                    </nav>
                 </div>
             </div>
         </div>
