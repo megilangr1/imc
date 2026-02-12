@@ -16,7 +16,7 @@
         </div>
     </section>
 
-    <section id="product" class="container max-w-7xl mx-auto px-4 py-8">
+    <section id="product" class="container max-w-4xl mx-auto px-4 py-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="w-full">
                 <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">

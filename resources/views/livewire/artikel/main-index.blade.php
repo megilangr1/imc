@@ -1,12 +1,12 @@
 <div class="flex flex-col gap-3">
-    <x-main.page-header title="Data Produk">
-        <a href="{{ route('produk.create') }}" class="btn btn-neutral btn-sm" wire:navigate>Tambah Data</a>
+    <x-main.page-header title="Data Artikel">
+        <a href="{{ route('artikel.create') }}" class="btn btn-neutral btn-sm" wire:navigate>Tambah Data</a>
     </x-main.page-header>
 
     <div class="w-full grid grid-cols-12">
         <div class="relative w-full col-span-12 md:col-span-8 lg:col-span-4">
-            <label class="sr-only" for="filter-search-data-produk">Cari Data :</label>
-            <input type="text" name="filter-search-data-produk" id="filter-search-data-produk"
+            <label class="sr-only" for="filter-search-data-artikel">Cari Data :</label>
+            <input type="text" name="filter-search-data-artikel" id="filter-search-data-artikel"
                 wire:model.live.debounce.500ms="search"
                 class="py-2 px-3 ps-9 block w-full border border-gray-300 text-sm rounded outline-none"
                 placeholder="Masukan Keyword Untuk Melakukan Pencarian...">
@@ -27,28 +27,16 @@
                 <tr>
                     <td class="text-center" width="8%">No.</td>
                     <td>
-                        <x-table.th label="Nama Produk" field="nama_produk" :orderBy="$order_by" :orderType="$order_type" />
+                        <x-table.th label="Judul" field="judul" :orderBy="$order_by" :orderType="$order_type" />
                     </td>
                     <td>
-                        <x-table.th label="Slug" field="slug_kategori" :orderBy="$order_by" :orderType="$order_type" />
+                        <x-table.th label="Slug" field="slug" :orderBy="$order_by" :orderType="$order_type" />
+                    </td>
+                    <td>
+                        <x-table.th label="Deskripsi" field="desc" :orderBy="$order_by" :orderType="$order_type" />
                     </td>
                     <td>
                         <x-table.th label="Pembuat" field="created_at" :orderBy="$order_by" :orderType="$order_type" />
-                    </td>
-                    <td>
-                        <x-table.th label="SKU" field="sku" :orderBy="$order_by" :orderType="$order_type" />
-                    </td>
-                    <td>
-                        <x-table.th label="Brand" field="brand" :orderBy="$order_by" :orderType="$order_type" />
-                    </td>
-                    <td>
-                        <x-table.th label="Harga" field="harga" :orderBy="$order_by" :orderType="$order_type" />
-                    </td>
-                    <td>
-                        <x-table.th label="Stok" field="stok" :orderBy="$order_by" :orderType="$order_type" />
-                    </td>
-                    <td>
-                        <x-table.th label="Satuan" field="satuan" :orderBy="$order_by" :orderType="$order_type" />
                     </td>
 
                     <th class="text-center" width="10%">Aksi</th>
@@ -58,14 +46,10 @@
                 @forelse ($data as $item)
                     <tr>
                         <td class="text-center bg-slate-200">{{ $loop->iteration }}.</td>
-                        <td>{{ $item->nama_produk ?? '-' }}</td>
-                        <td>{{ $item->slug_kategori ?? '-' }}</td>
+                        <td>{{ $item->judul ?? '-' }}</td>
+                        <td>{{ $item->slug ?? '-' }}</td>
+                        <td>{{ $item->desc ?? '-' }}</td>
                         <td>{{ $item->nama_creator }}</td>
-                        <td>{{ $item->sku ?? '-' }}</td>
-                        <td>{{ $item->brand ?? '-' }}</td>
-                        <td>Rp.{{ number_format($item->harga, 0, '.', ',') }}</td>
-                        <td>{{ $item->stok }}</td>
-                        <td>{{ $item->satuan ?? '-' }}</td>
                         <th class="text-center">
                             <button type="button" class="btn btn-xs btn-neutral w-full font-normal tracking-wider"
                                 popovertarget="popover-{{ $loop->iteration }}"
@@ -77,7 +61,7 @@
                                 style="position-anchor:--anchor-{{ $loop->iteration }}">
                                 <h5 class="text-center">Aksi Data</h5>
                                 <hr class="border-t-1 border-t-slate-300 my-1">
-                                <a href="{{ route('produk.edit', ['uuid' => $item->uuid]) }}"
+                                <a href="{{ route('artikel.edit', ['uuid' => $item->uuid]) }}"
                                     class="btn btn-xs btn-outline w-full font-normal tracking-wider"
                                     popovertarget="popover-{{ $loop->iteration }}" wire:navigate>
                                     Edit Data
@@ -85,7 +69,7 @@
                                 <button type="button" popovertarget="popover-{{ $loop->iteration }}"
                                     class="btn btn-xs btn-outline w-full font-normal tracking-wider delete-btn"
                                     popovertarget="popover-{{ $loop->iteration }}" data-uuid="{{ $item->uuid }}"
-                                    data-target="produk.main-index">
+                                    data-target="artikel.main-index">
                                     Hapus Data
                                 </button>
                             </div>

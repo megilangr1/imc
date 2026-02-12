@@ -3,7 +3,11 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\StreamDocumentController;
+use App\Livewire\Artikel\MainForm as ArtikelMainForm;
+use App\Livewire\Artikel\MainIndex as ArtikelMainIndex;
 use App\Livewire\Dummy;
+use App\Livewire\Fe\Artikel\BacaArtikel;
+use App\Livewire\Fe\Artikel\DaftarArtikel;
 use App\Livewire\Fe\Main;
 use App\Livewire\Fe\Produk\DaftarProduk;
 use App\Livewire\Fe\Produk\DetailProduk;
@@ -17,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', Main::class)->name('main');
 Route::get('/katalog-produk', DaftarProduk::class)->name('katalog-produk');
 Route::get('/produk/{slug}', DetailProduk::class)->name('detail-produk');
+
+Route::get('/daftar-artikel', DaftarArtikel::class)->name('daftar-artikel');
+Route::get('/artikel/{slug}', BacaArtikel::class)->name('baca-artikel');
 
 // Auth
 // Auth Route
@@ -35,6 +42,12 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', ProdukMainIndex::class)->name('index');
             Route::get('/tambah', ProdukMainForm::class)->name('create');
             Route::get('/ubah/{uuid}', ProdukMainForm::class)->name('edit');
+        });
+
+        Route::prefix('data-artikel')->name('artikel.')->group(function () {
+            Route::get('/', ArtikelMainIndex::class)->name('index');
+            Route::get('/tambah', ArtikelMainForm::class)->name('create');
+            Route::get('/ubah/{uuid}', ArtikelMainForm::class)->name('edit');
         });
     });
 

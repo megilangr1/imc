@@ -49,16 +49,21 @@
                                 Daftar Produk
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('artikel.index') }}" wire:current="menu-active" wire:navigate>
+                                Daftar Artikel
+                            </a>
+                        </li>
                     </ul>
                 </details>
             </li>
         @endif
 
-        <li>
+        {{-- <li>
             <a href="{{ route('dummy') }}" wire:current="menu-active" wire:navigate>
                 Dummy
             </a>
-        </li>
+        </li> --}}
     </ul>
 
     <div class="border-t border-slate-300 p-3 mt-auto flex flex-col gap-2">

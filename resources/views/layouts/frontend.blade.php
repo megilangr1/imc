@@ -40,10 +40,14 @@
                     </a>
 
                     <nav class="hidden md:flex flex-row gap-6 items-center justify-center">
-                        <a href="{{ route('main') }}" class="font-semibold hover:text-primary" wire:navigate>Halaman
-                            Utama</a>
+                        <a href="{{ route('main') }}" class="font-semibold hover:text-primary" wire:navigate>
+                            Halaman Utama
+                        </a>
                         <a href="{{ route('katalog-produk') }}" class="font-semibold hover:text-primary" wire:navigate>
                             Katalog Produk
+                        </a>
+                        <a href="{{ route('daftar-artikel') }}" class="font-semibold hover:text-primary" wire:navigate>
+                            Artikel
                         </a>
                     </nav>
 
@@ -64,7 +68,7 @@
                 {{ $slot ?? '' }}
             </main>
 
-            <footer class="bg-base-300 mt-16">
+            <footer class="bg-slate-400/40 mt-16">
                 <div class="container mx-auto px-4 pt-8 pb-3 grid md:grid-cols-6 gap-6">
                     <div class="md:col-span-3 flex flex-col gap-2">
                         <h3 class="font-bold">IMCOMPUTER</h3>
@@ -92,10 +96,16 @@
                         </div>
                     </div>
                     <div class="md:col-span-3 flex flex-col gap-2">
-                        <h3 class="font-bold">GOOGLE MAPS</h3>
-                        ////
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d962.0036229748343!2d106.93236955044287!3d-6.918090016972402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e684997f0eab761%3A0x37f1cecaddf0a585!2sBalai%20Kota%20Sukabumi!5e0!3m2!1sid!2sid!4v1770894205078!5m2!1sid!2sid"
+                            style="border:0; min-height: 360px; border-radius: 10px;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
-                    <div class="md:col-span-6 flex items-center justify-end">
+                </div>
+                <div class="text-center py-4 px-4 text-sm">
+                    © {{ date('Y') }} Company. All rights reserved.
+
+                    <div class="flex items-center justify-end">
                         <a href="{{ route('login') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -117,9 +127,6 @@
                             </svg>
                         </a>
                     </div>
-                </div>
-                <div class="text-center py-4 px-4 text-sm bg-base-200">
-                    © {{ date('Y') }} Company. All rights reserved.
                 </div>
             </footer>
         </div>
