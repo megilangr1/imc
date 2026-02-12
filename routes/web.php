@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\PrintController;
 use App\Http\Controllers\StreamDocumentController;
 use App\Livewire\Artikel\MainForm as ArtikelMainForm;
 use App\Livewire\Artikel\MainIndex as ArtikelMainIndex;
@@ -13,6 +14,8 @@ use App\Livewire\Fe\Produk\DaftarProduk;
 use App\Livewire\Fe\Produk\DetailProduk;
 use App\Livewire\Kategori\MainIndex as KategoriMainIndex;
 use App\Livewire\Pengguna\MainIndex as PenggunaMainIndex;
+use App\Livewire\Penjualan\MainForm as PenjualanMainForm;
+use App\Livewire\Penjualan\MainIndex as PenjualanMainIndex;
 use App\Livewire\Produk\MainForm as ProdukMainForm;
 use App\Livewire\Produk\MainIndex as ProdukMainIndex;
 use Illuminate\Support\Facades\Route;
@@ -32,7 +35,7 @@ Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard')->middleware(['role:MeGGi|Administrator|Operator|Verifikator|Validator']);
+    Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard')->middleware(['role:MeGGi|Administrator|Operator']);
 
     Route::prefix('master-data')->middleware(['role:MeGGi|Administrator'])->group(function () {
         Route::get('/data-pengguna', PenggunaMainIndex::class)->name('pengguna.index');
@@ -51,10 +54,17 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    Route::prefix('penjualan')->name('penjualan.')->group(function () {
+        Route::get('/', PenjualanMainIndex::class)->name('index');
+        Route::get('/tambah', PenjualanMainForm::class)->name('create');
+        Route::get('/ubah/{uuid}', PenjualanMainForm::class)->name('edit');
+
+        Route::get('/cetak-invoice/{uuid}', [PrintController::class, 'cetakInvoice'])->name('cetak-invoice');
+        Route::get('/cetak-kuitansi/{uuid}', [PrintController::class, 'cetakKuitansi'])->name('cetak-kuitansi');
+    });
+
     Route::get('/dummy', Dummy::class)->name('dummy');
 });
-
-
 
 // Public File
 Route::get('/public-file/{folder}/{filename}', [StreamDocumentController::class, 'getPublicFile'])->name('public-file.view');

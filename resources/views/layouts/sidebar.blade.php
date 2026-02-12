@@ -57,6 +57,11 @@
                     </ul>
                 </details>
             </li>
+            <li>
+                <a href="{{ route('penjualan.index') }}" wire:current="menu-active" wire:navigate>
+                    Penjualan / Invoice / Kuitansi
+                </a>
+            </li>
         @endif
 
         {{-- <li>
