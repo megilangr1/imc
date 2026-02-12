@@ -1,7 +1,7 @@
 # ===========================================
 # Stage 1: Ambil dari PHP build
 # ===========================================
-FROM dashboard-php:latest AS builder
+FROM imc-php:latest AS builder
 # 👆 gunakan image hasil build dari php/Dockerfile
 
 # ===========================================
