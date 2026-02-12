@@ -1,7 +1,7 @@
 # ===========================================
 # Stage 1: Ambil dari PHP build
 # ===========================================
-FROM siadik-php:latest AS builder
+FROM dashboard-php:latest AS builder
 # 👆 gunakan image hasil build dari php/Dockerfile
 
 # ===========================================

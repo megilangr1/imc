@@ -3,19 +3,21 @@ services:
     build:
       context: .
       dockerfile: ./docker/php/Dockerfile
-    image: siadik-php:latest
-    container_name: siadik-php
-    restart: unless-stopped
+    image: imc-php:latest
+    container_name: imc-php
+    volumes:
+      - ./src/storage:/var/www/html/storage
+      - ./src/bootstrap/cache:/var/www/html/bootstrap/cache
     environment:
-      # APP_ENV: production
-      # APP_DEBUG: false
-      APP_URL: https://siadik.sukabumikota.go.id
+      APP_URL: https://imc.chiro-it.site
       DB_CONNECTION: mysql
       DB_HOST: 172.17.0.1
       DB_PORT: 3306
-      DB_DATABASE: siadik
-      DB_USERNAME: siadik
-      DB_PASSWORD: S14d1k!@
+      DB_DATABASE: imc
+      DB_USERNAME: romadlona
+      DB_PASSWORD: Gromadlona1!@
+      SESSION_COOKIE: imc_session
+      SESSION_DOMAIN: imc.chiro-it.site
     networks:
       - shared_net
 
@@ -23,9 +25,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
-    image: siadik-nginx:latest
-    container_name: siadik-nginx
-    restart: unless-stopped
+    image: imc-nginx:latest
+    container_name: imc-nginx
     depends_on:
       - php
     networks:
@@ -33,18 +34,16 @@ services:
     labels:
       - "traefik.enable=true"
 
-      # 🧭 Router utama
-      - "traefik.http.routers.siadik.rule=Host(`siadik.sukabumikota.go.id`)"
-      - "traefik.http.routers.siadik.entrypoints=websecure"
+      # ROUTER (UNIK)
+      - "traefik.http.routers.imc-router.rule=Host(`imc.chiro-it.site`)"
+      - "traefik.http.routers.imc-router.entrypoints=websecure"
+      - "traefik.http.routers.imc-router.tls=true"
+      - "traefik.http.routers.imc-router.tls.certresolver=myresolver"
 
-      # 🔒 HTTPS via Let's Encrypt
-      - "traefik.http.routers.siadik.tls=true"
-      - "traefik.http.routers.siadik.tls.certresolver=myresolver"
+      # SERVICE (UNIK & EXPLICIT)
+      - "traefik.http.routers.imc-router.service=imc-nginx-svc"
+      - "traefik.http.services.imc-nginx-svc.loadbalancer.server.port=80"
 
-      # 🔀 Arahkan trafik ke port 80 (nginx internal)
-      - "traefik.http.services.siadik.loadbalancer.server.port=80"
-
-      # 🧩 Pastikan pakai network yang sama
       - "traefik.docker.network=shared_net"
 
 networks:
