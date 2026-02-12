@@ -26,18 +26,22 @@
         <div class="drawer-content flex flex-col">
             <header class="navbar bg-base-100 shadow-sm sticky top-0 z-9">
                 <div class="container mx-auto flex justify-between items-center px-4">
-                    <a href="/" class="flex items-center justify-center text-xl font-bold gap-4">
+                    <a href="{{ route('main') }}" class="flex items-center justify-center text-xl font-bold gap-4"
+                        wire:navigate>
                         <div class="bg-slate-100 lg:bg-slate-100/90 w-auto h-auto rounded-lg p-0.5 lg:p-2">
                             <img src="{{ asset('img/logo.png') }}" alt="{{ env('APP_NAME') }}" class="size-10">
                         </div>
                         <span class="hidden md:block">
                             {{ config('app.name') }}
                         </span>
+                        <span class="block md:hidden">
+                            {{ config('app.name_short') }}
+                        </span>
                     </a>
 
                     <nav class="hidden md:flex flex-row gap-6 items-center justify-center">
-                        <a href="#about" class="font-semibold hover:text-primary">Tentang Kami</a>
-                        <a href="#products" class="font-semibold hover:text-primary">Layanan Produk</a>
+                        <a href="{{ route('main') }}" class="font-semibold hover:text-primary" wire:navigate>Halaman
+                            Utama</a>
                         <a href="{{ route('katalog-produk') }}" class="font-semibold hover:text-primary" wire:navigate>
                             Katalog Produk
                         </a>

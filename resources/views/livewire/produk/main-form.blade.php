@@ -333,6 +333,7 @@
                         @enderror
                     </div>
 
+
                     @if ($state['foto'] != null && !$errors->has('state.foto'))
                         <div class="col-span-6 md:col-span-2 lg:col-span-2">
                             <label
@@ -343,6 +344,18 @@
                                 style="background-image: url({{ $state['foto']->temporaryUrl() }})"></div>
                         </div>
                     @endif
+
+                    @if ($editData && $editData->filename != null)
+                        <div class="col-span-6 md:col-span-2 lg:col-span-2">
+                            <label class="block text-sm font-medium mb-2">
+                                Foto Saat Ini :
+                            </label>
+                            <div class="bg-cover bg-center rounded-lg shadow-lg min-h-80 w-auto"
+                                style="background-image: url({{ route('public-file.view', ['folder' => $editData->folder, 'filename' => $editData->filename]) }})">
+                            </div>
+                        </div>
+                    @endif
+
 
                     <div class="col-span-6">
                         <hr class="border-t-1 border-t-slate-300">
@@ -355,7 +368,7 @@
                     </div>
                     <div class="col-span-6 md:col-span-2 lg:col-span-1">
                         <button type="{{ $editData ? 'button' : 'reset' }}" class="btn btn-error w-full btn-sm"
-                            @isset($editData) wire:click="showForm(false)" @endisset>
+                            @isset($editData) wire:click="setState()" @endisset>
                             {{ isset($editData) ? 'Batalkan' : 'Reset Input' }}
                         </button>
                     </div>

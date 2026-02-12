@@ -36,7 +36,7 @@ class MainForm extends Component
         'stok_text' => null,
         'satuan' => null,
 
-        'deskripsi' => "null",
+        'deskripsi' => "",
 
         'foto' => null,
     ];
@@ -98,24 +98,34 @@ class MainForm extends Component
     public function setState()
     {
         if (isset($this->editData)) {
+
+            $tomSelectData = $this->tomSelectData;
+
             $this->state = [
                 'id_kategori' => $this->editData->kategori->uuid,
                 'nama_produk' => $this->editData->nama_produk,
                 'sku' => $this->editData->sku,
                 'brand' => $this->editData->brand,
                 'harga' => $this->editData->harga,
-                'harga_text' => $this->editData->harga_text,
+                'harga_text' => number_format($this->editData->harga, 0, ',', '.'),
                 'stok' => $this->editData->stok,
-                'stok_text' => $this->editData->stok_text,
+                'stok_text' => number_format($this->editData->stok, 0, ',', '.'),
                 'satuan' => $this->editData->satuan,
                 'deskripsi' => $this->editData->deskripsi,
                 'foto' => $this->editData->foto,
             ];
 
-            // $this->dispatch('fill-trix', [
-            //     'hiddenInput' => 'deskripsi_input',
-            //     'value' => $this->state['deskripsi'],
-            // ]);
+            if ($this->editData->kategori) {
+                $tomSelectData['kategori']['selectId'] = 'kategori';
+                $tomSelectData['kategori']['value'] = $this->editData->kategori->uuid;
+            }
+
+            $this->dispatch('fill-trix', [
+                'hiddenInput' => 'deskripsi_input',
+                'value' => $this->state['deskripsi'],
+            ]);
+
+            $this->dispatch('setTomSelect', $tomSelectData);
         }
     }
 

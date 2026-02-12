@@ -4,7 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\StreamDocumentController;
 use App\Livewire\Dummy;
-use App\Livewire\FeKatalog\MainIndex as FeKatalogMainIndex;
+use App\Livewire\Fe\Main;
+use App\Livewire\Fe\Produk\DaftarProduk;
+use App\Livewire\Fe\Produk\DetailProduk;
 use App\Livewire\Kategori\MainIndex as KategoriMainIndex;
 use App\Livewire\Pengguna\MainIndex as PenggunaMainIndex;
 use App\Livewire\Produk\MainForm as ProdukMainForm;
@@ -12,9 +14,9 @@ use App\Livewire\Produk\MainIndex as ProdukMainIndex;
 use Illuminate\Support\Facades\Route;
 
 // Frontend
-Route::get('/', [MainController::class, 'main'])->name('main');
-Route::get('/katalog-produk', FeKatalogMainIndex::class)->name('katalog-produk');
-
+Route::get('/', Main::class)->name('main');
+Route::get('/katalog-produk', DaftarProduk::class)->name('katalog-produk');
+Route::get('/produk/{slug}', DetailProduk::class)->name('detail-produk');
 
 // Auth
 // Auth Route
@@ -38,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dummy', Dummy::class)->name('dummy');
 });
+
 
 
 // Public File

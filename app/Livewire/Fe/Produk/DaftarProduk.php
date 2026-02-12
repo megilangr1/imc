@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\FeKatalog;
+namespace App\Livewire\Fe\Produk;
 
 use App\Helpers\MainHelper;
 use App\Models\Produk;
@@ -10,7 +10,7 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class MainIndex extends Component
+class DaftarProduk extends Component
 {
     use WithPagination;
 
@@ -63,9 +63,8 @@ class MainIndex extends Component
         $data = $data->orderBy($this->order_by, $this->order_type);
 
         $data = $data->paginate(10);
-        // dd($data->toArray());
 
-        return view('livewire.fe-katalog.main-index', [
+        return view('livewire.fe.produk.daftar-produk', [
             'data' => $data
         ]);
     }
