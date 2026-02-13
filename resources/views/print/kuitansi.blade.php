@@ -242,7 +242,7 @@
     <div class="bot-left text-xs" style="width: 100%">
         <table class="table" style="width: 100%; margin: 0 auto; padding-bottom: 30px;">
             <tr>
-                <td class="align-top text-center text-base" style="letter-spacing: 0px;" width="30%">
+                <td class="align-top text-center font-semibold text-base" style="letter-spacing: 0px;" width="30%">
                     &ensp;
                     <br><br><br><br>
                     Rp. {{ $data['total_nominal'] ?? '-' }}

@@ -8,7 +8,7 @@
                 Rincian Produk
             </h1>
             <hr class="border-t-4 border-white w-[40%] mx-auto mt-4">
-            <p class="text-sm pt-4">IM-COMPUTER</p>
+            <p class="text-sm pt-4">IMCOMPUTER</p>
             <p class="text-sm pt-2">
                 Kami menyediakan berbagai solusi IT yang siap
                 mendukung bisnis Anda.
