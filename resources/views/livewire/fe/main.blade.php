@@ -116,7 +116,7 @@
                     </div>
                 @endforeach
 
-                <a href="{{ route('katalog-produk') }}"
+                <a href="{{ route('katalog-produk') }}" wire:navigate
                     class="card bg-base-100 shadow hover:shadow-lg transition-all group">
                     <div class="card-body gap-4">
                         <h4
