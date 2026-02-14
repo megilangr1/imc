@@ -116,7 +116,8 @@
                     </div>
                 @endforeach
 
-                <a href="{{ route('main') }}" class="card bg-base-100 shadow hover:shadow-lg transition-all group">
+                <a href="{{ route('katalog-produk') }}"
+                    class="card bg-base-100 shadow hover:shadow-lg transition-all group">
                     <div class="card-body gap-4">
                         <h4
                             class="card-title text-info items-center justify-center group-hover:scale-105 transition-transform duration-500">

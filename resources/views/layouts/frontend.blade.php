@@ -81,8 +81,8 @@
                                 Teknologi Komputer & Layanan IT
                             </span>
                             <span class="text-sm">
-                                <a href="mailto:imcomputer@gmail.com" class="link link-primary">
-                                    imcomputer@gmail.com
+                                <a href="mailto:imcomputersmi@gmail.com" class="link link-primary">
+                                    imcomputersmi@gmail.com
                                 </a>
                             </span>
                             <span class="text-sm">
@@ -90,7 +90,7 @@
                             </span>
                             <span class="text-sm">
                                 <a href="{{ route('main') }}" target="_blank" class="link link-primary">
-                                    www.imcomputersmi.com
+                                    www.imcomputer.com
                                 </a>
                             </span>
                         </div>

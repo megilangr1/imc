@@ -11,7 +11,7 @@ services:
     environment:
       APP_URL: https://imcomputer.com
       DB_CONNECTION: mysql
-      DB_HOST: 172.17.0.1
+      DB_HOST: host.docker.internal
       DB_PORT: 3306
       DB_DATABASE: imc
       DB_USERNAME: romadlona
@@ -20,6 +20,8 @@ services:
       SESSION_DOMAIN: imcomputer.com
     networks:
       - shared_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   nginx:
     build:
