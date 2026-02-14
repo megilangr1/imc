@@ -9,7 +9,7 @@ services:
       - ./src/storage:/var/www/html/storage
       - ./src/bootstrap/cache:/var/www/html/bootstrap/cache
     environment:
-      APP_URL: https://imc.chiro-it.site
+      APP_URL: https://imcomputer.com
       DB_CONNECTION: mysql
       DB_HOST: 172.17.0.1
       DB_PORT: 3306
@@ -17,7 +17,7 @@ services:
       DB_USERNAME: romadlona
       DB_PASSWORD: Gromadlona1!@
       SESSION_COOKIE: imc_session
-      SESSION_DOMAIN: imc.chiro-it.site
+      SESSION_DOMAIN: imcomputer.com
     networks:
       - shared_net
 
@@ -35,7 +35,7 @@ services:
       - "traefik.enable=true"
 
       # ROUTER (UNIK)
-      - "traefik.http.routers.imc-router.rule=Host(`imc.chiro-it.site`)"
+      - "traefik.http.routers.imc-router.rule=Host(`imcomputer.com`)"
       - "traefik.http.routers.imc-router.entrypoints=websecure"
       - "traefik.http.routers.imc-router.tls=true"
       - "traefik.http.routers.imc-router.tls.certresolver=myresolver"
