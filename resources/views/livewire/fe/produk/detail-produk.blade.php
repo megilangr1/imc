@@ -57,11 +57,19 @@
 
                 {{-- Optional action --}}
                 <div class="mt-6">
-                    <button
-                        class="w-full md:w-auto px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
-                        wire:click="addToCart">
-                        Tambah ke Keranjang
-                    </button>
+                    <a href="{{ $linkWaMe }}" target="_blank" class="w-full btn btn-success gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-phone-outgoing-icon lucide-phone-outgoing size-5">
+                            <path d="m16 8 6-6" />
+                            <path d="M22 8V2h-6" />
+                            <path
+                                d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+                        </svg>
+
+                        Hubungi Via Whatsapp
+                    </a>
                 </div>
             </div>
         </div>

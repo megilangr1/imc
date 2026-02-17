@@ -13,6 +13,9 @@ class DetailProduk extends Component
     #[Locked]
     public ?Produk $detailData;
 
+    #[Locked]
+    public $linkWaMe = null;
+
     public function mount($slug)
     {
         $this->getStaticData();
@@ -31,6 +34,12 @@ class DetailProduk extends Component
     {
         try {
             $this->detailData = Produk::where('slug_produk', '=', $slug)->firstOrFail();
+
+            $phone = '6285800111055';
+
+            $message = 'Halo, boleh tau informasi detail produk "' . $this->detailData['nama_produk'] . '"?';
+
+            $this->linkWaMe = 'https://wa.me/' . $phone . '?text=' . urlencode($message);
         } catch (\Throwable $th) {
             abort(404);
         }

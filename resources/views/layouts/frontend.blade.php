@@ -97,7 +97,7 @@
                     </div>
                     <div class="md:col-span-3 flex flex-col gap-2">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d962.0036229748343!2d106.93236955044287!3d-6.918090016972402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e684997f0eab761%3A0x37f1cecaddf0a585!2sBalai%20Kota%20Sukabumi!5e0!3m2!1sid!2sid!4v1770894205078!5m2!1sid!2sid"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.406915769757!2d106.9402229!3d-6.9612319!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6847e00b8269f3%3A0x293b176872f0b907!2sIMComputer!5e0!3m2!1sid!2sid!4v1771310581478!5m2!1sid!2sid"
                             style="border:0; min-height: 360px; border-radius: 10px;" allowfullscreen="" loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
