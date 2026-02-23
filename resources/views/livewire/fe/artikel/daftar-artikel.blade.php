@@ -40,5 +40,9 @@
                 </a>
             @endforeach
         </div>
+
+        <div class="w-full pt-4">
+            {{ $data->onEachSide(1)->links() }}
+        </div>
     </section>
 </div>
